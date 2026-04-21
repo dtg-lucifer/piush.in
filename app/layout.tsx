@@ -26,10 +26,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
+const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in");
+const ogLandscapeUrl = new URL("/opengraph/og_landscape.webp", siteUrl);
+const ogTwitterUrl = new URL("/opengraph/og_twitter.webp", siteUrl);
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in",
-  ),
+  metadataBase: siteUrl,
   title: "Piush Bose | Software Engineer",
   description:
     "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
@@ -58,15 +60,11 @@ export const metadata: Metadata = {
     siteName: "Piush Bose",
     images: [
       {
-        url: new URL(
-          `${
-            process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in"
-          }/opengraph/og_landscape.png`,
-        ),
+        url: ogLandscapeUrl,
         width: 1200,
         height: 630,
         alt: "Piush Bose - Software Engineer and SDE II",
-        type: "image/png",
+        type: "image/webp",
       },
     ],
     locale: "en_US",
@@ -78,11 +76,7 @@ export const metadata: Metadata = {
     description:
       "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
     images: [
-      new URL(
-        `${
-          process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in"
-        }/opengraph/og_twitter.png`,
-      ),
+      ogTwitterUrl,
     ],
   },
 };
