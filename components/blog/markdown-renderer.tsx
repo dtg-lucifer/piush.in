@@ -7,13 +7,7 @@ import type { Components } from "react-markdown";
 import type { Element, ElementContent } from "hast";
 import CopyButton from "./copy-button";
 
-// Lazy-load mermaid ONLY when needed — never bundled unless rendered
-const MermaidDiagram = dynamic(() => import("./mermaid-diagram"), {
-    ssr: false,
-    loading: () => (
-        <div className="mermaid-loading">Rendering diagram…</div>
-    ),
-});
+import MermaidDiagram from "./mermaid-diagram";
 
 interface MarkdownRendererProps {
     content: string;

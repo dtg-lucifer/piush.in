@@ -1,0 +1,38 @@
+
+> personal-portfolio@1.0.0 build /home/piush/Prog/proj/portfolio-new
+> next build
+
+   ▲ Next.js 15.2.8
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/11) ...
+   Generating static pages (2/11) 
+   Generating static pages (5/11) 
+   Generating static pages (8/11) 
+ ✓ Generating static pages (11/11)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                                                                                      Size  First Load JS
+┌ ○ /                                                                                                         30.9 kB         141 kB
+├ ○ /_not-found                                                                                                 989 B         103 kB
+├ ○ /blog                                                                                                       462 B         116 kB
+├ ● /blog/[slug]                                                                                               158 kB         274 kB
+├   ├ /blog/building-a-production-ready-video-to-audio-converter-with-python-microservices-and-kubernetes
+├   ├ /blog/building-a-16-bit-virtual-machine-in-rust-understanding-computer-architecture-from-the-ground-up
+├   ├ /blog/building-rusty-kv-a-redis-compatible-secure-kv-store-in-rust
+├   └ [+2 more paths]
+└ ○ /projects                                                                                                 1.84 kB         112 kB
++ First Load JS shared by all                                                                                  102 kB
+  ├ chunks/50f77391-9a92c0244414548f.js                                                                       53.5 kB
+  ├ chunks/5856-22f8d7cea822fc46.js                                                                             46 kB
+  └ other shared chunks (total)                                                                               2.78 kB
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+

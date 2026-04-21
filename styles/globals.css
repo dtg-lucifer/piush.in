@@ -121,3 +121,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Hide scrollbar for all pre and code blocks globally */
+pre::-webkit-scrollbar, code::-webkit-scrollbar, .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+pre, code, .no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
