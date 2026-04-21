@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Lenis from "lenis";
 import ConnectSection from "@/components/home/connect-section";
 import ExperienceSection from "@/components/home/experience-section";
 import IntroSection from "@/components/home/intro-section";
@@ -61,6 +62,37 @@ export default function Home() {
     loadingMessage: experiencesLoadingMessage,
   } = useExperiences();
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    if (typeof navigator === "undefined") {
+      return;
+    }
+
+    const isFirefox = /firefox|fxios/i.test(navigator.userAgent);
+
+    if (isFirefox) {
+      return;
+    }
+
+    const lenis = new Lenis();
+    lenisRef.current = lenis;
+
+    let rafId = 0;
+
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = window.requestAnimationFrame(raf);
+    };
+
+    rafId = window.requestAnimationFrame(raf);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("theme");
@@ -158,10 +190,21 @@ export default function Home() {
 
   const handleNavigate = (section: string) => {
     setActiveSection(section);
-    document.getElementById(section)?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+
+    const target = document.getElementById(section);
+
+    if (!target) {
+      return;
+    }
+
+    const lenis = lenisRef.current;
+
+    if (lenis) {
+      lenis.scrollTo(target, { duration: 1 });
+      return;
+    }
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
