@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 interface ThoughtsSectionProps {
     sectionRef: (el: HTMLElement | null) => void;
 }
@@ -38,20 +40,28 @@ const posts = [
 export default function ThoughtsSection({ sectionRef }: ThoughtsSectionProps) {
     return (
         <section
+            className="opacity-0 py-20 sm:py-32 min-h-screen"
             id="thoughts"
             ref={sectionRef}
-            className="opacity-0 py-20 sm:py-32 min-h-screen"
         >
             <div className="space-y-12 sm:space-y-16">
-                <h2 className="font-light text-3xl sm:text-4xl">
-                    Recent Thoughts
-                </h2>
+                <div className="flex sm:flex-row flex-col sm:justify-between sm:items-end gap-4">
+                    <h2 className="font-light text-3xl sm:text-4xl">
+                        Recent Thoughts
+                    </h2>
+                    <Link
+                        className="text-muted-foreground hover:text-foreground text-sm underline underline-offset-4 transition-colors"
+                        href="/blog"
+                    >
+                        Visit blog
+                    </Link>
+                </div>
 
                 <div className="gap-6 sm:gap-8 grid lg:grid-cols-2">
                     {posts.map((post) => (
                         <article
-                            key={post.title}
                             className="group hover:shadow-lg p-6 sm:p-8 border border-border hover:border-muted-foreground/50 rounded-lg transition-all duration-500 cursor-pointer"
+                            key={post.title}
                         >
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center font-mono text-muted-foreground text-xs">
@@ -70,17 +80,17 @@ export default function ThoughtsSection({ sectionRef }: ThoughtsSectionProps) {
                                 <div className="flex items-center gap-2 text-muted-foreground group-hover:text-foreground text-sm transition-colors duration-300">
                                     <span>Read more</span>
                                     <svg
-                                        className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300 transform"
                                         aria-hidden="true"
+                                        className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300 transform"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
                                     >
                                         <path
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                             strokeWidth={2}
-                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
                                         />
                                     </svg>
                                 </div>

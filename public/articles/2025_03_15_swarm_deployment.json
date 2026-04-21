@@ -1,0 +1,22 @@
+{
+    "title": "Learn to Deploy Your Application on a Docker Swarm Cluster: Step by step guide (with code)",
+    "seoTitle": "Docker Swarm Deployment Guide: Step-by-Step",
+    "seoDescription": "Deploy applications on a Docker Swarm Cluster with this step-by-step guide. Automate infrastructure and configurations using Terraform and Ansible",
+    "datePublished": "Sat Mar 15 2025 10:43:31 GMT+0000 (Coordinated Universal Time)",
+    "cuid": "cm8a2wm6k000709ky4jm2evru",
+    "slug": "learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
+    "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1741958802860/509de697-418b-4468-ad66-590601d38de6.png",
+    "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1742035391557/b8c4bf74-8ea6-4815-b1d6-12648d4ed36e.png",
+    "tags": [
+        "cloud",
+        "docker",
+        "ansible",
+        "devops",
+        "swarm",
+        "terraform",
+        "gcp",
+        "clustering",
+        "cluster",
+        "docker-stack"
+    ]
+}

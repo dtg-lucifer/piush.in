@@ -8,6 +8,7 @@ export interface Project {
   demoUrl: string;
   tags: string[];
   wip: boolean;
+  featured?: boolean;
 }
 
 export interface Experience {

@@ -1,0 +1,20 @@
+{
+    "title": "When Should You Use Kubernetes for Your Projects?",
+    "seoTitle": "When to Use Kubernetes for Projects?",
+    "seoDescription": "Choose Kubernetes for complex setups and scalability; opt for Docker Swarm for simplicity and quick deployment",
+    "datePublished": "Sat Feb 08 2025 18:49:10 GMT+0000 (Coordinated Universal Time)",
+    "cuid": "cm6wjucc3002n08l4cku1h431",
+    "slug": "when-should-you-use-kubernetes-for-your-projects",
+    "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040872235/71195afd-019f-437e-ab9d-b4a7e9ba954b.png",
+    "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040517788/0041905b-d1b5-41fb-b432-ffafa4d1d5e7.png",
+    "tags": [
+        "cloud",
+        "docker",
+        "kubernetes",
+        "swarm",
+        "docker-swarm",
+        "cncf",
+        "cloud-native",
+        "docker-stack"
+    ]
+}

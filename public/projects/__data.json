@@ -5,8 +5,14 @@
     "image": "/projects/chatocord_demo.webp",
     "repoUrl": "https://github.com/dtg-lucifer/Chat-O-Cord",
     "demoUrl": "https://github.com/dtg-lucifer/Chat-O-Cord",
-    "tags": ["React", "Redis", "Socket.io", "Electron"],
-    "wip": false
+    "tags": [
+      "React",
+      "Redis",
+      "Socket.io",
+      "Electron"
+    ],
+    "wip": false,
+    "featured": true
   },
   {
     "name": "Starty",
@@ -14,8 +20,14 @@
     "image": "/projects/starty_demo.webp",
     "repoUrl": "https://github.com/dtg-lucifer/starty",
     "demoUrl": "https://github.com/dtg-lucifer/starty",
-    "tags": ["Next.js@15", "TailwindCSS", "Sanity.io", "Sentry"],
-    "wip": false
+    "tags": [
+      "Next.js@15",
+      "TailwindCSS",
+      "Sanity.io",
+      "Sentry"
+    ],
+    "wip": false,
+    "featured": true
   },
   {
     "name": "16 Bit Virtual Machine",
@@ -23,8 +35,14 @@
     "repoUrl": "https://github.com/dtg-lucifer/16bit-vm-rust",
     "demoUrl": "https://www.linkedin.com/posts/bosepiush_launching-16-bit-virtual-machine-in-rust-activity-7353420819156344832-vmzy?utm_source=share&utm_medium=member_desktop&rcm=ACoAADqjwisB2GTF9u88oc7VdrDISDqaxnREkyE",
     "image": "/projects/rustyvm_demo.webp",
-    "tags": ["Rust", "CPU Architecture", "Assembler", "16-Bit CPU"],
-    "wip": false
+    "tags": [
+      "Rust",
+      "CPU Architecture",
+      "Assembler",
+      "16-Bit CPU"
+    ],
+    "wip": false,
+    "featured": true
   },
   {
     "name": "RustyKV",
@@ -32,8 +50,14 @@
     "repoUrl": "https://github.com/rusty-org/rusty-kv",
     "demoUrl": "https://github.com/rusty-org/rusty-kv",
     "image": "/projects/rustykv_demo.webp",
-    "tags": ["Rust", "C++", "Multithreading", "Redis"],
-    "wip": false
+    "tags": [
+      "Rust",
+      "C++",
+      "Multithreading",
+      "Redis"
+    ],
+    "wip": false,
+    "featured": true
   },
   {
     "name": "Everato",
@@ -41,8 +65,15 @@
     "repoUrl": "https://github.com/everato-industries/everato",
     "demoUrl": "https://github.com/everato-industries/everato",
     "image": "/projects/everato_demo.webp",
-    "tags": ["Go", "React.js", "Email", "SQL", "Cloudinary"],
-    "wip": true
+    "tags": [
+      "Go",
+      "React.js",
+      "Email",
+      "SQL",
+      "Cloudinary"
+    ],
+    "wip": true,
+    "featured": true
   },
   {
     "name": "CI CD Pipeline to deploy on GCP (Docker Swarm)",
@@ -50,8 +81,15 @@
     "repoUrl": "https://github.com/dtg-lucifer/redis-docker-swarm-devops-project",
     "demoUrl": "https://devpiush.hashnode.dev/learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
     "image": "/projects/docker_swarm_demo.webp",
-    "tags": ["Docker Swarm", "GCP", "Redis", "Python", "Microservices"],
-    "wip": false
+    "tags": [
+      "Docker Swarm",
+      "GCP",
+      "Redis",
+      "Python",
+      "Microservices"
+    ],
+    "wip": false,
+    "featured": false
   },
   {
     "name": "gRPC Server for Order Service in C++",
@@ -59,8 +97,13 @@
     "repoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
     "demoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
     "image": "/projects/grpc_demo.webp",
-    "tags": ["C++", "gRPC", "Microservices"],
-    "wip": false
+    "tags": [
+      "C++",
+      "gRPC",
+      "Microservices"
+    ],
+    "wip": false,
+    "featured": false
   },
   {
     "name": "Inside Out Tea",
@@ -68,7 +111,11 @@
     "repoUrl": "https://github.com/dtg-lucifer/inside-out-tea",
     "demoUrl": "https://inside-out-tea.vercel.app/",
     "image": "/projects/insideout_demo.webp",
-    "tags": ["Next.js@15", "TailwindCSS"],
-    "wip": false
+    "tags": [
+      "Next.js@15",
+      "TailwindCSS"
+    ],
+    "wip": false,
+    "featured": false
   }
 ]
