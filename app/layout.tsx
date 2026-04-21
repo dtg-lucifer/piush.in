@@ -27,10 +27,54 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Piush Bose - SDE II",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: "Piush Bose | Software Engineer",
   description:
-    "SDE II crafting scalable backend systems and high-performance applications.",
-  generator: "v0.app",
+    "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+  manifest: "/favicon/dark/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon/dark/favicon.ico" },
+      {
+        url: "/favicon/dark/favicon-32x32.png",
+        type: "image/png",
+        sizes: "32x32",
+      },
+      {
+        url: "/favicon/dark/favicon-16x16.png",
+        type: "image/png",
+        sizes: "16x16",
+      },
+    ],
+    apple: "/favicon/dark/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "Piush Bose | Software Engineer",
+    description:
+      "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+    url: "/",
+    siteName: "Piush Bose",
+    images: [
+      {
+        url: "/opengraph/og_landscape.png",
+        width: 1200,
+        height: 630,
+        alt: "Piush Bose - Software Engineer and SDE II",
+        type: "image/png",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Piush Bose | Software Engineer",
+    description:
+      "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+    images: ["/opengraph/og_twitter.png"],
+  },
 };
 
 export default function RootLayout({

@@ -16,21 +16,6 @@
       "sourceType": "github",
       "computedHash": "747d7f73bd9e2ec5317b8ef88dc70f97df716d00e3d02de4051feebaa48b062d"
     },
-    "sveltekit-data-flow": {
-      "source": "spences10/svelte-skills-kit",
-      "sourceType": "github",
-      "computedHash": "1ef78409b38d1cb7324d8e0a78ac3f4303e0a9c5b5789bfc2d646c0806faa618"
-    },
-    "sveltekit-remote-functions": {
-      "source": "spences10/svelte-skills-kit",
-      "sourceType": "github",
-      "computedHash": "eee8cfd258d9a7661478f828a1ae1b3d352285e27fe80a7c544e4f6b6370e26d"
-    },
-    "sveltekit-structure": {
-      "source": "spences10/svelte-skills-kit",
-      "sourceType": "github",
-      "computedHash": "a935fd51b32e4e37d23286c04748825a6a193ef74d9980385449aa4f80646f9d"
-    },
     "tanstack-query": {
       "source": "tanstack-skills/tanstack-skills",
       "sourceType": "github",
@@ -40,11 +25,6 @@
       "source": "deckardger/tanstack-agent-skills",
       "sourceType": "github",
       "computedHash": "21d2e8b7468a81d772b6527ad8ca178cc2f3f08af777bb9061333013ee88a0c9"
-    },
-    "trpc": {
-      "source": "mindrally/skills",
-      "sourceType": "github",
-      "computedHash": "c806ba379dcdbf2020d02ad36f24811d8b7435f34338d896a0fcb91db03ab0b5"
     }
   }
 }
