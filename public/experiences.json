@@ -1,0 +1,38 @@
+[
+    {
+        "organization": "Netpie Dev",
+        "employment_type": "Full Time",
+        "location": "Hybrid",
+        "position": "Software Engineer - SDE II",
+        "start_date": "2024-07-31T18:30:00.000Z",
+        "end_date": "CURRENT",
+        "brief": "Contributing to the development of innovative software solutions, collaborating with cross-functional teams, and driving technical excellence in a dynamic work environment."
+    },
+    {
+        "organization": "Google DGoC @TIU",
+        "employment_type": "Full Time",
+        "location": "On-Site",
+        "position": "Technical Lead & Lead instructor @Cloud & @DevOps domains.",
+        "start_date": "2024-07-31T18:30:00.000Z",
+        "end_date": "2026-03-31T18:30:00.000Z",
+        "brief": "Led technical initiatives and mentored teams in cloud and DevOps domains while teaching the next generation of young developers."
+    },
+    {
+        "organization": "The Entrepreneurship Network (TEN)",
+        "employment_type": "Internship",
+        "location": "Remote",
+        "position": "Full Stack Developer",
+        "start_date": "2024-03-31T18:30:00.000Z",
+        "end_date": "2024-09-30T18:30:00.000Z",
+        "brief": "Developed and maintained web applications, contributing to the organization's digital presence and user engagement."
+    },
+    {
+        "organization": "Internshala",
+        "employment_type": "Internship",
+        "location": "Remote",
+        "position": "Student Partner (ISP) @TIU",
+        "start_date": "2024-04-30T18:30:00.000Z",
+        "end_date": "2024-06-30T18:30:00.000Z",
+        "brief": "Organized and led workshops on web development, fostering a community of aspiring developers and enhancing their skills."
+    }
+]
