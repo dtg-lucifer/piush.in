@@ -28,7 +28,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in",
   ),
   title: "Piush Bose | Software Engineer",
   description:
@@ -58,7 +58,11 @@ export const metadata: Metadata = {
     siteName: "Piush Bose",
     images: [
       {
-        url: "/opengraph/og_landscape.png",
+        url: new URL(
+          `${
+            process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in"
+          }/opengraph/og_landscape.png`,
+        ),
         width: 1200,
         height: 630,
         alt: "Piush Bose - Software Engineer and SDE II",
@@ -73,7 +77,13 @@ export const metadata: Metadata = {
     title: "Piush Bose | Software Engineer",
     description:
       "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
-    images: ["/opengraph/og_twitter.png"],
+    images: [
+      new URL(
+        `${
+          process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in"
+        }/opengraph/og_twitter.png`,
+      ),
+    ],
   },
 };
 
