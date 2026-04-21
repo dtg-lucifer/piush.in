@@ -116,7 +116,7 @@ export default function ConnectSection(
                             © 2026 Piush Bose. All rights reserved.
                         </div>
                         <div className="text-muted-foreground text-xs">
-                            Built with Next.js and v0 template customization
+                            Built by Piush, designed with elegance.
                         </div>
                     </div>
 
