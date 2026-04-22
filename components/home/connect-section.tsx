@@ -53,11 +53,11 @@ export default function ConnectSection(
 
                         <div className="space-y-4">
                             <Link
-                                href="mailto:dev.bosepiush@gmail.com"
+                                href="mailto:mail@piush.in"
                                 className="group flex items-center gap-3 text-foreground hover:text-muted-foreground transition-colors duration-300"
                             >
                                 <span className="text-base sm:text-lg">
-                                    dev.bosepiush@gmail.com
+                                    mail@piush.in
                                 </span>
                                 <svg
                                     className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300 transform"

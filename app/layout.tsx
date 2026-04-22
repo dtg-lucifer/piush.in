@@ -30,8 +30,8 @@ const geistMono = Geist_Mono({
 
 const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in");
 const canonicalUrl = new URL("/", siteUrl);
-const ogLandscapeUrl = new URL("/opengraph/og_landscape.png", siteUrl);
-const ogTwitterUrl = new URL("/opengraph/og_twitter.png", siteUrl);
+const ogLandscapeUrl = new URL("/og/og_landscape.png", siteUrl);
+const ogTwitterUrl = new URL("/og/og_twitter.png", siteUrl);
 
 export const metadata: Metadata = {
 	metadataBase: siteUrl,

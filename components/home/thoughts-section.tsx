@@ -50,7 +50,7 @@ export default function ThoughtsSection({ sectionRef }: ThoughtsSectionProps) {
                         Recent Thoughts
                     </h2>
                     <Link
-                        className="text-muted-foreground hover:text-foreground text-sm underline underline-offset-4 transition-colors"
+                        className="text-background hover:bg-accent rounded-sm p-1 sm:p-2 text-sm underline underline-offset-4 transition-colors"
                         href="/blog"
                     >
                         Visit blog
