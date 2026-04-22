@@ -80,6 +80,22 @@ export const metadata: Metadata = {
 			"Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
 		images: [ogTwitterUrl],
 	},
+	keywords: [
+		"Software Engineer",
+		"SDE II",
+		"Scalable systems",
+		"Polished products",
+		"Performant web experiences",
+		"Backend development",
+		"Full-stack development",
+		"Distributed Systems Engineer",
+		"Piush Bose",
+		"Piush",
+		"Dev Piush",
+		"dtg-lucifer",
+		"bosepiush",
+		"Bose Piush"
+	]
 };
 
 export default function RootLayout({
