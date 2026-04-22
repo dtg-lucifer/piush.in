@@ -62,7 +62,7 @@ export default function ThoughtsSection({ sectionRef, articles, isLoading, loadi
                                             {article.title}
                                         </h3>
 
-                                        <p className="flex-grow text-muted-foreground leading-relaxed line-clamp-3">
+                                        <p className="grow text-muted-foreground leading-relaxed line-clamp-3">
                                             {article.seoDescription}
                                         </p>
 
