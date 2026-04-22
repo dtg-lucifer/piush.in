@@ -11,33 +11,35 @@ tags: cloud, docker, ansible, devops, swarm, terraform, gcp, clustering, cluster
 
 ---
 
-> **~ Pre-requisites:**  
-> There should be some tools installed on your machine before hand to follow along  
-> 1\. [Terraform](https://developer.hashicorp.com/terraform/install?product_intent=terraform) - <mark>For provisioning infrastructure on GCP (Google Cloud Platform)</mark>  
-> 2\. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - <mark>For configuration management (Manually update the swarm service from your local machine without needing to ssh into the remote server)<br></mark>3\. [Docker](https://docs.docker.com/engine/install/)<mark><br>4. You must have a Linux machine whether it is a VM or your own Machine</mark>  
-> <mark>5. And an free account on GCP (Google Cloud Platform)</mark>  
-> 6\. [GCloud CLI Tool](https://cloud.google.com/sdk/docs/install)
-> 
+## **Pre-requisites:**
+> There should be some tools installed on your machine before hand to follow along
+> 1. [Terraform](https://developer.hashicorp.com/terraform/install?product_intent=terraform) - For provisioning infrastructure on GCP (Google Cloud Platform)
+> 2. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) - For configuration management (Manually update the swarm service from your local machine without needing to ssh into the remote server)
+> 3. [Docker](https://docs.docker.com/engine/install/) - For running and conencting to the containers on other machines
+> 4. You must have a Linux machine whether it is a VM or your own Machine
+> 5. And an free account on GCP (Google Cloud Platform)
+> 6. [GCloud CLI Tool](https://cloud.google.com/sdk/docs/install)
+>
 > ~ Clone the [Github repo](https://github.com/dtg-lucifer/redis-docker-swarm-devops-project) to gain access to the code - Credit goes to [Cloud Champ](https://www.youtube.com/@cloudchamp) for providing the base code for web server
-> 
+>
 > If you don’t know what a cluster is and what is clustering, why do we need that, I highly recommend going through my [this article](https://hashnode.com/post/cm6wjucc3002n08l4cku1h431), it will be good for you to follow along
-> 
-> **TL;DR** - We are not just going to deploy it for once, we are going to deploy it as a senior **<mark>devops</mark>** engineer who is more focused on <mark>efficiency</mark> and <mark>sustainability</mark> such as after the initial deployment whenever someone makes some changes in the code base our CI server will <mark>automatically redeploy the latest change to the server</mark>
+>
+> **TL;DR** - We are not just going to deploy it for once, we are going to deploy it as a senior <mark>devops</mark> engineer who is more focused on <mark>efficiency</mark> and <mark>sustainability</mark> such as after the initial deployment whenever someone makes some changes in the code base our CI server will <mark>automatically redeploy the latest change to the server</mark>
 
 # What we are going to build today ?
 
 1. Basic web server to show the system metrics and store last 5 metrics on Redis cluster as cache (Python, flask)
-    
+
 2. Redis Cluster with 2 nodes (<mark>Leader, follower architecture</mark>)
-    
+
 3. Deploy on a <mark>2 node Docker Swarm Cluster</mark> which is deployed on different <mark>availability zones</mark> for high availibility and Zero Down time (asia-south1-a, asia-south1-b)
-    
+
 4. Will be able to make a CI CD Pipeline to automatically deploy the latest changes to the remote servers
-    
+
 5. Automated infrastructure deployment with <mark>Terraform</mark>
-    
+
 6. Automated configuration Management with <mark>Ansible</mark>
-    
+
 
 ## Build the web server
 
@@ -113,11 +115,11 @@ I think we are good to go to build the web server right now
 It is the main entrypoint for the web server, it has 3 endpoints rightnow
 
 1. `/` - get the main page
-    
+
 2. `/metrics` - get the metrics in a json formatted way
-    
+
 3. `/health` - for healthcheck
-    
+
 
 But this is meaningless without the HTML template for the main page
 
@@ -131,7 +133,7 @@ python app.py
 
 Now the output will look something like this
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1741983208892/24ab4fef-1752-4310-9079-3f5ea9488b1e.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741983208892/24ab4fef-1752-4310-9079-3f5ea9488b1e.png" align="center">
 
 ---
 
@@ -222,13 +224,13 @@ Yes, as simple as that, give it some time if you are running this for the first 
 ## Quick recap for what we have done so far !
 
 1. First we have created the basic layout for the project
-    
+
 2. Then we have coded the whole web server
-    
+
 3. We created the dockerfile and docker compose for dev with docker stack file for production deployment
-    
+
 4. We ran the compose file to test at the local deployment
-    
+
 
 ## Okay so what’s next ?
 
@@ -282,22 +284,22 @@ Now that’s a lot of code
 Honestly it is but it has it’s benefits too, otherwise tech giants would be more dumb than me because they use this rather letting their engineers clicking and finding things on the cloud dashboard. Here is an article explaining why IAC is required
 
 1. [https://medium.com/@digitalpower/5-reasons-to-use-infrastructure-as-code-iac-5aef28713751](https://medium.com/@digitalpower/5-reasons-to-use-infrastructure-as-code-iac-5aef28713751)
-    
+
 2. [https://medium.com/@zeero.us/why-infrastructure-as-code-iac-is-the-future-of-software-development-0a935d470d8a](https://medium.com/@zeero.us/why-infrastructure-as-code-iac-is-the-future-of-software-development-0a935d470d8a)
-    
+
 
 ## Breakdown for all of the terraform files
 
 1. `main.tf` - Main entrypoint for out infrastructure code
-    
-2. `provider.tf` - Provider details (Google, Amazon, Azure)
-    
-3. `variables.tf` - This is the mapping of the secrets and the variables we are going to pass from `*.tfvars` file
-    
-4. `output.tf` - This is the file where we put all of our outputs
-    
 
-> ~ Do we really need to write all of these in different files?  
+2. `provider.tf` - Provider details (Google, Amazon, Azure)
+
+3. `variables.tf` - This is the mapping of the secrets and the variables we are going to pass from `*.tfvars` file
+
+4. `output.tf` - This is the file where we put all of our outputs
+
+
+> ~ Do we really need to write all of these in different files?
 > ~ Obviously no, but this is the way for us to focus on little thing.
 
 Now some secret files which we have to create
@@ -313,47 +315,47 @@ touch env.trvars
 Let’s have a tour from GCP - [https://console.cloud.google.com/](https://console.cloud.google.com/)
 
 1. After creating your billing account and enabling the free trial you should land on this page
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1741985784110/9e954ce3-e050-46af-90c8-eb24dd9c794e.png align="left")
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741985784110/9e954ce3-e050-46af-90c8-eb24dd9c794e.png" alt="">
 
 2. Now go to the sidebar and follow this route, <mark>IAM and admin &gt; Service Accounts</mark>
-    
-3. Now click on create service account (For this project)
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1741985934748/8fc295f8-c699-456f-845f-ce03c354341d.png align="center")
+3. Now click on create service account (For this project)
+
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741985934748/8fc295f8-c699-456f-845f-ce03c354341d.png" alt="">
 
 4. Now fill out the details as you like
-    
-5. Then click <mark>Create and Continue</mark>
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1741986113957/90cef3dc-7f2a-4308-8abc-dd17c5316369.png align="center")
+5. Then click <mark>Create and Continue</mark>
+
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741986113957/90cef3dc-7f2a-4308-8abc-dd17c5316369.png" alt="">
 
 6. Now add the following permissions to the Service Account
-    
-    1. *Compute Network Admin (This is for VPC)*
-        
-    2. *Compute Organisation Firewall Policy Admin (This is for firewall)*
-        
-    3. *Service Account Admin (This is to manage and handle service account auth)*
-        
-    4. *Compute Admin (To play with VM)*
-        
-7. Then create <mark>Continue</mark>
-    
-8. Then <mark>Done</mark>
-    
-9. Now that you have gone to hom page again, click and open to newly created service account and go to <mark>Keys</mark> tab
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1741986378122/609d4d37-1b12-470f-9e2d-2990550fcf70.png align="center")
+    1. *Compute Network Admin (This is for VPC)*
+
+    2. *Compute Organisation Firewall Policy Admin (This is for firewall)*
+
+    3. *Service Account Admin (This is to manage and handle service account auth)*
+
+    4. *Compute Admin (To play with VM)*
+
+7. Then create <mark>Continue</mark>
+
+8. Then <mark>Done</mark>
+
+9. Now that you have gone to hom page again, click and open to newly created service account and go to <mark>Keys</mark> tab
+
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1741986378122/609d4d37-1b12-470f-9e2d-2990550fcf70.png" alt="">
 
 10. Then click on <mark>Add Key</mark>, then choose <mark>Create new key</mark>, then choose <mark>JSON</mark>
-    
+
 11. After that one JSON file would be downloaded for you, keep it safe ***<mark>NEVER SHARE THAT TO ANYONE,</mark>*** and rename it to `credentials.json` and place it into the `infra` folder inside the project
-    
+
 
 ### Now let’s add the secrets to the file <mark>env.tfvars</mark>
 
@@ -396,7 +398,7 @@ Boom !!!
 
 Now we have to copy and store the public ip addresses of both manager node and worker node in out ansible inventory file located at `./ansible/hosts`
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742023302358/e910f015-3a75-48de-8992-0859c3da27bf.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742023302358/e910f015-3a75-48de-8992-0859c3da27bf.png" alt="">
 
 The file should look something like this
 
@@ -425,7 +427,7 @@ ansible-playbook -i hosts tasks/install-docker.yaml
 
 It will output something like this
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742024154729/993a5521-4d86-4324-b557-5cf305c8edd8.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742024154729/993a5521-4d86-4324-b557-5cf305c8edd8.png" alt="">
 
 Now that we have installed docker on both manager and worker node, we have to install nginx as a reverse proxy on the worker node because we don’t want to expose our manager node to be exposed by http and https to the public internet.
 
@@ -433,7 +435,7 @@ Now that we have installed docker on both manager and worker node, we have to in
 ansible-playbook -i hosts tasks/install-nginx.yaml
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742025413142/28e8aae7-fe97-4e65-9297-cffe9092fa64.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742025413142/28e8aae7-fe97-4e65-9297-cffe9092fa64.png" alt="">
 
 Now we have to put our nginx configuration to act as a reverse proxy to be sent over to the remote server
 
@@ -441,7 +443,7 @@ Now we have to put our nginx configuration to act as a reverse proxy to be sent 
 ansible-playbook -i hosts tasks/setup-proxy.yaml
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742025592896/f83a55e7-8c6d-47c4-b9fd-a613f2919c7f.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742025592896/f83a55e7-8c6d-47c4-b9fd-a613f2919c7f.png" alt="">
 
 Wooh !! That was fun, isn’t it ??? Just running few commands and that’s all. If you want to take this to the next level then you also can write a shell script which will run all of these one by one, all you have to do is sit back and relax. (You can also run all of these on a CI server so that whenever you do some changes in the code then the changes appear on the main infrastructure)
 
@@ -451,11 +453,11 @@ Now, the main part, without which the cluster is not a cluster, Let’s install 
 ansible-playbook -i hosts tasks/setup-swarm.yaml
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742026676361/6e2cf80c-1f23-450d-abb6-b61b51b8f7b6.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742026676361/6e2cf80c-1f23-450d-abb6-b61b51b8f7b6.png" alt="">
 
 ## What we have created so far !
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742020809547/79d58b79-cabf-42df-b8b6-87ee233ceb84.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742020809547/79d58b79-cabf-42df-b8b6-87ee233ceb84.png" alt="">
 
 **<mark>That’s a lot of things we have done so far guys, at-least be proud of yourself for this, ik there is no one appreciating you right now, but i’m here, i do. Let’s celebrate, yayy!!!</mark>**
 
@@ -467,7 +469,7 @@ Let’s deploy the app for the first time.
 
 <div data-node-type="callout">
 <div data-node-type="callout-emoji">💡</div>
-<div data-node-type="callout-text">If you have a better solution I’m all ears because it is something i still need to figure it out. I tried using docker context but i am having some issues with that, so if anyone can solve this please drop me a mail at <a target="_self" rel="noopener noreferrer nofollow" href="mailto:dev.bosepiush@gmail.com" style="pointer-events: none"><strong>dev.bosepiush@gmail.com</strong></a><strong>, I am open to learn new things</strong></div>
+<div data-node-type="callout-text">If you have a better solution I’m all ears because it is something i still need to figure it out. I tried using docker context but i am having some issues with that, so if anyone can solve this please drop me a mail at <a target="_self" rel="noopener noreferrer nofollow" href="mailto:mail@piush.in" style="pointer-events: none"><strong>mail@piush.in</strong></a><strong>, I am open to learn new things</strong></div>
 </div>
 
 ```bash
@@ -475,23 +477,23 @@ export REDIS_PASS=password_for_redis_cache
 ansible-playbook -i hosts tasks/create-deployment.yaml
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742030356471/d37c6b55-a6d8-499d-a304-d21e8a09ffcf.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742030356471/d37c6b55-a6d8-499d-a304-d21e8a09ffcf.png" alt="">
 
 Yesssssss……We did it.
 
 ## Let’s try this out
 
 1. Go to GCP and then go to <mark>Compute Engine</mark> &gt; <mark>VM Instances</mark>
-    
-2. Copy the External IP of the worker node (Remember we did not open the manager node for public use)
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742030566321/ffe8dd09-60bb-4c97-82ea-a78c64100df2.png align="center")
+2. Copy the External IP of the worker node (Remember we did not open the manager node for public use)
+
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742030566321/ffe8dd09-60bb-4c97-82ea-a78c64100df2.png" alt="">
 
 3. Go to any browser you like and then paste that in there
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742030654033/415119cc-5e91-4515-a6d2-40c8ad0b822d.png align="center")
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742030654033/415119cc-5e91-4515-a6d2-40c8ad0b822d.png" alt="">
 
 ## So officially we did it, but what about the next time we do some change to the code repository, let’s say i want to make the deployment from v3 to v4 ?
 
@@ -500,17 +502,17 @@ That’s the reason we need CI CD Pipelines in our code bases and on our source 
 There are multiple options to pick from
 
 * Github Actions (Easy to start working with)
-    
+
 * Gitlab CI
-    
+
 * Travis CI
-    
+
 * Jenkins (By far the most used Open source ci server in terms of production)
-    
+
 * Circle CI
-    
+
 * ……etc
-    
+
 
 For this project I chose to work with Github Actions because it is easy to use and also we have done a lot of work with the infrastructure previously so i don’t wanna create and setup another server for our CI tool.
 
@@ -518,7 +520,7 @@ Let’s do this !!!
 
 You will find a folder named `.github/workflows` at the root of our project, there is a YAML file named `docker-build.yml`. This is the file you push this repo to your github account then you can find a button called Actions on your dashboard like below
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742031648553/89a57855-3593-40fb-b5b2-f4c96100920f.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742031648553/89a57855-3593-40fb-b5b2-f4c96100920f.png" alt="">
 
 So all the file does it whenever someone pushes change to the ***master*** branch or opens a pull request on the ***master*** branch it will simply build the docker image out of the `Dockerfile` at our root of the project and pushes that to the docker hub account of yours (Which we have to setup) and then update the deployment at our remote manager node on the docker swarm to use the lates image. And swarm will start a rolling update based on the configuration
 
@@ -541,39 +543,39 @@ deploy:
 ### Now we have to setup our credentials to Github so that it can do the work on our behalf
 
 1. Create docker hub token
-    
+
     1. Go to - [https://hub.docker.com/](https://hub.docker.com/) and Signin to your account
-        
+
     2. Go to account settings and then go to personal access tokens
-        
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032145314/4c085570-d6be-44fc-b04f-d3affb3610bc.png align="center")
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032150773/ed210785-57a6-4ba2-8a65-dd66aa19402a.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032145314/4c085570-d6be-44fc-b04f-d3affb3610bc.png" alt="">
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032150773/ed210785-57a6-4ba2-8a65-dd66aa19402a.png" alt="">
 
 3. Store the token somewhere safe and don’t share to anyone (Make sure that has Read and write permission to it)
-    
+
 4. Copy the token over to github
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032266130/3cb2ed64-f855-4e28-af8d-72e6d0e6960f.png align="center")
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032273895/68bd3704-beb5-4934-b93f-fa3618910a3c.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032266130/3cb2ed64-f855-4e28-af8d-72e6d0e6960f.png" alt="">
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032278339/dde33cff-4405-465b-af08-787e0f202f85.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032273895/68bd3704-beb5-4934-b93f-fa3618910a3c.png" alt="">
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032278339/dde33cff-4405-465b-af08-787e0f202f85.png" alt="">
 
 4. Fill out these necessary things
-    
-    1. DOCKER\_HUB\_TOKEN - Already got it
-        
-    2. MANAGER\_IP - also got it
-        
-    3. SSH\_PRIVATE\_KEY - run this command at the root of the project `cat infra/keys/id_rsa` and then copy and paste the content over there
-        
-5. Also add your docker hub user name there.
-    
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032450315/6fa20ed7-2adf-4776-a635-ce6ba5cc4471.png align="center")
+    1. DOCKER\_HUB\_TOKEN - Already got it
+
+    2. MANAGER\_IP - also got it
+
+    3. SSH\_PRIVATE\_KEY - run this command at the root of the project `cat infra/keys/id_rsa` and then copy and paste the content over there
+
+5. Also add your docker hub user name there.
+
+
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032450315/6fa20ed7-2adf-4776-a635-ce6ba5cc4471.png" alt="">
 
 ---
 
@@ -581,17 +583,17 @@ deploy:
 
 Test that by making some change to the code, the actions tab should look something like this (Ignore the commit messages, fraustration on another level)
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032524473/5a94892b-985c-44d4-a138-469e76380dd0.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032524473/5a94892b-985c-44d4-a138-469e76380dd0.png" alt="">
 
 ## So with this we have officially built the whole DevOps Projec in just under an hour
 
 And the final outcome looks something like this
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1742032789490/5b9ca928-eef4-4666-82fa-98713bfc4258.png align="center")
+<img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1742032789490/5b9ca928-eef4-4666-82fa-98713bfc4258.png" alt="">
 
 # Stay tuned for next articles on different types of deployment models and DevOps projects.
 
-~ @[Piush Bose](@devpiush) &lt;dev.bosepiush@gmail.com&gt;, Signing off
+~ @[Piush Bose](@devpiush) &lt;mail@piush.in&gt;, Signing off
 
 ---
 
@@ -600,26 +602,26 @@ And the final outcome looks something like this
 #### **<mark>Serverless Series</mark>**
 
 * deployment - sl1a, Deploy on cloud run (Pending)
-    
+
 * deployment - sl1b, Deploy on app engine (Pending)
-    
+
 * deployment - sl1c, Deploy on Google Cloud Functions (FaaS) (Pending)
-    
+
 
 ### <mark>Server wide</mark>
 
 * <mark>Containerised</mark>
-    
+
     * <s>deployment - ws1a (Already done on gdg first session)</s>
-        
+
     * <s>deployment - ws1b, Containerized and then deployed on Docker Swarm cluster with multiple nodes (This article itself)</s>
-        
+
     * deployment - ws1c, Containerized and deployed on kubernetes cluster (Pending)
-        
+
 * <mark>Bare metal</mark>
-    
+
     * deployment - ws2a, Deployed directly on a vm and served with nginx (Easiest one) (Pending)
-        
+
     * deployment - ws2b, Deployed on multiple vm and added them to a auto scaling group and load balance between them (Pending)
-        
+
     * deployment - ws2c, Shipt the frontend code to Cloud Store bucket and distribute it with Cloud CDN and deploy the backend on any of the solution from before.

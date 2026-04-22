@@ -1,101 +1,73 @@
 [
-    {
-        "title": "When Should You Use Kubernetes for Your Projects?",
-        "seoTitle": "When to Use Kubernetes for Projects?",
-        "seoDescription": "Choose Kubernetes for complex setups and scalability; opt for Docker Swarm for simplicity and quick deployment",
-        "datePublished": "Sat Feb 08 2025 18:49:10 GMT+0000 (Coordinated Universal Time)",
-        "cuid": "cm6wjucc3002n08l4cku1h431",
-        "slug": "when-should-you-use-kubernetes-for-your-projects",
-        "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040872235/71195afd-019f-437e-ab9d-b4a7e9ba954b.png",
-        "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040517788/0041905b-d1b5-41fb-b432-ffafa4d1d5e7.png",
-        "tags": [
-            "cloud",
-            "docker",
-            "kubernetes",
-            "swarm",
-            "docker-swarm",
-            "cncf",
-            "cloud-native",
-            "docker-stack"
-        ],
-        "featured": false
-    },
-    {
-        "title": "Learn to Deploy Your Application on a Docker Swarm Cluster: Step by step guide (with code)",
-        "seoTitle": "Docker Swarm Deployment Guide: Step-by-Step",
-        "seoDescription": "Deploy applications on a Docker Swarm Cluster with this step-by-step guide. Automate infrastructure and configurations using Terraform and Ansible",
-        "datePublished": "Sat Mar 15 2025 10:43:31 GMT+0000 (Coordinated Universal Time)",
-        "cuid": "cm8a2wm6k000709ky4jm2evru",
-        "slug": "learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
-        "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1741958802860/509de697-418b-4468-ad66-590601d38de6.png",
-        "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1742035391557/b8c4bf74-8ea6-4815-b1d6-12648d4ed36e.png",
-        "tags": [
-            "cloud",
-            "docker",
-            "ansible",
-            "devops",
-            "swarm",
-            "terraform",
-            "gcp",
-            "clustering",
-            "cluster",
-            "docker-stack"
-        ],
-        "featured": true
-    },
-    {
-        "title": "Building Rusty KV - A Redis-Compatible, Secure KV Store in Rust",
-        "seoTitle": "RustyKV: Secure Redis-Compatible KV Store",
-        "seoDescription": "Build Rusty KV, a Redis-compatible key-value store in Rust for performance, security, and easy client adoption",
-        "datePublished": "Mon Jul 21 2025 11:15:15 GMT+0000 (Coordinated Universal Time)",
-        "cuid": "cmdd0egc1000s02jj2mvw0wv8",
-        "slug": "building-rusty-kv-a-redis-compatible-secure-kv-store-in-rust",
-        "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753095574952/9e81a9ad-ff16-4dba-9413-5bf6f1f45f1f.png",
-        "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753096489621/6686b895-58cf-40e0-932a-3bb5fe704e3e.png",
-        "tags": [
-            "cpp",
-            "redis",
-            "multithreading",
-            "rust"
-        ],
-        "featured": true
-    },
-    {
-        "title": "Building a 16-bit Virtual Machine in Rust: Understanding Computer Architecture from the Ground Up",
-        "seoTitle": "Build a 16-bit VM in Rust",
-        "seoDescription": "Discover how to build a 16-bit virtual machine using Rust to learn the fundamentals of computer architecture and low-level programming concepts",
-        "datePublished": "Sun Aug 03 2025 17:51:47 GMT+0000 (Coordinated Universal Time)",
-        "cuid": "cmdvzahk7000302l823ng43ew",
-        "slug": "building-a-16-bit-virtual-machine-in-rust-understanding-computer-architecture-from-the-ground-up",
-        "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754243271277/94fe8a8a-e6e1-4a32-b350-102c66793787.png",
-        "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754246350481/399da3d9-883c-423d-8f4d-98f6fe6f1400.png",
-        "tags": [
-            "virtual-machine",
-            "rust",
-            "low-level-programming",
-            "16bit",
-            "6502-processor"
-        ],
-        "featured": true
-    },
-    {
-        "title": "Building a Production-Ready Video-to-Audio Converter with Python Microservices and Kubernetes",
-        "seoTitle": "Video-to-Audio Converter with Python Microservices",
-        "seoDescription": "Build a scalable video-to-audio converter with Python microservices and Kubernetes, focusing on architecture, deployment, and security",
-        "datePublished": "Tue Sep 02 2025 14:34:37 GMT+0000 (Coordinated Universal Time)",
-        "cuid": "cmf2nggvm000202l7hfiehstt",
-        "slug": "building-a-production-ready-video-to-audio-converter-with-python-microservices-and-kubernetes",
-        "cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
-        "ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823503313/cd960ffe-6502-4fbc-a62d-5bf3591e2a63.png",
-        "tags": [
-            "python",
-            "mongodb",
-            "kubernetes",
-            "rabbitmq",
-            "ffmpeg",
-            "minikube",
-            "grid-fs"
-        ],
-        "featured": true
-    }
+	{
+		"title": "When Should You Use Kubernetes for Your Projects?",
+		"seoTitle": "When to Use Kubernetes for Projects?",
+		"seoDescription": "Choose Kubernetes for complex setups and scalability; opt for Docker Swarm for simplicity and quick deployment",
+		"datePublished": "Sat Feb 08 2025 18:49:10 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cm6wjucc3002n08l4cku1h431",
+		"slug": "when-should-you-use-kubernetes-for-your-projects",
+		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040872235/71195afd-019f-437e-ab9d-b4a7e9ba954b.png",
+		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040517788/0041905b-d1b5-41fb-b432-ffafa4d1d5e7.png",
+		"tags": ["cloud", "docker", "kubernetes", "swarm", "docker-swarm", "cncf", "cloud-native", "docker-stack"],
+		"featured": false
+	},
+	{
+		"title": "Learn to Deploy Your Application on a Docker Swarm Cluster: Step by step guide (with code)",
+		"seoTitle": "Docker Swarm Deployment Guide: Step-by-Step",
+		"seoDescription": "Deploy applications on a Docker Swarm Cluster with this step-by-step guide. Automate infrastructure and configurations using Terraform and Ansible",
+		"datePublished": "Sat Mar 15 2025 10:43:31 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cm8a2wm6k000709ky4jm2evru",
+		"slug": "learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
+		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1741958802860/509de697-418b-4468-ad66-590601d38de6.png",
+		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1742035391557/b8c4bf74-8ea6-4815-b1d6-12648d4ed36e.png",
+		"tags": [
+			"cloud",
+			"docker",
+			"ansible",
+			"devops",
+			"swarm",
+			"terraform",
+			"gcp",
+			"clustering",
+			"cluster",
+			"docker-stack"
+		],
+		"featured": true
+	},
+	{
+		"title": "Building Rusty KV - A Redis-Compatible, Secure KV Store in Rust",
+		"seoTitle": "RustyKV: Secure Redis-Compatible KV Store",
+		"seoDescription": "Build Rusty KV, a Redis-compatible key-value store in Rust for performance, security, and easy client adoption",
+		"datePublished": "Mon Jul 21 2025 11:15:15 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cmdd0egc1000s02jj2mvw0wv8",
+		"slug": "building-rusty-kv-a-redis-compatible-secure-kv-store-in-rust",
+		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753095574952/9e81a9ad-ff16-4dba-9413-5bf6f1f45f1f.png",
+		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753096489621/6686b895-58cf-40e0-932a-3bb5fe704e3e.png",
+		"tags": ["cpp", "redis", "multithreading", "rust"],
+		"featured": true
+	},
+	{
+		"title": "Building a 16-bit Virtual Machine in Rust: Understanding Computer Architecture from the Ground Up",
+		"seoTitle": "Build a 16-bit VM in Rust",
+		"seoDescription": "Discover how to build a 16-bit virtual machine using Rust to learn the fundamentals of computer architecture and low-level programming concepts",
+		"datePublished": "Sun Aug 03 2025 17:51:47 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cmdvzahk7000302l823ng43ew",
+		"slug": "building-a-16-bit-virtual-machine-in-rust-understanding-computer-architecture-from-the-ground-up",
+		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754243271277/94fe8a8a-e6e1-4a32-b350-102c66793787.png",
+		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754246350481/399da3d9-883c-423d-8f4d-98f6fe6f1400.png",
+		"tags": ["virtual-machine", "rust", "low-level-programming", "16bit", "6502-processor"],
+		"featured": true
+	},
+	{
+		"title": "Building a Production-Ready Video-to-Audio Converter with Python Microservices and Kubernetes",
+		"seoTitle": "Video-to-Audio Converter with Python Microservices",
+		"seoDescription": "Build a scalable video-to-audio converter with Python microservices and Kubernetes, focusing on architecture, deployment, and security",
+		"datePublished": "Tue Sep 02 2025 14:34:37 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cmf2nggvm000202l7hfiehstt",
+		"slug": "building-a-production-ready-video-to-audio-converter-with-python-microservices-and-kubernetes",
+		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
+		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823503313/cd960ffe-6502-4fbc-a62d-5bf3591e2a63.png",
+		"tags": ["python", "mongodb", "kubernetes", "rabbitmq", "ffmpeg", "minikube", "grid-fs"],
+		"featured": true
+	}
 ]

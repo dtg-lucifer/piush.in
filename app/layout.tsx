@@ -13,8 +13,7 @@ const lilex = localFont({
 			style: "normal",
 		},
 		{
-			path:
-				"../public/assets/fonts/variable/Lilex-Italic-VariableFont_wght.ttf",
+			path: "../public/assets/fonts/variable/Lilex-Italic-VariableFont_wght.ttf",
 			style: "italic",
 		},
 	],
@@ -94,8 +93,8 @@ export const metadata: Metadata = {
 		"Dev Piush",
 		"dtg-lucifer",
 		"bosepiush",
-		"Bose Piush"
-	]
+		"Bose Piush",
+	],
 };
 
 export default function RootLayout({
@@ -104,18 +103,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html
-			lang="en"
-			suppressHydrationWarning
-			className={`${lilex.variable} ${geistMono.variable} dark`}
-		>
+		<html lang="en" suppressHydrationWarning className={`${lilex.variable} ${geistMono.variable} dark`}>
 			<body className="font-sans antialiased">
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="dark"
-					enableSystem={false}
-					disableTransitionOnChange
-				>
+				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
 					{children}
 					<SiteFooter />
 				</ThemeProvider>

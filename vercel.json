@@ -1,15 +1,15 @@
 {
-    "redirects": [
-        {
-            "source": "/",
-            "has": [
-                {
-                    "type": "host",
-                    "value": "blog.piush.in"
-                }
-            ],
-            "destination": "https://piush.in/blog",
-            "permanent": true
-        }
-    ]
+	"redirects": [
+		{
+			"source": "/",
+			"has": [
+				{
+					"type": "host",
+					"value": "blog.piush.in"
+				}
+			],
+			"destination": "https://piush.in/blog",
+			"permanent": true
+		}
+	]
 }
