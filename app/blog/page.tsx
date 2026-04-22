@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import LenisScroll from "@/components/lenis-scroll";
 import { getAllArticleMeta } from "@/lib/articles";
+
+export async function generateMetadata(): Promise<Metadata> {
+    const articles = getAllArticleMeta();
+    const tags = Array.from(new Set(articles.flatMap(a => a.tags)));
+
+    return {
+        title: "Blog | Piush Bose",
+        description: "Long-form notes on systems, backend architecture, cloud infrastructure, and engineering trade-offs from real project work.",
+        keywords: ["blog", "engineering", "backend", "systems", ...tags],
+    };
+}
 
 export default function BlogPage() {
 	const articles = getAllArticleMeta();

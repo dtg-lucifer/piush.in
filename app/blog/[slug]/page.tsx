@@ -33,8 +33,27 @@ export async function generateMetadata(
     }
 
     return {
-        title: article.seoTitle,
+        title: article.seoTitle || article.title,
         description: article.seoDescription,
+        keywords: article.tags,
+        openGraph: {
+            title: article.seoTitle || article.title,
+            description: article.seoDescription,
+            type: "article",
+            publishedTime: new Date(article.datePublished).toISOString(),
+            url: `/blog/${article.slug}`,
+            images: [
+                {
+                    url: article.ogImage || article.cover,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: article.seoTitle || article.title,
+            description: article.seoDescription,
+            images: [article.ogImage || article.cover],
+        },
     };
 }
 
