@@ -17,7 +17,8 @@
             "cncf",
             "cloud-native",
             "docker-stack"
-        ]
+        ],
+        "featured": false
     },
     {
         "title": "Learn to Deploy Your Application on a Docker Swarm Cluster: Step by step guide (with code)",
@@ -39,7 +40,8 @@
             "clustering",
             "cluster",
             "docker-stack"
-        ]
+        ],
+        "featured": true
     },
     {
         "title": "Building Rusty KV - A Redis-Compatible, Secure KV Store in Rust",
@@ -55,10 +57,11 @@
             "redis",
             "multithreading",
             "rust"
-        ]
+        ],
+        "featured": true
     },
     {
-        "title": "🚀 Building a 16-bit Virtual Machine in Rust: Understanding Computer Architecture from the Ground Up",
+        "title": "Building a 16-bit Virtual Machine in Rust: Understanding Computer Architecture from the Ground Up",
         "seoTitle": "Build a 16-bit VM in Rust",
         "seoDescription": "Discover how to build a 16-bit virtual machine using Rust to learn the fundamentals of computer architecture and low-level programming concepts",
         "datePublished": "Sun Aug 03 2025 17:51:47 GMT+0000 (Coordinated Universal Time)",
@@ -72,10 +75,11 @@
             "low-level-programming",
             "16bit",
             "6502-processor"
-        ]
+        ],
+        "featured": true
     },
     {
-        "title": "🚀 Building a Production-Ready Video-to-Audio Converter with Python Microservices and Kubernetes",
+        "title": "Building a Production-Ready Video-to-Audio Converter with Python Microservices and Kubernetes",
         "seoTitle": "Video-to-Audio Converter with Python Microservices",
         "seoDescription": "Build a scalable video-to-audio converter with Python microservices and Kubernetes, focusing on architecture, deployment, and security",
         "datePublished": "Tue Sep 02 2025 14:34:37 GMT+0000 (Coordinated Universal Time)",
@@ -91,6 +95,7 @@
             "ffmpeg",
             "minikube",
             "grid-fs"
-        ]
+        ],
+        "featured": true
     }
 ]

@@ -98,6 +98,27 @@ export function useProjects() {
   return { projects, isLoading, loadingMessage };
 }
 
+export interface ArticleMeta {
+    title: string;
+    seoTitle: string;
+    seoDescription: string;
+    datePublished: string;
+    cuid: string;
+    slug: string;
+    cover: string;
+    ogImage: string;
+    tags: string[];
+    featured?: boolean;
+}
+
+// Convenience hook for articles
+export function useArticles() {
+  const { data: articles, isLoading, loadingMessage } = useJsonData<ArticleMeta>(
+    "/articles/__data.json",
+  );
+  return { articles, isLoading, loadingMessage };
+}
+
 // Convenience hook for experiences
 export function useExperiences() {
   const { data: experiences, isLoading, loadingMessage } = useJsonData<

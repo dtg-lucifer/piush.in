@@ -7,7 +7,7 @@ import IntroSection from "@/components/home/intro-section";
 import ThoughtsSection from "@/components/home/thoughts-section";
 import WorkSection from "@/components/home/work-section";
 import { useLenis } from "@/hooks/useLenis";
-import { useExperiences, useProjects } from "@/hooks/useProjects";
+import { useArticles, useExperiences, useProjects } from "@/hooks/useProjects";
 import SkillsSection from "../components/home/skills-section";
 
 export default function Home() {
@@ -21,6 +21,14 @@ export default function Home() {
         isLoading: experiencesLoading,
         loadingMessage: experiencesLoadingMessage,
     } = useExperiences();
+    const {
+        articles,
+        isLoading: articlesLoading,
+        loadingMessage: articlesLoadingMessage,
+    } = useArticles();
+    const featuredArticles = articles.filter((article) =>
+        article.featured === true
+    );
     const sectionsRef = useRef<(HTMLElement | null)[]>([]);
     const lenisRef = useLenis();
 
@@ -145,6 +153,9 @@ export default function Home() {
                 />
 
                 <ThoughtsSection
+                    articles={featuredArticles}
+                    isLoading={articlesLoading}
+                    loadingMessage={articlesLoadingMessage}
                     sectionRef={(el) => {
                         sectionsRef.current[4] = el;
                     }}

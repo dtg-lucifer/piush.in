@@ -2,7 +2,6 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 export interface ArticleMeta {
-    fileBase: string;
     title: string;
     seoTitle: string;
     seoDescription: string;
@@ -12,6 +11,7 @@ export interface ArticleMeta {
     cover: string;
     ogImage: string;
     tags: string[];
+    featured?: boolean;
 }
 
 export interface ArticleDetail extends ArticleMeta {
@@ -45,30 +45,21 @@ function stripFrontmatter(markdown: string): string {
         .trim();
 }
 
-function parseArticleMeta(fileName: string): ArticleMeta {
-    const fullPath = path.join(articlesDir, fileName);
-    const raw = readFileSync(fullPath, "utf8");
-    const parsed = JSON.parse(raw) as Omit<ArticleMeta, "fileBase">;
-
-    return {
-        ...parsed,
-        fileBase: fileName.replace(/\.json$/, ""),
-    };
-}
-
 export function getAllArticleMeta(): ArticleMeta[] {
-    const jsonFiles = readdirSync(articlesDir)
-        .filter((name) => name.endsWith(".json"))
-        .sort();
+    const fullPath = path.join(articlesDir, "__data.json");
+    try {
+        const raw = readFileSync(fullPath, "utf8");
+        const articles = JSON.parse(raw) as ArticleMeta[];
+        
+        return articles.sort((a, b) => {
+            const aTime = new Date(a.datePublished).getTime();
+            const bTime = new Date(b.datePublished).getTime();
 
-    const articles = jsonFiles.map((fileName) => parseArticleMeta(fileName));
-
-    return articles.sort((a, b) => {
-        const aTime = new Date(a.datePublished).getTime();
-        const bTime = new Date(b.datePublished).getTime();
-
-        return bTime - aTime;
-    });
+            return bTime - aTime;
+        });
+    } catch (e) {
+        return [];
+    }
 }
 
 export function getArticleBySlug(slug: string): ArticleDetail | null {
@@ -78,8 +69,20 @@ export function getArticleBySlug(slug: string): ArticleDetail | null {
         return null;
     }
 
-    const markdownPath = path.join(articlesDir, `${meta.fileBase}.md`);
-    const markdownRaw = readFileSync(markdownPath, "utf8");
+    const mdFiles = readdirSync(articlesDir).filter(name => name.endsWith('.md'));
+    
+    let markdownRaw = "";
+    for (const file of mdFiles) {
+        const content = readFileSync(path.join(articlesDir, file), "utf8");
+        if (content.includes(`slug: ${slug}`)) {
+            markdownRaw = content;
+            break;
+        }
+    }
+
+    if (!markdownRaw) {
+        return null;
+    }
 
     return {
         ...meta,
