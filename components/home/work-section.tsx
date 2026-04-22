@@ -31,7 +31,7 @@ export default function WorkSection(
                                 : `${projects.length} Projects`}
                         </div>
                         <Link
-                            className="text-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+                            className="text-foreground hover:bg-foreground hover:text-background p-1 sm:p-2 text-sm underline underline-offset-4 transition-colors"
                             href="/projects"
                         >
                             View all
