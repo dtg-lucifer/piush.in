@@ -173,16 +173,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm"
 									/>
 								),
-                                pre: (({ node, ...props }) => {
-                                    let block_hast = getCodeLanguage(node!)
-                                    let extracted_text = extractText(node!)
-
-                                    if (block_hast === "mermaid") {
-                                        return <MermaidDiagram chart={extracted_text} />
+                                pre: ({ node, children, ...props }) => {
+                                    const codeEl = node?.children.find(
+                                        (c): c is import("hast").Element =>
+                                            c.type === "element" && (c as import("hast").Element).tagName === "code",
+                                    );
+                                    if (codeEl && getCodeLanguage(codeEl) === "mermaid") {
+                                        return <MermaidDiagram chart={extractText(codeEl)} />;
                                     }
-
-                                    return node!;
-                                }),
+                                    return <pre {...props}>{children}</pre>;
+                                },
 							}}
 							rehypePlugins={[rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
 							remarkPlugins={[remarkGfm]}

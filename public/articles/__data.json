@@ -9,6 +9,7 @@
 		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040872235/71195afd-019f-437e-ab9d-b4a7e9ba954b.png",
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040517788/0041905b-d1b5-41fb-b432-ffafa4d1d5e7.png",
 		"tags": ["cloud", "docker", "kubernetes", "swarm", "docker-swarm", "cncf", "cloud-native", "docker-stack"],
+        "content": "2025_02_08_swarm_vs_k8s.md",
 		"featured": false
 	},
 	{
@@ -32,6 +33,7 @@
 			"cluster",
 			"docker-stack"
 		],
+        "content": "2025_03_15_swarm_deployment.md",
 		"featured": true
 	},
 	{
@@ -44,6 +46,7 @@
 		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753095574952/9e81a9ad-ff16-4dba-9413-5bf6f1f45f1f.png",
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1753096489621/6686b895-58cf-40e0-932a-3bb5fe704e3e.png",
 		"tags": ["cpp", "redis", "multithreading", "rust"],
+        "content": "2025_07_21_rusty_kv.md",
 		"featured": true
 	},
 	{
@@ -56,6 +59,7 @@
 		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754243271277/94fe8a8a-e6e1-4a32-b350-102c66793787.png",
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1754246350481/399da3d9-883c-423d-8f4d-98f6fe6f1400.png",
 		"tags": ["virtual-machine", "rust", "low-level-programming", "16bit", "6502-processor"],
+        "content": "2025_08_03_rusty_vm_16bit.md",
 		"featured": true
 	},
 	{
@@ -68,6 +72,7 @@
 		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823503313/cd960ffe-6502-4fbc-a62d-5bf3591e2a63.png",
 		"tags": ["python", "mongodb", "kubernetes", "rabbitmq", "ffmpeg", "minikube", "grid-fs"],
+        "content": "2025_09_02_mp4_to_mp3_converter_microservice_deployment.md",
 		"featured": true
 	}
 ]
