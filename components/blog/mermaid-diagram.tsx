@@ -56,13 +56,12 @@ export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
 	}
 
 	if (!svgMarkup) {
-		return <div className="mermaid-diagram text-muted-foreground text-sm">Rendering diagram...</div>;
+		return <div className="text-muted-foreground text-sm mermaid-diagram">Rendering diagram...</div>;
 	}
 
 	return (
 		<div
 			className="mermaid-diagram"
-			// biome-ignore lint/security/noDangerouslySetInnerHtml: false positive
 			dangerouslySetInnerHTML={{ __html: svgMarkup }}
 		/>
 	);

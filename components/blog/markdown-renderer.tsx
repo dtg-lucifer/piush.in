@@ -14,14 +14,14 @@ interface MarkdownRendererProps {
 }
 
 // Extract language from a <code> hast node
-function getCodeLanguage(node: Element): string {
+export function getCodeLanguage(node: Element): string {
 	const classes = (node.properties?.className as string[]) ?? [];
 	const langClass = classes.find((c) => c.startsWith("language-"));
 	return langClass ? langClass.replace("language-", "") : "";
 }
 
 // Extract text content from a hast node recursively
-function extractText(node: Element | { type: string; value?: string }): string {
+export function extractText(node: Element | { type: string; value?: string }): string {
 	if (node.type === "text") return (node as { type: string; value?: string }).value ?? "";
 	if ("children" in node) {
 		return (node as Element).children.map((child: ElementContent) => extractText(child as Element)).join("");
@@ -30,7 +30,7 @@ function extractText(node: Element | { type: string; value?: string }): string {
 }
 
 // Custom code block renderer (server component, no state)
-function CodeBlock({ node }: { node?: Element }) {
+export function CodeBlock({ node }: { node?: Element }) {
 	if (!node) return null;
 
 	// Find the inner <code> element

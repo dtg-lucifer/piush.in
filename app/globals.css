@@ -180,7 +180,16 @@
         @apply ml-2 text-sm list-decimal;
     }
 
+    ul li {
+        @apply ml-2 text-sm list-disc;
+    }
+
     ol li a {
+        @apply hover:bg-foreground text-foreground hover:text-background!
+            underline underline-offset-4 transition-all p-1;
+    }
+
+    ul li a {
         @apply hover:bg-foreground text-foreground hover:text-background!
             underline underline-offset-4 transition-all p-1;
     }

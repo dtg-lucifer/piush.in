@@ -9,6 +9,8 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 import LenisScroll from "@/components/lenis-scroll";
 import { getAllArticleSlugs, getArticleBySlug } from "@/lib/articles";
+import { extractText, getCodeLanguage } from "@/components/blog/markdown-renderer";
+import MermaidDiagram from "@/components/blog/mermaid-diagram";
 
 interface ArticlePageProps {
 	params: Promise<{
@@ -120,7 +122,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 						) : null}
 					</header>
 
-					<div className="space-y-6 [&_code]:bg-muted/40 [&_pre_code]:bg-transparent! [&_pre]:bg-background [&_li]:my-1 [&_li>p]:my-1 [&_p]:my-5 [&_h1]:mt-12 [&_h2]:mt-10 [&_h3]:mt-8 [&_h1]:mb-4 [&_h2]:mb-3 [&_h3]:mb-3 [&_pre_code]:p-0! [&_pre]:p-4 [&_code]:px-1.5 [&_code]:py-0.5 [&_blockquote]:pl-4 [&_ol]:pl-6 [&_ul]:pl-6 [&_pre]:border [&_blockquote]:border-border [&_pre]:border-border [&_blockquote]:border-l [&_pre]:overflow-x-auto [&_h1]:font-light [&_h2]:font-light [&_h3]:font-medium text-muted-foreground [&_a]:text-foreground [&_blockquote]:text-foreground/90 [&_code]:text-foreground [&_h1]:text-foreground [&_h2]:text-foreground [&_h3]:text-foreground hover:[&_a]:text-muted-foreground [&_code]:text-sm text-base [&_h3]:text-lg sm:text-lg [&_h2]:text-xl sm:[&_h3]:text-xl [&_h1]:text-2xl sm:[&_h2]:text-2xl sm:[&_h1]:text-3xl [&_a]:underline [&_a]:underline-offset-4 leading-relaxed [&_ol]:list-decimal [&_ul]:list-disc [&_pre]:no-scrollbar article-markdown">
+					<div className="space-y-6 [&_code]:bg-muted/40 [&_pre_code]:bg-transparent! [&_pre]:bg-background [&_li]:my-1 [&_li>p]:my-1 [&_p]:my-5 [&_h1]:mt-12 [&_h2]:mt-10 [&_h3]:mt-8 [&_h1]:mb-4 [&_h2]:mb-3 [&_h3]:mb-3 [&_pre_code]:p-0! [&_pre]:p-4 [&_code]:px-1.5 [&_code]:py-0.5 [&_blockquote]:pl-4 [&_ol]:pl-6 [&_ul]:pl-6 [&_pre]:border [&_blockquote]:border-border [&_pre]:border-border [&_blockquote]:border-l [&_pre]:overflow-x-auto [&_h1]:font-light [&_h2]:font-light text-muted-foreground [&_a]:text-foreground [&_blockquote]:text-foreground/90 [&_code]:text-foreground [&_h1]:text-foreground [&_h2]:text-foreground [&_h3]:text-foreground hover:[&_a]:text-muted-foreground [&_code]:text-sm text-base [&_h3]:text-lg sm:text-lg [&_h2]:text-xl sm:[&_h3]:text-xl [&_h1]:text-2xl sm:[&_h2]:text-2xl sm:[&_h1]:text-3xl [&_a]:underline [&_a]:underline-offset-4 leading-relaxed [&_ol]:list-decimal [&_ul]:list-disc [&_pre]:no-scrollbar article-markdown">
 						<ReactMarkdown
 							components={{
 								h1: ({ node, ...props }) => (
@@ -165,6 +167,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										className="pl-4 border-secondary border-l-4! text-muted italic"
 									/>
 								),
+                                code: ({ node, ...props }) => (
+									<code
+										{...props}
+										className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm"
+									/>
+								),
+                                pre: (({ node, ...props }) => {
+                                    let block_hast = getCodeLanguage(node!)
+                                    let extracted_text = extractText(node!)
+
+                                    if (block_hast === "mermaid") {
+                                        return <MermaidDiagram chart={extracted_text} />
+                                    }
+
+                                    return node!;
+                                }),
 							}}
 							rehypePlugins={[rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
 							remarkPlugins={[remarkGfm]}
