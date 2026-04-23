@@ -26,6 +26,7 @@ export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
 					startOnLoad: false,
 					securityLevel: "loose",
 					theme: resolvedTheme === "light" ? "default" : "dark",
+                    fontFamily: "var(--font-sans)"
 				});
 
 				const { svg } = await mermaid.render(`mermaid-${safeId}`, chart);
@@ -61,7 +62,7 @@ export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
 
 	return (
 		<div
-			className="mermaid-diagram"
+			className="mermaid-diagram flex justify-center w-full"
 			dangerouslySetInnerHTML={{ __html: svgMarkup }}
 		/>
 	);
