@@ -203,6 +203,14 @@
         font-family: var(--font-sans) !important;
     }
 
+    /* Center images and SVGs in article content */
+    .article-markdown img,
+    .article-markdown svg {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     /* Hide scrollbar for all pre and code blocks globally */
     pre::-webkit-scrollbar,
     code::-webkit-scrollbar,

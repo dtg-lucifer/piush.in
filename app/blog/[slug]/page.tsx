@@ -157,7 +157,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										node?.children[0].type === "element" &&
 										node?.children[0].tagName === "img"
 									) {
-										return <div className="my-6">{props.children}</div>;
+										return <div className="my-6 flex justify-center">{props.children}</div>;
 									}
 									return <p {...props} className="text-sm" />;
 								},
