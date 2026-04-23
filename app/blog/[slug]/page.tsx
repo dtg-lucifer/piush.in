@@ -173,6 +173,30 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm"
 									/>
 								),
+                                table: ({ children }) => (
+                                    <div className="my-6 overflow-x-auto">
+                                        <table className="border border-border w-full text-sm border-collapse">
+                                            {children}
+                                        </table>
+                                    </div>
+                                ),
+                                thead: ({ children }) => (
+                                    <thead className="border-border border-b">{children}</thead>
+                                ),
+                                tbody: ({ children }) => <tbody>{children}</tbody>,
+                                tr: ({ children }) => (
+                                    <tr className="border-border last:border-0 border-b">{children}</tr>
+                                ),
+                                th: ({ children }) => (
+                                    <th className="px-4 py-2 border-border last:border-0 border-r font-medium text-foreground text-sm text-left">
+                                        {children}
+                                    </th>
+                                ),
+                                td: ({ children }) => (
+                                    <td className="px-4 py-2 border-border last:border-0 border-r font-normal text-muted-foreground text-sm">
+                                        {children}
+                                    </td>
+                                ),
                                 pre: ({ node, children, ...props }) => {
                                     const codeEl = node?.children.find(
                                         (c): c is import("hast").Element =>
@@ -181,7 +205,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                     if (codeEl && getCodeLanguage(codeEl) === "mermaid") {
                                         return <MermaidDiagram chart={extractText(codeEl)} />;
                                     }
-                                    return <pre {...props}>{children}</pre>;
+
+                                    const className = `${props.className} font-sans`
+                                    const newProps = {
+                                        ...props,
+                                        className
+                                    }
+                                    return <pre {...newProps}>{children}</pre>;
                                 },
 							}}
 							rehypePlugins={[rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
