@@ -195,6 +195,14 @@
     }
     /* ---- Markdown Formatting ------------------------------------------- */
 
+    /* Use Lilex (font-sans) for all code and pre blocks */
+    pre,
+    code,
+    kbd,
+    samp {
+        font-family: var(--font-sans) !important;
+    }
+
     /* Hide scrollbar for all pre and code blocks globally */
     pre::-webkit-scrollbar,
     code::-webkit-scrollbar,
