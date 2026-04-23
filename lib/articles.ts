@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 export interface ArticleMeta {
@@ -11,6 +11,7 @@ export interface ArticleMeta {
 	cover: string;
 	ogImage: string;
 	tags: string[];
+	content: string; // filename of the markdown file, e.g. "2025_07_21_rusty_kv.md"
 	featured?: boolean;
 }
 
@@ -55,7 +56,7 @@ export function getAllArticleMeta(): ArticleMeta[] {
 
 			return bTime - aTime;
 		});
-	} catch (e) {
+	} catch {
 		return [];
 	}
 }
@@ -67,25 +68,17 @@ export function getArticleBySlug(slug: string): ArticleDetail | null {
 		return null;
 	}
 
-	const mdFiles = readdirSync(articlesDir).filter((name) => name.endsWith(".md"));
+	try {
+		const filePath = path.join(articlesDir, meta.content);
+		const markdownRaw = readFileSync(filePath, "utf8");
 
-	let markdownRaw = "";
-	for (const file of mdFiles) {
-		const content = readFileSync(path.join(articlesDir, file), "utf8");
-		if (content.includes(`slug: ${slug}`)) {
-			markdownRaw = content;
-			break;
-		}
-	}
-
-	if (!markdownRaw) {
+		return {
+			...meta,
+			markdown: stripFrontmatter(markdownRaw),
+		};
+	} catch {
 		return null;
 	}
-
-	return {
-		...meta,
-		markdown: stripFrontmatter(markdownRaw),
-	};
 }
 
 export function getAllArticleSlugs(): string[] {
