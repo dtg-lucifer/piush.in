@@ -58,42 +58,46 @@ export default function TocNav({ items }: TocNavProps) {
 				aria-label="Table of contents"
 				className="hidden top-1/2 left-6 z-50 fixed xl:flex max-h-[80vh] -translate-y-1/2"
 			>
-				<div className="flex flex-col items-start gap-1 bg-background/70 shadow-lg backdrop-blur-md px-3 py-4 min-w-[180px] max-w-[220px] max-h-[80vh] overflow-y-auto no-scrollbar">
+				<div className="flex flex-col items-start bg-background/70 shadow-lg backdrop-blur-md px-3 py-4 min-w-[180px] max-w-[220px] max-h-[80vh]">
+					{/* Pinned header — never scrolls */}
 					<span className="mb-1 pl-2 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest shrink-0">
 						Contents
 					</span>
-					{items.map(({ id, label, depth }) => {
-						const isActive = activeId === id;
-						return (
-							<button
-								aria-label={`Go to ${label}`}
-								className={`cursor-pointer group flex w-full items-center gap-2 px-2 py-1 text-left text-xs transition-all duration-300 ${
-									isActive
-										? "text-foreground"
-										: "text-muted-foreground/50 hover:text-muted-foreground"
-								}`}
-								key={id}
-								onClick={() => scrollTo(id)}
-								style={{ paddingLeft: `${(depth - 1) * 10 + 8}px` }}
-								type="button"
-							>
-								<span
-									className={`block h-[2px] shrink-0 rounded-full transition-all duration-300 ${
+					{/* Scrollable list — no scrollbar */}
+					<div className="flex flex-col items-start gap-1 w-full overflow-y-auto no-scrollbar">
+						{items.map(({ id, label, depth }) => {
+							const isActive = activeId === id;
+							return (
+								<button
+									aria-label={`Go to ${label}`}
+									className={`group flex w-full items-center gap-2 px-2 py-1 text-left text-xs transition-all duration-300 ${
 										isActive
-											? "w-5 bg-foreground"
-											: "w-2 bg-muted-foreground/40 group-hover:w-3 group-hover:bg-muted-foreground/60"
+											? "text-foreground"
+											: "text-muted-foreground/50 hover:text-muted-foreground"
 									}`}
-								/>
-								<span
-									className={`truncate transition-all duration-300 ${
-										isActive ? "opacity-100" : "opacity-80"
-									}`}
+									key={id}
+									onClick={() => scrollTo(id)}
+									style={{ paddingLeft: `${(depth - 1) * 10 + 8}px` }}
+									type="button"
 								>
-									{label}
-								</span>
-							</button>
-						);
-					})}
+									<span
+										className={`block h-[2px] shrink-0 rounded-full transition-all duration-300 ${
+											isActive
+												? "w-5 bg-foreground"
+												: "w-2 bg-muted-foreground/40 group-hover:w-3 group-hover:bg-muted-foreground/60"
+										}`}
+									/>
+									<span
+										className={`truncate transition-all duration-300 ${
+											isActive ? "opacity-100" : "opacity-80"
+										}`}
+									>
+										{label}
+									</span>
+								</button>
+							);
+						})}
+					</div>
 				</div>
 			</nav>
 
@@ -101,7 +105,7 @@ export default function TocNav({ items }: TocNavProps) {
 			<div className="xl:hidden top-6 right-2 z-50 fixed">
 				{/* Expanded menu */}
 				<div
-					className={`absolute top-12 right-0 flex flex-col items-start gap-1 border border-border bg-background/90 px-3 py-3 shadow-xl backdrop-blur-md transition-all duration-300 min-w-[180px] max-w-[240px] max-h-[60vh] overflow-y-auto no-scrollbar ${
+					className={`absolute top-12 right-0 flex flex-col items-start border border-border bg-background/90 px-3 py-3 shadow-xl backdrop-blur-md transition-all duration-300 min-w-[180px] max-w-[240px] max-h-[60vh] ${
 						expanded
 							? "pointer-events-auto translate-y-0 opacity-100"
 							: "pointer-events-none -translate-y-2 opacity-0"
@@ -110,24 +114,26 @@ export default function TocNav({ items }: TocNavProps) {
 					<span className="mb-1 pl-1 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest shrink-0">
 						Contents
 					</span>
-					{items.map(({ id, label, depth }) => {
-						const isActive = activeId === id;
-						return (
-							<button
-								className={`w-full py-1 text-left text-xs transition-all duration-200 ${
-									isActive
-										? "text-foreground"
-										: "text-muted-foreground/60 hover:text-muted-foreground"
-								}`}
-								key={id}
-								onClick={() => scrollTo(id)}
-								style={{ paddingLeft: `${(depth - 1) * 10 + 12}px` }}
-								type="button"
-							>
-								{label}
-							</button>
-						);
-					})}
+					<div className="flex flex-col items-start gap-1 w-full overflow-y-auto no-scrollbar">
+						{items.map(({ id, label, depth }) => {
+							const isActive = activeId === id;
+							return (
+								<button
+									className={`w-full py-1 text-left text-xs transition-all duration-200 ${
+										isActive
+											? "text-foreground"
+											: "text-muted-foreground/60 hover:text-muted-foreground"
+									}`}
+									key={id}
+									onClick={() => scrollTo(id)}
+									style={{ paddingLeft: `${(depth - 1) * 10 + 12}px` }}
+									type="button"
+								>
+									{label}
+								</button>
+							);
+						})}
+					</div>
 				</div>
 
 				{/* Toggle button — matches home nav style exactly */}
