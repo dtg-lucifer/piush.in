@@ -32,7 +32,7 @@ export default function FloatingNav({ activeSection, onNavigate }: FloatingNavPr
 				aria-label="Page navigation"
 				className="hidden top-1/2 left-6 z-50 fixed xl:flex -translate-y-1/2"
 			>
-				<div className="flex flex-col items-start gap-1 bg-background/70 shadow-lg backdrop-blur-md px-3 py-4 min-w-[140px]">
+				<div className="flex flex-col items-start gap-1 px-3 py-4 min-w-[140px]">
 					{/* Section links */}
 					<div className="flex flex-col items-start gap-1 w-full">
 						<span className="mb-1 pl-2 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">

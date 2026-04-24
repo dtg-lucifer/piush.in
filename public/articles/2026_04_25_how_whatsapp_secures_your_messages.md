@@ -42,7 +42,7 @@ So, according to my friend he knew something called E2EE, which is supposed to s
 <img src="/articles/assets/wtp_e2e/ss_1.png">
 <img src="/articles/assets/wtp_e2e/ss_2.png">
 
-So, what is it ? I mean, no seriousl, what is it ?? Now i am intrigued. So it turns out that whatsapp and other messnger apps like whatsapp such as **Signal** & **Facebook Messenger** also uses something similar, based on the same principal. The main goal of that is to secure our communication over public internet in such a way that even though if I lose my phone or my friend does, after loggin in with our credentials we can see our old messages but yet those were not saved in any kind of actual database in the same way we can read those messages also no one besides us can read those messages even though if someone tries to listen to our netwrok chatter or tries to attack the same network which I or my friend is inside then all they hear or see is some kind of spoofed or scrambled data, which they won't be able to figure out the meaning of or put back together to make a meaning out of it.
+So, what is it ? I mean, no seriously, what is it ?? Now i am intrigued. So it turns out that whatsapp and other messnger apps like whatsapp such as **Signal** & **Facebook Messenger** also uses something similar, based on the same principal. The main goal of that is to secure our communication over public internet in such a way that even though if I lose my phone or my friend does, after loggin in with our credentials we can see our old messages but yet those were not saved in any kind of actual database in the same way we can read those messages also no one besides us can read those messages even though if someone tries to listen to our netwrok chatter or tries to attack the same network which I or my friend is inside then all they hear or see is some kind of spoofed or scrambled data, which they won't be able to figure out the meaning of or put back together to make a meaning out of it.
 
 So by **E2EE** we actually mean **End to End Encryption** which is the model whatsapp and other messengers like whatsapp uses to secure our communications.
 
@@ -68,8 +68,14 @@ In a typical system, when you send a message:
 
 So the flow looks like this:
 
-```
-You → Server → Your Friend
+```mermaid
+sequenceDiagram
+    participant You
+    participant Server
+    participant Friend
+    You->>Server: Message (plaintext)
+    Note over Server: Server can READ this
+    Server->>Friend: Message (plaintext)
 ```
 
 Now here’s the important part:
@@ -82,8 +88,16 @@ In this model, the **server is part of the trust boundary**
 ### What Changes with End-to-End Encryption
 With E2EE, the flow changes fundamentally:
 
-```
-You → (Encrypted Message) → Server → (Encrypted Message) → Your Friend
+```mermaid
+sequenceDiagram
+    participant You
+    participant Server
+    participant Friend
+    Note over You: Encrypt with Friend's public key
+    You->>Server: 🔒 Encrypted blob
+    Note over Server: Server sees ONLY ciphertext
+    Server->>Friend: 🔒 Encrypted blob
+    Note over Friend: Decrypt with own private key
 ```
 
 But the key difference is:
@@ -396,15 +410,13 @@ So real systems do this:
 ### Putting It All Together
 Here’s the complete picture so far:
 
-```id="x9k2pl"
-Step 1: Key Exchange (Diffie-Hellman)
-→ Establish shared secret
-
-Step 2: Key Derivation
-→ Convert shared secret into usable encryption key
-
-Step 3: Message Encryption (AES)
-→ Encrypt actual messages
+```mermaid
+flowchart TD
+    A["Key Exchange (Diffie-Hellman / X3DH)"] --> B["Shared Secret"]
+    B --> C["Key Derivation (HKDF)"]
+    C --> D["Symmetric Key (AES-256)"]
+    D --> E["Encrypt Message (AES + HMAC)"]
+    E --> F["Ciphertext + Auth Tag"]
 ```
 
 ### Why This Hybrid Model Matters
@@ -491,8 +503,14 @@ Instead of just encrypting data, AEAD does two things:
 
 So the output becomes:
 
-```id="wq82lm"
-ciphertext + authentication_tag
+```mermaid
+flowchart LR
+    P["Plaintext"] --> ENC["Encrypt (AES)"]
+    K["Secret Key"] --> ENC
+    K --> TAG["Compute Auth Tag (HMAC)"]
+    ENC --> C["Ciphertext"]
+    C --> TAG
+    TAG --> OUT["Ciphertext + Auth Tag"]
 ```
 ### How It Works (High-Level)
 When sending a message:
@@ -579,16 +597,16 @@ This prevents a whole class of attacks.
 ### Where This Fits in the Bigger Picture
 So now our system looks like this:
 
-```id="zq19rm"
-Shared Secret
-   ↓
-Key Derivation
-   ↓
-Encryption (AES)
-   +
-Authentication (HMAC / AEAD)
-   ↓
-Secure Message
+```mermaid
+flowchart TD
+    SS["Shared Secret"] --> KD["Key Derivation (HKDF)"]
+    KD --> MK["Message Key"]
+    MK --> AES["Encrypt (AES)"]
+    MK --> HMAC["Authenticate (HMAC)"]
+    AES --> CT["Ciphertext"]
+    HMAC --> TAG["Auth Tag"]
+    CT --> MSG["Secure Message"]
+    TAG --> MSG
 ```
 
 ### Where We Go Next
@@ -714,16 +732,24 @@ It introduces **fresh randomness** into the system.
 ### Putting It Together
 The system now looks like this:
 
-```
+```mermaid
+flowchart TD
+    DH["🔄 DH Ratchet Step\n(new key pair exchanged)"]
+    RK["🌱 Root Key"]
+    CK["⛓️ Chain Key"]
+    MK1["🔑 Message Key 1"]
+    MK2["🔑 Message Key 2"]
+    MK3["🔑 Message Key 3"]
 
-Diffie-Hellman Ratchet (occasionally)  
-        ↓  
-    Root Key  
-        ↓  
-Symmetric Ratchet (every message)  
-        ↓  
-   Message Keys
+    DH -->|"inject fresh randomness"| RK
+    RK -->|"derive"| CK
+    CK -->|"advance"| MK1
+    MK1 -->|"advance"| MK2
+    MK2 -->|"advance"| MK3
 
+    MK1 --> E1["📨 Encrypt Msg 1"]
+    MK2 --> E2["📨 Encrypt Msg 2"]
+    MK3 --> E3["📨 Encrypt Msg 3"]
 ```
 
 ### What This Achieves
@@ -832,11 +858,30 @@ WhatsApp uses:
 
 Instead of one DH exchange, it combines multiple:
 
-```id="k1x9qp"
-DH1: Identity ↔ Identity  
-DH2: Ephemeral ↔ Identity  
-DH3: Ephemeral ↔ Prekey  
-DH4: Ephemeral ↔ One-time Prekey  
+```mermaid
+sequenceDiagram
+    participant Alice
+    participant Server
+    participant Bob
+
+    Note over Bob: Generates & uploads keys
+    Bob->>Server: Identity Key (IK_B)
+    Bob->>Server: Signed Prekey (SPK_B)
+    Bob->>Server: One-Time Prekey (OPK_B)
+
+    Note over Alice: Bob is offline — fetches his keys
+    Alice->>Server: Request Bob's key bundle
+    Server->>Alice: IK_B + SPK_B + OPK_B
+
+    Note over Alice: Generates ephemeral key EK_A
+    Note over Alice: Computes 4 DH operations
+    Note over Alice: DH1 = DH(IK_A, SPK_B)
+    Note over Alice: DH2 = DH(EK_A, IK_B)
+    Note over Alice: DH3 = DH(EK_A, SPK_B)
+    Note over Alice: DH4 = DH(EK_A, OPK_B)
+    Note over Alice: Master Secret = KDF(DH1 || DH2 || DH3 || DH4)
+
+    Alice->>Bob: First message + EK_A (Bob derives same secret)
 ```
 
 These are combined using a KDF to produce the **initial shared secret**.
@@ -1068,8 +1113,16 @@ Each device has:
 
 So one message may be encrypted **multiple times**:
 
-```id="d8q1xp"
-1 sender → N recipient devices
+```mermaid
+flowchart TD
+    S["Sender"] --> E1["Encrypt for Phone"]
+    S --> E2["Encrypt for Laptop"]
+    S --> E3["Encrypt for Tablet"]
+    E1 --> D1["Phone"]
+    E2 --> D2["Laptop"]
+    E3 --> D3["Tablet"]
+    note1["Each device gets its own
+independently encrypted copy"]
 ```
 
 This increases:

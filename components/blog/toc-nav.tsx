@@ -58,7 +58,7 @@ export default function TocNav({ items }: TocNavProps) {
 				aria-label="Table of contents"
 				className="hidden top-1/2 left-6 z-50 fixed xl:flex max-h-[80vh] -translate-y-1/2"
 			>
-				<div className="flex flex-col items-start bg-background/70 shadow-lg backdrop-blur-md px-3 py-4 min-w-[180px] max-w-[220px] max-h-[80vh]">
+				<div className="flex flex-col items-start px-3 py-4 min-w-[180px] max-w-[220px] max-h-[70vh]">
 					{/* Pinned header — never scrolls */}
 					<span className="mb-1 pl-2 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest shrink-0">
 						Contents
