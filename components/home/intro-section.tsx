@@ -34,7 +34,7 @@ export default function IntroSection({ sectionRef }: IntroSectionProps) {
 					</div>
 
 					<div className="space-y-6 max-w-md">
-						<p className="text-muted-foreground text-lg sm:text-xl leading-relaxed">
+						<p className="text-md text-muted-foreground sm:text-lg leading-relaxed">
 							Indie software engineer building {"&"} specializing in scalable, event-driven systems and
 							resilient backend architecture.
 						</p>
