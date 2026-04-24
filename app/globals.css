@@ -164,12 +164,16 @@
     }
 
     blockquote {
-        @apply pl-4 border-secondary border-l-4! text-muted italic;
+        @apply pl-4 border-secondary border-l-4! text-muted;
     }
 
     [data-node-type="callout"] {
         @apply bg-secondary/50 border-secondary text-secondary-foreground p-4
             flex items-start gap-4 text-sm;
+    }
+
+    [data-node-type="callout"] [data-node-type="callout-emoji"] {
+        @apply text-4xl;
     }
 
     p.text-sm > a {

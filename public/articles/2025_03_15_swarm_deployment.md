@@ -104,7 +104,7 @@ mkdir -p .github/workflows # for CI (Continuous intgration) setup to automate th
 ```
 
 <div data-node-type="callout">
-<div data-node-type="callout-emoji">❗</div>
+<div data-node-type="callout-emoji">⁂</div>
 <div data-node-type="callout-text"><strong><em><mark>Warning:</mark></em></strong> There are a lot of code written down, so if you want then you can directly clone the github repo from the bottom and follow along with the instructions</div>
 </div>
 

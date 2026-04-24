@@ -157,14 +157,14 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										node?.children[0].type === "element" &&
 										node?.children[0].tagName === "img"
 									) {
-										return <div className="my-6 flex justify-center">{props.children}</div>;
+										return <div className="flex justify-center my-6">{props.children}</div>;
 									}
 									return <p {...props} className="text-sm" />;
 								},
 								blockquote: ({ node, ...props }) => (
 									<blockquote
 										{...props}
-										className="pl-4 border-secondary border-l-4! text-muted italic"
+										className="bg-muted-foreground/10 px-4 py-1 border-secondary border-l-4! text-muted"
 									/>
 								),
                                 code: ({ node, ...props }) => (

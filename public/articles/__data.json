@@ -1,4 +1,28 @@
 [
+    {
+        "title": "How WhatsApp Secures Billions of Messages with End-to-End Encryption",
+        "seoTitle": "How WhatsApp End-to-End Encryption Works (Signal Protocol Explained)",
+        "seoDescription": "Learn how WhatsApp secures billions of messages using end-to-end encryption, Signal Protocol, Double Ratchet, and modern cryptography",
+        "datePublished": "Sat Apr 25 2026 00:00:00 GMT+0000 (Coordinated Universal Time)",
+        "cuid": "cmwhatsappe2ee000102l7securemsg",
+        "slug": "how-whatsapp-secures-billions-of-messages-with-end-to-end-encryption",
+        "cover": "https://piush.in/articles/assets/wtp_e2e/cover.png",
+        "ogImage": "https://piush.in/articles/assets/wtp_e2e/cover.png",
+        "tags": [
+            "cryptography",
+            "system-design",
+            "backend-development",
+            "security",
+            "encryption",
+            "web-development",
+            "distributed-systems",
+            "software-engineering",
+            "whatsapp",
+            "signal-protocol"
+        ],
+        "content": "2026_04_25_how_whatsapp_secures_your_messages.md",
+        "featured": true
+    },
 	{
 		"title": "When Should You Use Kubernetes for Your Projects?",
 		"seoTitle": "When to Use Kubernetes for Projects?",
@@ -34,7 +58,7 @@
 			"docker-stack"
 		],
         "content": "2025_03_15_swarm_deployment.md",
-		"featured": true
+		"featured": false
 	},
 	{
 		"title": "Building Rusty KV - A Redis-Compatible, Secure KV Store in Rust",
