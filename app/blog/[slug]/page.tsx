@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -8,9 +9,10 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 import LenisScroll from "@/components/lenis-scroll";
-import { getAllArticleSlugs, getArticleBySlug } from "@/lib/articles";
+import { getAllArticleSlugs, getArticleBySlug, extractToc } from "@/lib/articles";
 import { extractText, getCodeLanguage } from "@/components/blog/markdown-renderer";
 import MermaidDiagram from "@/components/blog/mermaid-diagram";
+import TocNav from "@/components/blog/toc-nav";
 
 interface ArticlePageProps {
 	params: Promise<{
@@ -65,15 +67,34 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 		notFound();
 	}
 
+	// Matches the slugify in lib/articles.ts
+	const headingId = (children: React.ReactNode): string | undefined => {
+		const text = typeof children === "string"
+			? children
+			: Array.isArray(children)
+				? children.map((c) => (typeof c === "string" ? c : "")).join("")
+				: "";
+		if (!text) return undefined;
+		return text
+			.toLowerCase()
+			.replace(/[^\w\s-]/g, "")
+			.trim()
+			.replace(/[\s_]+/g, "-")
+			.replace(/-+/g, "-");
+	};
+
 	const publishedDate = new Date(article.datePublished).toLocaleDateString("en-US", {
 		day: "2-digit",
 		month: "short",
 		year: "numeric",
 	});
 
+	const toc = extractToc(article.markdown);
+
 	return (
 		<div className="relative bg-background min-h-screen text-foreground">
 			<LenisScroll />
+			<TocNav items={toc} />
 
 			<main className="mx-auto px-6 sm:px-8 lg:px-16 py-20 sm:py-28 max-w-4xl">
 				<article className="space-y-10 sm:space-y-12">
@@ -126,25 +147,25 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 						<ReactMarkdown
 							components={{
 								h1: ({ node, ...props }) => (
-									<h1 {...props}>
+									<h1 id={headingId(props.children)} {...props}>
 										<span className="mr-3 font-mono text-muted-foreground/30 select-none">#</span>
 										{props.children}
 									</h1>
 								),
 								h2: ({ node, ...props }) => (
-									<h2 {...props}>
+									<h2 id={headingId(props.children)} {...props}>
 										<span className="mr-3 font-mono text-muted-foreground/30 select-none">##</span>
 										{props.children}
 									</h2>
 								),
 								h3: ({ node, ...props }) => (
-									<h3 {...props}>
+									<h3 id={headingId(props.children)} {...props}>
 										<span className="mr-3 font-mono text-muted-foreground/30 select-none">###</span>
 										{props.children}
 									</h3>
 								),
 								h4: ({ node, ...props }) => (
-									<h4 {...props}>
+									<h4 id={headingId(props.children)} {...props}>
 										<span className="mr-3 font-mono text-muted-foreground/30 select-none">
 											####
 										</span>

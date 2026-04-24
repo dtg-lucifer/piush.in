@@ -84,3 +84,38 @@ export function getArticleBySlug(slug: string): ArticleDetail | null {
 export function getAllArticleSlugs(): string[] {
 	return getAllArticleMeta().map((article) => article.slug);
 }
+
+export interface TocEntry {
+	id: string;
+	label: string;
+	depth: number;
+}
+
+// Slugify a heading text the same way rehype-slug would
+function slugify(text: string): string {
+	return text
+		.toLowerCase()
+		.replace(/[^\w\s-]/g, "")
+		.trim()
+		.replace(/[\s_]+/g, "-")
+		.replace(/-+/g, "-");
+}
+
+export function extractToc(markdown: string): TocEntry[] {
+	const lines = markdown.split(/\r?\n/);
+	const entries: TocEntry[] = [];
+
+	for (const line of lines) {
+		const match = line.match(/^(#{1,3})\s+(.+)/);
+		if (!match) continue;
+		const depth = match[1].length;
+		// Strip inline markdown (bold, italic, code, links)
+		const label = match[2]
+			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+			.replace(/[*_`]/g, "")
+			.trim();
+		entries.push({ id: slugify(label), label, depth });
+	}
+
+	return entries;
+}

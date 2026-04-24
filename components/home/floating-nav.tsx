@@ -43,7 +43,7 @@ export default function FloatingNav({ activeSection, onNavigate }: FloatingNavPr
 							return (
 								<button
 									aria-label={`Go to ${label}`}
-									className={`group flex w-full items-center gap-2 rounded-lg px-2 py-1 text-left text-xs transition-all duration-300 ${
+									className={`cursor-pointer group flex w-full items-center gap-2 rounded-lg px-2 py-1 text-left text-xs transition-all duration-300 ${
 										isActive
 											? "text-foreground"
 											: "text-muted-foreground/50 hover:text-muted-foreground"
