@@ -168,7 +168,7 @@
 
     [data-node-type="callout"] {
         @apply bg-secondary/50 border-secondary text-secondary-foreground p-4
-            rounded-lg flex items-start gap-4 text-sm;
+            flex items-start gap-4 text-sm;
     }
 
     p.text-sm > a {
