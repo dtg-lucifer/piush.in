@@ -215,8 +215,15 @@
     /* Hollow text effect for name */
     .hollow-text {
         color: transparent;
-        -webkit-text-stroke: 1.5px var(--muted-foreground);
-        text-stroke: 1.5px var(--muted-foreground);
+        -webkit-text-stroke: 1.5px var(--muted-foreground) !important;
+        text-stroke: 1.5px var(--muted-foreground) !important;
+        letter-spacing: 0.05em;
+    }
+
+    .bold-text {
+        color: var(--color-foreground);
+        -webkit-text-stroke: 2px var(--foreground) !important;
+        text-stroke: 2px var(--foreground) !important;
         letter-spacing: 0.05em;
     }
 

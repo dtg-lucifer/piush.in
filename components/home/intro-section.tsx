@@ -23,11 +23,14 @@ export default function IntroSection({ sectionRef }: IntroSectionProps) {
 						<div className="pl-1 font-mono text-muted-foreground text-sm tracking-wider">
 							ABOUT ME / 2026
 						</div>
-						<h1 className="font-light text-5xl sm:text-6xl lg:text-7xl tracking-tight">
-							<GlitchRevealText text="Piush" className="font-space tracking-wide" />
-							<br />
-							<GlitchRevealText text="Bose" className="font-space hollow-text" />
-						</h1>
+					<h1
+						className="font-light text-6xl sm:text-7xl lg:text-8xl"
+						style={{ fontFamily: "var(--font-space-grotesk), var(--font-lilex), sans-serif", letterSpacing: "0.05em" }}
+					>
+						<GlitchRevealText text="Piush" className="bold-text" />
+						<br />
+						<GlitchRevealText text="Bose" className="hollow-text" />
+					</h1>
 					</div>
 
 					<div className="space-y-6 max-w-md">

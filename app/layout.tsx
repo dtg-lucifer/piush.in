@@ -109,7 +109,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning className={`${lilex.variable} ${geistMono.variable} dark`}>
+		<html lang="en" suppressHydrationWarning className={`${lilex.variable} ${geistMono.variable} ${spaceGrotesk.variable} dark`}>
 			<body className="font-sans antialiased">
 				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
 					{children}
