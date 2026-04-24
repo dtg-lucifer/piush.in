@@ -1,7 +1,7 @@
 import type React from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono } from "next/font/google";
+import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import SiteFooter from "@/components/site-footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -20,6 +20,12 @@ const lilex = localFont({
 	display: "swap",
 	variable: "--font-lilex",
 });
+
+const spaceGrotesk = Space_Grotesk({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-space-grotesk",
+})
 
 const geistMono = Geist_Mono({
 	subsets: ["latin"],

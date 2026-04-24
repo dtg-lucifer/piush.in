@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ConnectSection from "@/components/home/connect-section";
 import ExperienceSection from "@/components/home/experience-section";
+import FloatingNav from "@/components/home/floating-nav";
 import IntroSection from "@/components/home/intro-section";
 import ThoughtsSection from "@/components/home/thoughts-section";
 import WorkSection from "@/components/home/work-section";
@@ -70,26 +71,10 @@ export default function Home() {
 	};
 
 	return (
-		<div className="relative min-h-screen bg-background text-foreground">
-			<nav className="fixed top-1/2 left-8 z-10 hidden -translate-y-1/2 lg:block">
-				<div className="flex flex-col gap-4">
-					{["intro", "experience", "skills", "work", "thoughts", "connect"].map((section) => (
-						<button
-							aria-label={`Navigate to ${section}`}
-							className={`h-8 w-2 rounded-full transition-all duration-500 ${
-								activeSection === section
-									? "bg-foreground"
-									: "bg-muted-foreground/30 hover:bg-muted-foreground/60"
-							}`}
-							key={section}
-							onClick={() => handleNavigate(section)}
-							type="button"
-						/>
-					))}
-				</div>
-			</nav>
+		<div className="relative bg-background min-h-screen text-foreground">
+			<FloatingNav activeSection={activeSection} onNavigate={handleNavigate} />
 
-			<main className="mx-auto max-w-4xl px-6 sm:px-8 lg:px-16">
+			<main className="mx-auto px-6 sm:px-8 lg:px-16 max-w-4xl">
 				<IntroSection
 					sectionRef={(el) => {
 						sectionsRef.current[0] = el;
@@ -136,7 +121,7 @@ export default function Home() {
 				/>
 			</main>
 
-			<div className="pointer-events-none fixed right-0 bottom-0 left-0 h-24 bg-linear-to-t from-background via-background/80 to-transparent"></div>
+			<div className="right-0 bottom-0 left-0 fixed bg-linear-to-t from-background via-background/80 to-transparent h-24 pointer-events-none"></div>
 		</div>
 	);
 }
