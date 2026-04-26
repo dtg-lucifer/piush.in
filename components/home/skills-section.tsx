@@ -4,6 +4,7 @@ import { BiLogoVisualStudio } from "react-icons/bi";
 import { FaAws, FaGolang, FaJava, FaPython, FaReact, FaRust } from "react-icons/fa6";
 import { RiNextjsFill } from "react-icons/ri";
 import type { ComponentType } from "react";
+import { BarChart2, LineChart } from "lucide-react";
 import {
 	SiActix,
 	SiAnsible,
@@ -14,13 +15,24 @@ import {
 	SiGitlab,
 	SiGooglecloud,
 	SiGrafana,
+	SiGooglegemini,
 	SiHono,
+	SiHuggingface,
 	SiIntellijidea,
 	SiKubernetes,
 	SiNestjs,
+	SiNumpy,
+	SiOllama,
+	SiOpenai,
+	SiPandas,
 	SiPostman,
 	SiPrometheus,
+	SiPytorch,
+	SiScikitlearn,
+	SiSupabase,
+	SiSvelte,
 	SiTailwindcss,
+	SiTensorflow,
 	SiTerraform,
 	SiTypescript,
 	SiVite,
@@ -52,6 +64,7 @@ const skillGroups: SkillGroup[] = [
 			{ name: "NestJS", Icon: SiNestjs },
 			{ name: "Gin", Icon: SiGin },
 			{ name: "Actix", Icon: SiActix },
+			{ name: "SvelteKit", Icon: SiSvelte },
 		],
 	},
 	{
@@ -76,6 +89,7 @@ const skillGroups: SkillGroup[] = [
 			{ name: "IntelliJ", Icon: SiIntellijidea },
 			{ name: "Postman", Icon: SiPostman },
 			{ name: "Docker", Icon: SiDocker },
+			{ name: "Supabase", Icon: SiSupabase },
 			{ name: "GitLab", Icon: SiGitlab },
 		],
 	},
@@ -95,51 +109,70 @@ const skillGroups: SkillGroup[] = [
 	},
 ];
 
+const aiMlGroup: SkillGroup = {
+	label: "AI / ML",
+	description: "Libraries and platforms I use for machine learning, data science, and working with LLMs.",
+	accent: "from-violet-500/25 via-transparent to-transparent",
+	icons: [
+		{ name: "TensorFlow", Icon: SiTensorflow },
+		{ name: "PyTorch", Icon: SiPytorch },
+		{ name: "scikit-learn", Icon: SiScikitlearn },
+		{ name: "NumPy", Icon: SiNumpy },
+		{ name: "Pandas", Icon: SiPandas },
+		{ name: "Matplotlib", Icon: LineChart },
+		{ name: "Seaborn", Icon: BarChart2 },
+		{ name: "Ollama", Icon: SiOllama },
+		{ name: "OpenAI", Icon: SiOpenai },
+		{ name: "Gemini", Icon: SiGooglegemini },
+		{ name: "Hugging Face", Icon: SiHuggingface },
+	],
+};
+
 export default function SkillsSection({ sectionRef }: SkillsSectionProps) {
 	return (
-		<section id="skills" ref={sectionRef} className="min-h-screen py-20 sm:py-32">
+		<section id="skills" ref={sectionRef} className="py-20 sm:py-32 min-h-screen">
 			<div className="space-y-10 sm:space-y-14">
-				<div className="max-w-2xl space-y-4">
+				<div className="space-y-4 max-w-2xl">
 					<div className="font-mono text-muted-foreground text-sm uppercase tracking-[0.3em]">
 						Relevant Skills
 					</div>
-					<h2 className="font-light text-3xl tracking-tight sm:text-4xl lg:text-5xl">
+					<h2 className="font-light text-3xl sm:text-4xl lg:text-5xl tracking-tight">
 						A compact view of the tools and stacks I use most.
 					</h2>
 				</div>
 
-				<div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+				<div className="gap-4 sm:gap-6 grid md:grid-cols-2">
 					{skillGroups.map((group) => (
 						<article
 							key={group.label}
-							className="group relative overflow-hidden border border-border/70 bg-card/40 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm transition-transform duration-300 hover:-translate-y-1 sm:p-7"
+							className="group relative bg-card/40 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm p-6 sm:p-7 border border-border/70 overflow-hidden transition-transform hover:-translate-y-1 duration-300"
 						>
 							<div className={`absolute inset-0 bg-linear-to-br ${group.accent} opacity-80`} />
 							<div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background/30" />
 
 							<div className="relative space-y-5">
-								<div className="flex items-end justify-between gap-4">
+								<div className="flex justify-between items-end gap-4">
 									<div>
 										<div className="font-mono text-muted-foreground/80 text-xs uppercase tracking-[0.28em]">
 											Group
 										</div>
 										<h3 className="mt-2 font-medium text-2xl sm:text-3xl">{group.label}</h3>
 									</div>
-									<div className="hidden rounded-full border border-border/70 bg-background/60 px-3 py-1 text-muted-foreground text-xs sm:block">
+									<div className="hidden sm:block bg-background/60 px-3 py-1 border border-border/70 rounded-full text-muted-foreground text-xs">
 										{group.icons.length} skills
 									</div>
 								</div>
 
 								<p className="max-w-md text-muted-foreground leading-relaxed">{group.description}</p>
 
-								<div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+								<div className="gap-3 grid grid-cols-3 sm:grid-cols-4">
 									{group.icons.map(({ name, Icon }) => (
 										<div
 											key={name}
-											className="group/icon flex flex-col items-center justify-center gap-2 rounded-2xl border border-border/70 bg-background/70 px-3 py-4 text-center transition-all duration-300 hover:border-foreground/30 hover:bg-background"
+											className="group/icon flex flex-col justify-center items-center gap-2 bg-background/70 hover:bg-background px-3 py-4 border border-border/70 hover:border-foreground/30 rounded-2xl text-center transition-all duration-300"
 										>
-											<Icon className="h-7 w-7 text-foreground/90 transition-transform duration-300 group-hover/icon:scale-110 sm:h-8 sm:w-8" />
-											<span className="text-[11px] text-muted-foreground leading-tight sm:text-xs">
+											<Icon className="w-7 sm:w-8 h-7 sm:h-8 text-foreground/90 group-hover/icon:scale-110 transition-transform duration-300" />
+											<span className="text-[11px] text-muted-foreground sm:text-xs leading-tight">
 												{name}
 											</span>
 										</div>
@@ -149,6 +182,42 @@ export default function SkillsSection({ sectionRef }: SkillsSectionProps) {
 						</article>
 					))}
 				</div>
+
+				{/* AI / ML — full width, spans both columns */}
+				<article className="group relative bg-card/40 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm p-6 sm:p-7 border border-border/70 overflow-hidden transition-transform hover:-translate-y-1 duration-300">
+					<div className={`absolute inset-0 bg-linear-to-br ${aiMlGroup.accent} opacity-80`} />
+					<div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background/30" />
+
+					<div className="relative space-y-5">
+						<div className="flex justify-between items-end gap-4">
+							<div>
+								<div className="font-mono text-muted-foreground/80 text-xs uppercase tracking-[0.28em]">
+									Group
+								</div>
+								<h3 className="mt-2 font-medium text-2xl sm:text-3xl">{aiMlGroup.label}</h3>
+							</div>
+							<div className="hidden sm:block bg-background/60 px-3 py-1 border border-border/70 rounded-full text-muted-foreground text-xs">
+								{aiMlGroup.icons.length} skills
+							</div>
+						</div>
+
+						<p className="max-w-2xl text-muted-foreground leading-relaxed">{aiMlGroup.description}</p>
+
+						<div className="gap-3 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
+							{aiMlGroup.icons.map(({ name, Icon }) => (
+								<div
+									key={name}
+									className="group/icon flex flex-col justify-center items-center gap-2 bg-background/70 hover:bg-background px-3 py-4 border border-border/70 hover:border-foreground/30 rounded-2xl text-center transition-all duration-300"
+								>
+									<Icon className="w-7 sm:w-8 h-7 sm:h-8 text-foreground/90 group-hover/icon:scale-110 transition-transform duration-300" />
+									<span className="text-[11px] text-muted-foreground sm:text-xs leading-tight">
+										{name}
+									</span>
+								</div>
+							))}
+						</div>
+					</div>
+				</article>
 			</div>
 		</section>
 	);
