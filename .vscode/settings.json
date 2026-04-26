@@ -83,5 +83,5 @@
 	"git.autofetch": true,
 	"git.enableSmartCommit": true,
 	"kiroAgent.configureMCP": "Disabled",
-	"typescript.tsdk": "node_modules/typescript/lib"
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

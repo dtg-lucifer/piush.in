@@ -9,7 +9,7 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 import LenisScroll from "@/components/lenis-scroll";
-import { getAllArticleSlugs, getArticleBySlug, extractToc } from "@/lib/articles";
+import { getAllArticleSlugs, getArticleBySlug, extractToc, buildHeadingIdMap } from "@/lib/articles";
 import { extractText, getCodeLanguage } from "@/components/blog/markdown-renderer";
 import MermaidDiagram from "@/components/blog/mermaid-diagram";
 import TocNav from "@/components/blog/toc-nav";
@@ -68,19 +68,32 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 	}
 
 	// Matches the slugify in lib/articles.ts
+	const headingIdMap = buildHeadingIdMap(article.markdown);
+	// Per-slug usage counter so each occurrence gets the right deduplicated ID
+	const headingIdCounters = new Map<string, number>();
+
 	const headingId = (children: React.ReactNode): string | undefined => {
 		const text = typeof children === "string"
 			? children
 			: Array.isArray(children)
 				? children.map((c) => (typeof c === "string" ? c : "")).join("")
 				: "";
+
 		if (!text) return undefined;
-		return text
+
+		const base = text
 			.toLowerCase()
 			.replace(/[^\w\s-]/g, "")
 			.trim()
 			.replace(/[\s_]+/g, "-")
 			.replace(/-+/g, "-");
+
+		const ids = headingIdMap.get(base);
+		if (!ids) return base;
+
+		const idx = headingIdCounters.get(base) ?? 0;
+		headingIdCounters.set(base, idx + 1);
+		return ids[idx] ?? base;
 	};
 
 	const publishedDate = new Date(article.datePublished).toLocaleDateString("en-US", {

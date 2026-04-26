@@ -1,10 +1,10 @@
 "use client";
 
-import { generateRandomId } from "@/lib/utils";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export interface TocItem {
 	id: string;
+	key: string;   // unique per item, safe to use as React key
 	label: string;
 	depth: number; // 1 = h1, 2 = h2, 3 = h3
 }
@@ -64,7 +64,7 @@ export default function TocNav({ items }: TocNavProps) {
 					</span>
 					{/* Scrollable list — no scrollbar */}
 					<div className="flex flex-col items-start gap-1 w-full overflow-y-auto no-scrollbar">
-						{items.map(({ id, label, depth }) => {
+						{items.map(({ id, key, label, depth }) => {
 							const isActive = activeId === id;
 							return (
 								<button
@@ -74,7 +74,7 @@ export default function TocNav({ items }: TocNavProps) {
 											? "text-foreground"
 											: "text-muted-foreground/50 hover:text-muted-foreground"
 									}`}
-									key={id}
+									key={key}
 									onClick={() => scrollTo(id)}
 									style={{ paddingLeft: `${(depth - 1) * 10 + 8}px` }}
 									type="button"
@@ -114,7 +114,7 @@ export default function TocNav({ items }: TocNavProps) {
 						Contents
 					</span>
 					<div className="flex flex-col items-start gap-1 w-full overflow-y-auto no-scrollbar">
-						{items.map(({ id, label, depth }) => {
+						{items.map(({ id, key, label, depth }) => {
 							const isActive = activeId === id;
 							return (
 								<button
@@ -123,7 +123,7 @@ export default function TocNav({ items }: TocNavProps) {
 											? "text-foreground"
 											: "text-muted-foreground/60 hover:text-muted-foreground"
 									}`}
-									key={id}
+									key={key}
 									onClick={() => scrollTo(id)}
 									style={{ paddingLeft: `${(depth - 1) * 10 + 12}px` }}
 									type="button"

@@ -791,7 +791,7 @@ Even under:
 - device compromise
 - long conversations
 
-## Where We Go Next
+### Where We Go Next
 Now you understand the core engine behind WhatsApp’s encryption.
 The next step is to see:
 > How all of this is actually implemented in a real-world system
@@ -1052,7 +1052,7 @@ Now multiply that by:
 
 That’s trillions of cryptographic operations daily across devices.
 
-## 2. Most of the Work Happens on User Devices
+### 2. Most of the Work Happens on User Devices
 A key design decision:
 > WhatsApp pushes encryption work to the **client (your phone)**
 
@@ -1226,7 +1226,7 @@ WhatsApp achieves:
 
 This combination is extremely rare.
 
-## Where We Go Next
+### Where We Go Next
 We’ve seen:
 - How messages are secured
 - How systems evolve keys
