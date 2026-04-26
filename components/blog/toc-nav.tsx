@@ -1,5 +1,6 @@
 "use client";
 
+import { generateRandomId } from "@/lib/utils";
 import { useEffect, useId, useRef, useState } from "react";
 
 export interface TocItem {
