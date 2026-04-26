@@ -58,7 +58,12 @@
 		"**/node_modules/**": true,
 		"**/dist/**": true,
 		"**/coverage/**": true,
-		"**/logs/**": true
+		"**/logs/**": true,
+		"**/*.lock": true,
+		"**/package-lock.json": true,
+		"**/pnpm-lock.yaml": true,
+		"**/.next": true,
+		"**/.git": true
 	},
 
 	"explorer.fileNesting.enabled": true,
@@ -76,7 +81,7 @@
 	"terminal.integrated.env.windows": { "NODE_ENV": "development" },
 
 	"git.autofetch": true,
-    "git.enableSmartCommit": true,
-    "kiroAgent.configureMCP": "Disabled",
-    "typescript.tsdk": "node_modules/typescript/lib"
+	"git.enableSmartCommit": true,
+	"kiroAgent.configureMCP": "Disabled",
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

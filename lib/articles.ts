@@ -106,7 +106,7 @@ export function extractToc(markdown: string): TocEntry[] {
 	const entries: TocEntry[] = [];
 
 	for (const line of lines) {
-		const match = line.match(/^(#{1,3})\s+(.+)/);
+		const match = line.match(/^(#{1,2})\s+(.+)/);
 		if (!match) continue;
 		const depth = match[1].length;
 		// Strip inline markdown (bold, italic, code, links)

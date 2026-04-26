@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 export interface TocItem {
 	id: string;
@@ -20,9 +20,7 @@ export default function TocNav({ items }: TocNavProps) {
 	useEffect(() => {
 		if (items.length === 0) return;
 
-		const headingEls = items
-			.map(({ id }) => document.getElementById(id))
-			.filter(Boolean) as HTMLElement[];
+		const headingEls = items.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
 
 		observerRef.current = new IntersectionObserver(
 			(entries) => {
