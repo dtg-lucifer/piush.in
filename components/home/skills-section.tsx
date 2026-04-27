@@ -36,6 +36,8 @@ import {
 	SiTerraform,
 	SiTypescript,
 	SiVite,
+    SiLangchain,
+    SiLanggraph,
 } from "react-icons/si";
 
 interface SkillsSectionProps {
@@ -125,6 +127,8 @@ const aiMlGroup: SkillGroup = {
 		{ name: "OpenAI", Icon: SiOpenai },
 		{ name: "Gemini", Icon: SiGooglegemini },
 		{ name: "Hugging Face", Icon: SiHuggingface },
+		{ name: "Lang Chain", Icon: SiLangchain },
+		{ name: "Lang Graph", Icon: SiLanggraph },
 	],
 };
 
