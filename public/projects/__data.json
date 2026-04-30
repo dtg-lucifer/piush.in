@@ -20,6 +20,16 @@
 		"featured": true
 	},
 	{
+		"name": "MOS 6502 CPU Emulator",
+		"description": "A software emulation of the MOS Technology 6502 processor — the 8-bit CPU that powered the Apple II, Commodore 64, Atari 2600, and NES. Implements the full register set (A, X, Y, PC, SP), status flags, a 64KB address space, and a complete instruction set including load/store, stack, subroutine, and jump operations. Ships with a custom assembler written from scratch that compiles 6502 assembly to binary, which the emulator can then execute directly.",
+		"repoUrl": "https://github.com/dtg-lucifer/6502_emulator",
+		"demoUrl": "https://github.com/dtg-lucifer/6502_emulator",
+		"image": "/projects/m5602_cpu_demo.webp",
+		"tags": ["C++", "CPU Architecture", "Assembler", "8-Bit CPU", "Emulator"],
+		"wip": false,
+		"featured": true
+	},
+	{
 		"name": "16 Bit Virtual Machine",
 		"description": "A very agnostic 16 bit virtual machine with custom assembler to assemble it's own assembly language to run on. This is built with Rust without any 3rd party library. This imitates a virtual machine having 13 16-bit registers and memory space constists of 8-bit memory block layed in little endian mode.",
 		"repoUrl": "https://github.com/dtg-lucifer/16bit-vm-rust",
@@ -48,6 +58,16 @@
 		"tags": ["Go", "React.js", "Email", "SQL", "Cloudinary"],
 		"wip": true,
 		"featured": true
+	},
+	{
+		"name": "Video to MP3 Converter — Microservices on Kubernetes",
+		"description": "A production-ready event-driven microservices system that converts MP4 videos to MP3 audio asynchronously. Built with four independent Python/Flask services — Gateway, Auth, Converter, and Notification — communicating via RabbitMQ. Videos are stored in MongoDB GridFS, conversion is handled by FFmpeg, and users receive a download link via email once processing completes. Fully containerised with Docker and deployed on a Kubernetes cluster with Minikube, complete with K8s manifests, ingress, and horizontal scaling support.",
+		"repoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
+		"demoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
+		"image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
+		"tags": ["Python", "Kubernetes", "RabbitMQ", "MongoDB", "FFmpeg", "Microservices", "Docker"],
+		"wip": false,
+		"featured": false
 	},
 	{
 		"name": "CI CD Pipeline to deploy on GCP (Docker Swarm)",
