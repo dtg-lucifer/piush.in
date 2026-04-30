@@ -24,7 +24,7 @@
 		"description": "A software emulation of the MOS Technology 6502 processor — the 8-bit CPU that powered the Apple II, Commodore 64, Atari 2600, and NES. Implements the full register set (A, X, Y, PC, SP), status flags, a 64KB address space, and a complete instruction set including load/store, stack, subroutine, and jump operations. Ships with a custom assembler written from scratch that compiles 6502 assembly to binary, which the emulator can then execute directly.",
 		"repoUrl": "https://github.com/dtg-lucifer/6502_emulator",
 		"demoUrl": "https://github.com/dtg-lucifer/6502_emulator",
-		"image": "/projects/m5602_cpu_demo.webp",
+		"image": "/projects/m6502_cpu_demo.webp",
 		"tags": ["C++", "CPU Architecture", "Assembler", "8-Bit CPU", "Emulator"],
 		"wip": false,
 		"featured": true
