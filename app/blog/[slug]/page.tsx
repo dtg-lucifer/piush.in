@@ -12,6 +12,7 @@ import LenisScroll from "@/components/lenis-scroll";
 import { getAllArticleSlugs, getArticleBySlug, extractToc, buildHeadingIdMap } from "@/lib/articles";
 import { extractText, getCodeLanguage } from "@/components/blog/markdown-renderer";
 import MermaidDiagram from "@/components/blog/mermaid-diagram";
+import ZoomableImage from "@/components/blog/zoomable-image";
 import TocNav from "@/components/blog/toc-nav";
 
 interface ArticlePageProps {
@@ -186,15 +187,34 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 									</h4>
 								),
 								p: ({ node, ...props }) => {
-									if (
-										node?.children.length === 1 &&
-										node?.children[0].type === "element" &&
-										node?.children[0].tagName === "img"
-									) {
-										return <div className="flex justify-center my-6">{props.children}</div>;
+									// Check if this paragraph contains only image(s)
+									const imgChildren = node?.children.filter(
+										(c) => c.type === "element" && (c as { tagName: string }).tagName === "img",
+									) ?? [];
+									const onlyImages =
+										imgChildren.length > 0 &&
+										node?.children.every(
+											(c) =>
+												(c.type === "element" && (c as { tagName: string }).tagName === "img") ||
+												(c.type === "text" && (c as { value: string }).value.trim() === ""),
+										);
+
+									if (onlyImages) {
+										// Stack images in a column — each gets its own centered row
+										return (
+											<div className="flex flex-col items-center gap-4 my-6">
+												{props.children}
+											</div>
+										);
 									}
 									return <p {...props} className="text-sm" />;
 								},
+								img: ({ src, alt }) => (
+									<ZoomableImage
+										alt={alt ?? ""}
+										src={src ?? ""}
+									/>
+								),
 								blockquote: ({ node, ...props }) => (
 									<blockquote
 										{...props}
