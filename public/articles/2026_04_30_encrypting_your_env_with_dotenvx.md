@@ -120,12 +120,38 @@ Rules worth knowing:
 
 ### How `dotenv` Loads It
 
-In Python:
+In Python, without any library, `os.getenv` returns `None` for anything not already in the shell environment:
 
 ```python
 # Without dotenvx/dotenv, os.getenv returns None
 import os
 print(os.getenv("DB_PASSWORD"))  # None
+```
+
+With `python-dotenv`, you load the `.env` file explicitly at startup:
+
+```python
+# pip install python-dotenv
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # reads .env and injects into os.environ
+
+print(os.getenv("DB_PASSWORD"))  # super_secret_password_123
+```
+
+In Rust, the equivalent is the `dotenvy` crate:
+
+```rust
+// Cargo.toml: dotenvy = "0.15"
+use std::env;
+
+fn main() {
+    dotenvy::dotenv().ok(); // reads .env and injects into std::env
+
+    let db_password = env::var("DB_PASSWORD").unwrap_or_default();
+    println!("DB_PASSWORD: {}", db_password); // super_secret_password_123
+}
 ```
 
 With a dotenv library, the `.env` file is parsed and its values are injected into the process environment before your app code runs. Clean, simple, and universally understood.
@@ -163,16 +189,16 @@ flowchart TD
     A["Developer writes code"] --> B["Creates .env with secrets"]
     B --> C{"Remembers .gitignore?"}
     C -->|Yes| D["Adds .env to .gitignore"]
-    C -->|No| E["💥 Commits .env to GitHub\nSecrets are now public"]
+    C -->|No| E["[!] Commits .env to GitHub\nSecrets are now public"]
     D --> F["New dev joins the team"]
     F --> G["How to share .env?"]
-    G --> H["Slack DM 😬"]
-    G --> I["Email 😬"]
-    G --> J["Shared Google Doc 😬"]
+    G --> H["Slack DM (risky)"]
+    G --> I["Email (risky)"]
+    G --> J["Shared Google Doc (risky)"]
     H & I & J --> K["Secret now lives in\n3 more uncontrolled places"]
     D --> L["Secret changes"]
     L --> M["Manually notify everyone\nto update their local .env"]
-    M --> N["Someone forgets\n💥 App breaks in dev"]
+    M --> N["Someone forgets\n[!] App breaks in dev"]
 ```
 
 Every step in that flow is a potential leak or a coordination headache.
@@ -214,8 +240,8 @@ flowchart LR
     end
 
     subgraph Commit["What goes to GitHub"]
-        CENV["✅ .env\n(encrypted values + public key)"]
-        CKEYS["❌ .env.keys\n(gitignored — never committed)"]
+        CENV["[ok] .env\n(encrypted values + public key)"]
+        CKEYS["[x] .env.keys\n(gitignored — never committed)"]
     end
 
     PUB --> Encrypt
@@ -289,12 +315,12 @@ flowchart TD
 All the pieces are bundled together and base64-encoded into the `encrypted:...` string you see in the file:
 
 ```mermaid
-block-beta
-  columns 4
-  A["Ephemeral Public Key\n65 bytes\n(secp256k1 point)"]:1
-  B["Nonce / IV\n16 bytes"]:1
-  C["Auth Tag / MAC\n16 bytes"]:1
-  D["Encrypted secret value\n(variable length)"]:1
+flowchart LR
+    A["Ephemeral Public Key\n65 bytes\n(secp256k1 point)"]
+    B["Nonce / IV\n16 bytes"]
+    C["Auth Tag / MAC\n16 bytes"]
+    D["Encrypted secret value\nvariable length"]
+    A --- B --- C --- D
 ```
 
 This is why:
@@ -560,7 +586,7 @@ This is a significant shift from the traditional workflow:
 
 | | Traditional | With dotenvx |
 |---|---|---|
-| `.env` in git | ❌ Never | ✅ Safe (encrypted) |
+| `.env` in git | Never (risky) | Safe (encrypted) |
 | Secret sharing | Slack/email | Pull the repo |
 | Secret history | None | Full git history |
 | Secret diffs in PRs | Impossible | Visible (encrypted) |
@@ -607,7 +633,7 @@ flowchart TD
     B -->|Yes| D["Use it to decrypt .env"]
     B -->|No| C{"Does .env.keys\nfile exist?"}
     C -->|Yes| E["Read DOTENV_PRIVATE_KEY\nfrom .env.keys"]
-    C -->|No| F["💥 Error: no private key found\nCannot decrypt"]
+    C -->|No| F["[!] Error: no private key found\nCannot decrypt"]
     E --> D
     D --> G["Inject decrypted values\ninto process environment"]
     G --> H["Hand off to your command"]
@@ -644,7 +670,7 @@ flowchart TD
     C --> E["Re-encrypt all values\nin .env with new public key"]
     E --> F["Updated .env\n(new encrypted blobs)"]
     D --> G["Updated .env.keys\n(new private key)"]
-    H["Old private key"] --> I["💀 Invalidated\nCan no longer decrypt"]
+    H["Old private key"] --> I["[x] Invalidated\nCan no longer decrypt"]
     F & G --> J["Share new private key\nwith team out-of-band\n(one time)"]
 ```
 
@@ -666,7 +692,7 @@ Here's how the full local-to-production flow looks:
 
 ```mermaid
 flowchart LR
-    subgraph Local["💻 Local Machine"]
+    subgraph Local["Local Machine"]
         direction TB
         ENV[".env\n(encrypted, committed)"]
         KEYS[".env.keys\n(gitignored, local only)"]
@@ -676,13 +702,13 @@ flowchart LR
         RUN1 --> APP1["App runs with\nplaintext secrets"]
     end
 
-    subgraph Repo["🐙 GitHub Repo"]
+    subgraph Repo["GitHub Repo"]
         direction TB
-        EENV["✅ .env (encrypted)\nsafe to store"]
-        NOKEYS["❌ .env.keys\nnot here"]
+        EENV[".env (encrypted)\nsafe to store"]
+        NOKEYS[".env.keys\nnot here"]
     end
 
-    subgraph Prod["🚀 Production Server"]
+    subgraph Prod["Production Server"]
         direction TB
         ENVVAR["DOTENV_PRIVATE_KEY_PRODUCTION\nset as server env var"]
         RUN2["dotenvx run --\npython main.py"]

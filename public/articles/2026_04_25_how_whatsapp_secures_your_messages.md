@@ -94,9 +94,9 @@ sequenceDiagram
     participant Server
     participant Friend
     Note over You: Encrypt with Friend's public key
-    You->>Server: 🔒 Encrypted blob
+    You->>Server: [encrypted] Encrypted blob
     Note over Server: Server sees ONLY ciphertext
-    Server->>Friend: 🔒 Encrypted blob
+    Server->>Friend: [encrypted] Encrypted blob
     Note over Friend: Decrypt with own private key
 ```
 
@@ -734,12 +734,12 @@ The system now looks like this:
 
 ```mermaid
 flowchart TD
-    DH["🔄 DH Ratchet Step\n(new key pair exchanged)"]
-    RK["🌱 Root Key"]
-    CK["⛓️ Chain Key"]
-    MK1["🔑 Message Key 1"]
-    MK2["🔑 Message Key 2"]
-    MK3["🔑 Message Key 3"]
+    DH["DH Ratchet Step\n(new key pair exchanged)"]
+    RK["Root Key"]
+    CK["Chain Key"]
+    MK1["Message Key 1"]
+    MK2["Message Key 2"]
+    MK3["Message Key 3"]
 
     DH -->|"inject fresh randomness"| RK
     RK -->|"derive"| CK
@@ -747,9 +747,9 @@ flowchart TD
     MK1 -->|"advance"| MK2
     MK2 -->|"advance"| MK3
 
-    MK1 --> E1["📨 Encrypt Msg 1"]
-    MK2 --> E2["📨 Encrypt Msg 2"]
-    MK3 --> E3["📨 Encrypt Msg 3"]
+    MK1 --> E1["Encrypt Msg 1"]
+    MK2 --> E2["Encrypt Msg 2"]
+    MK3 --> E3["Encrypt Msg 3"]
 ```
 
 ### What This Achieves
