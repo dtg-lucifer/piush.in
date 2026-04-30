@@ -1,5 +1,18 @@
 [
     {
+        "title": "Encrypting Your .env Files with dotenvx: Stop Leaking Secrets",
+        "seoTitle": "How to Encrypt .env Files with dotenvx (Python & Rust Guide)",
+        "seoDescription": "Learn how to encrypt your .env files using dotenvx with real Python and Rust examples. Stop leaking secrets and safely commit encrypted envs to GitHub.",
+        "datePublished": "Wed Apr 30 2026 00:00:00 GMT+0000 (Coordinated Universal Time)",
+        "cuid": "cm9dotenvx2026x04x30piush",
+        "slug": "encrypting-your-env-files-with-dotenvx-stop-leaking-secrets",
+        "cover": "https://piush.in/articles/assets/env_encryption/cover.png",
+        "ogImage": "https://piush.in/articles/assets/env_encryption/cover.png",
+        "tags": ["security", "devops", "dotenvx", "encryption", "python", "rust", "backend-development", "secrets-management", "developer-tools", "web-development"],
+        "content": "2026_04_30_encrypting_your_env_with_dotenvx.md",
+        "featured": true
+    },
+    {
         "title": "How WhatsApp Secures Billions of Messages with End-to-End Encryption",
         "seoTitle": "How WhatsApp End-to-End Encryption Works (Signal Protocol Explained)",
         "seoDescription": "Learn how WhatsApp secures billions of messages using end-to-end encryption, Signal Protocol, Double Ratchet, and modern cryptography",
@@ -97,6 +110,6 @@
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823503313/cd960ffe-6502-4fbc-a62d-5bf3591e2a63.png",
 		"tags": ["python", "mongodb", "kubernetes", "rabbitmq", "ffmpeg", "minikube", "grid-fs"],
         "content": "2025_09_02_mp4_to_mp3_converter_microservice_deployment.md",
-		"featured": true
+		"featured": false
 	}
 ]
