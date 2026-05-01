@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import ConnectSection from "@/components/home/connect-section";
 import ExperienceSection from "@/components/home/experience-section";
 import FloatingNav from "@/components/home/floating-nav";
+import GitHubSection from "@/components/home/github-section";
 import IntroSection from "@/components/home/intro-section";
 import ThoughtsSection from "@/components/home/thoughts-section";
 import WorkSection from "@/components/home/work-section";
@@ -105,18 +106,24 @@ export default function Home() {
 					}}
 				/>
 
-				<ThoughtsSection
-					articles={featuredArticles}
-					isLoading={articlesLoading}
-					loadingMessage={articlesLoadingMessage}
+				<GitHubSection
 					sectionRef={(el) => {
 						sectionsRef.current[4] = el;
 					}}
 				/>
 
-				<ConnectSection
+				<ThoughtsSection
+					articles={featuredArticles}
+					isLoading={articlesLoading}
+					loadingMessage={articlesLoadingMessage}
 					sectionRef={(el) => {
 						sectionsRef.current[5] = el;
+					}}
+				/>
+
+				<ConnectSection
+					sectionRef={(el) => {
+						sectionsRef.current[6] = el;
 					}}
 				/>
 			</main>
