@@ -6,8 +6,8 @@
 		"datePublished": "Fri May 22 2026 00:00:00 GMT+0000 (Coordinated Universal Time)",
 		"cuid": "cmtokioarch2026x05x22piush",
 		"slug": "tokio-under-the-hood-how-rusts-async-runtime-actually-works",
-		"cover": "https://tokio.rs/img/stack-runtime.svg",
-		"ogImage": "https://tokio.rs/img/stack-runtime.svg",
+		"cover": "https://piush.in/articles/assets/async_tokio/cover.png",
+		"ogImage": "https://piush.in/articles/assets/async_tokio/cover.png",
 		"tags": [
 			"rust",
 			"tokio",
