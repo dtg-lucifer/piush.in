@@ -1,5 +1,29 @@
 [
 	{
+		"title": "Bloom Filters Demystified: How They Work and Why They’re Useful",
+		"seoTitle": "Bloom Filters Explained: Applications and Use Cases",
+		"seoDescription": "Learn how Bloom filters work, their applications, and why they're useful in data structures and algorithms.",
+		"datePublished": "Fri May 22 2026 00:00:00 GMT+0000 (Coordinated Universal Time)",
+		"cuid": "cmbloomfilters2026x05x22piush",
+		"slug": "bloom-filters-demystified-how-they-work-and-why-theyre-useful",
+		"cover": "https://piush.in/articles/assets/bloom_filter/cover.png",
+		"ogImage": "https://piush.in/articles/assets/bloom_filter/cover.png",
+		"tags": [
+			"data-structures",
+			"algorithms",
+			"bloom-filters",
+			"probabilistic-data-structures",
+			"hashing",
+			"false-positives",
+			"space-efficient",
+			"system-design",
+			"backend-development",
+			"software-engineering"
+		],
+		"content": "2026_06_29_bloom_filters_demystified.md",
+		"featured": true
+	},
+	{
 		"title": "Tokio Under the Hood: How Rust’s Async Runtime Actually Works",
 		"seoTitle": "Tokio Architecture Explained: Scheduler, Reactor, Timers, and Tasks",
 		"seoDescription": "A deep dive into Tokio internals: futures, wakers, scheduler queues, work-stealing, reactor design, timer wheel architecture, and production best practices.",
