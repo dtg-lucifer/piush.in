@@ -123,9 +123,9 @@ Bloom filters are governed by three key equations. Given:
 
 To achieve a false positive rate `p` with `n` elements, the optimal number of bits is:
 
-```
-m = -n * ln(p) / (ln(2))²
-```
+$$
+m = -\frac{n \ln(p)}{(\ln 2)^2}
+$$
 
 This minimizes memory while meeting the accuracy target. Note that `m` does **not** depend on the size of the keys themselves—only on `n` and `p`.
 
@@ -133,9 +133,9 @@ This minimizes memory while meeting the accuracy target. Note that `m` does **no
 
 Given `n` and `m`, the optimal number of hash functions is:
 
-```
-k = (m / n) * ln(2)
-```
+$$
+k = \frac{m}{n} \ln 2
+$$
 
 This balances the probability of a bit remaining 0 against the probability of over-hashing (which increases false positives).
 
@@ -143,21 +143,21 @@ This balances the probability of a bit remaining 0 against the probability of ov
 
 After inserting `n` elements, the probability that a specific bit is still 0 is:
 
-```
-(1 - 1/m)^(kn) ≈ e^(-kn/m)
-```
+$$
+\left(1 - \frac{1}{m}\right)^{kn} \approx e^{-kn/m}
+$$
 
 A false positive occurs when all `k` queried bits are 1, so:
 
-```
-p_fp ≈ (1 - e^(-kn/m))^k
-```
+$$
+p_{fp} \approx \left(1 - e^{-kn/m}\right)^k
+$$
 
 At the optimal `k`, this simplifies to approximately:
 
-```
-p_fp ≈ (0.6185)^(m/n)
-```
+$$
+p_{fp} \approx (0.6185)^{m/n}
+$$
 
 In practice, fewer than **10 bits per element** are required for a 1% false positive rate, independent of the dataset size.
 
@@ -212,9 +212,9 @@ Computing `k` independent hash functions for every operation can be expensive. I
 
 Instead of computing `h₁(x), h₂(x), ..., hₖ(x)` independently, compute only:
 
-```cpp
-gᵢ(x) = (h₁(x) + i * h₂(x)) mod m
-```
+$$
+g_i(x) = \bigl(h_1(x) + i \cdot h_2(x)\bigr) \bmod m
+$$
 
 for `i = 0, 1, ..., k-1`.
 

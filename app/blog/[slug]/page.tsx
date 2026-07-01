@@ -4,9 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import remarkMath from "remark-math";
 import "highlight.js/styles/atom-one-dark.css";
 import LenisScroll from "@/components/lenis-scroll";
 import { getAllArticleSlugs, getArticleBySlug, extractToc, buildHeadingIdMap } from "@/lib/articles";
@@ -74,11 +76,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 	const headingIdCounters = new Map<string, number>();
 
 	const headingId = (children: React.ReactNode): string | undefined => {
-		const text = typeof children === "string"
-			? children
-			: Array.isArray(children)
-				? children.map((c) => (typeof c === "string" ? c : "")).join("")
-				: "";
+		const text =
+			typeof children === "string"
+				? children
+				: Array.isArray(children)
+					? children.map((c) => (typeof c === "string" ? c : "")).join("")
+					: "";
 
 		if (!text) return undefined;
 
@@ -188,14 +191,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 								),
 								p: ({ node, ...props }) => {
 									// Check if this paragraph contains only image(s)
-									const imgChildren = node?.children.filter(
-										(c) => c.type === "element" && (c as { tagName: string }).tagName === "img",
-									) ?? [];
+									const imgChildren =
+										node?.children.filter(
+											(c) => c.type === "element" && (c as { tagName: string }).tagName === "img",
+										) ?? [];
 									const onlyImages =
 										imgChildren.length > 0 &&
 										node?.children.every(
 											(c) =>
-												(c.type === "element" && (c as { tagName: string }).tagName === "img") ||
+												(c.type === "element" &&
+													(c as { tagName: string }).tagName === "img") ||
 												(c.type === "text" && (c as { value: string }).value.trim() === ""),
 										);
 
@@ -210,10 +215,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 									return <p {...props} className="text-sm" />;
 								},
 								img: ({ src, alt }) => (
-									<ZoomableImage
-										alt={alt ?? ""}
-										src={src ?? ""}
-									/>
+									<ZoomableImage alt={alt ?? ""} src={typeof src === "string" ? src : ""} />
 								),
 								blockquote: ({ node, ...props }) => (
 									<blockquote
@@ -221,55 +223,54 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										className="bg-muted-foreground/10 px-4 py-1 border-secondary border-l-4! text-muted"
 									/>
 								),
-                                code: ({ node, ...props }) => (
-									<code
-										{...props}
-										className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm"
-									/>
+								code: ({ node, ...props }) => (
+									<code {...props} className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm" />
 								),
-                                table: ({ children }) => (
-                                    <div className="my-6 overflow-x-auto">
-                                        <table className="border border-border w-full text-sm border-collapse">
-                                            {children}
-                                        </table>
-                                    </div>
-                                ),
-                                thead: ({ children }) => (
-                                    <thead className="border-border border-b">{children}</thead>
-                                ),
-                                tbody: ({ children }) => <tbody>{children}</tbody>,
-                                tr: ({ children }) => (
-                                    <tr className="border-border last:border-0 border-b">{children}</tr>
-                                ),
-                                th: ({ children }) => (
-                                    <th className="px-4 py-2 border-border last:border-0 border-r font-medium text-foreground text-sm text-left">
-                                        {children}
-                                    </th>
-                                ),
-                                td: ({ children }) => (
-                                    <td className="px-4 py-2 border-border last:border-0 border-r font-normal text-muted-foreground text-sm">
-                                        {children}
-                                    </td>
-                                ),
-                                pre: ({ node, children, ...props }) => {
-                                    const codeEl = node?.children.find(
-                                        (c): c is import("hast").Element =>
-                                            c.type === "element" && (c as import("hast").Element).tagName === "code",
-                                    );
-                                    if (codeEl && getCodeLanguage(codeEl) === "mermaid") {
-                                        return <MermaidDiagram chart={extractText(codeEl)} />;
-                                    }
+								table: ({ children }) => (
+									<div className="my-6 overflow-x-auto">
+										<table className="border border-border w-full text-sm border-collapse">
+											{children}
+										</table>
+									</div>
+								),
+								thead: ({ children }) => <thead className="border-border border-b">{children}</thead>,
+								tbody: ({ children }) => <tbody>{children}</tbody>,
+								tr: ({ children }) => (
+									<tr className="border-border last:border-0 border-b">{children}</tr>
+								),
+								th: ({ children }) => (
+									<th className="px-4 py-2 border-border last:border-0 border-r font-medium text-foreground text-sm text-left">
+										{children}
+									</th>
+								),
+								td: ({ children }) => (
+									<td className="px-4 py-2 border-border last:border-0 border-r font-normal text-muted-foreground text-sm">
+										{children}
+									</td>
+								),
+								pre: ({ node, children, ...props }) => {
+									const codeEl = node?.children.find(
+										(c): c is import("hast").Element =>
+											c.type === "element" && (c as import("hast").Element).tagName === "code",
+									);
+									if (codeEl && getCodeLanguage(codeEl) === "mermaid") {
+										return <MermaidDiagram chart={extractText(codeEl)} />;
+									}
 
-                                    const className = `${props.className} font-sans`
-                                    const newProps = {
-                                        ...props,
-                                        className
-                                    }
-                                    return <pre {...newProps}>{children}</pre>;
-                                },
+									const className = `${props.className} font-sans`;
+									const newProps = {
+										...props,
+										className,
+									};
+									return <pre {...newProps}>{children}</pre>;
+								},
 							}}
-							rehypePlugins={[rehypeRaw, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
-							remarkPlugins={[remarkGfm]}
+							rehypePlugins={[
+								rehypeRaw,
+								rehypeKatex,
+								[rehypeHighlight, { detect: true, ignoreMissing: true }],
+							]}
+							remarkPlugins={[remarkMath, remarkGfm]}
 						>
 							{article.markdown}
 						</ReactMarkdown>

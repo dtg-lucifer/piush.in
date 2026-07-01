@@ -1,8 +1,9 @@
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
+import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
+import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
-import dynamic from "next/dynamic";
 import type { Components } from "react-markdown";
 import type { Element, ElementContent } from "hast";
 import CopyButton from "./copy-button";
@@ -128,8 +129,8 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
 		<div className="article-markdown">
 			<ReactMarkdown
 				components={components}
-				rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }], rehypeRaw]}
-				remarkPlugins={[remarkGfm]}
+				rehypePlugins={[rehypeRaw, rehypeKatex, [rehypeHighlight, { detect: true, ignoreMissing: true }]]}
+				remarkPlugins={[remarkMath, remarkGfm]}
 			>
 				{content}
 			</ReactMarkdown>
