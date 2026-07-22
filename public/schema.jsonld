@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "description": "Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+      "name": "Piush Bose",
+      "url": "https://piush.in"
+    },
+    {
+      "@type": "WebSite",
+      "name": "Piush Bose",
+      "url": "https://piush.in"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+User-agent: *
+# Content-usage preferences (contentsignals.org). Omitting a signal means
+# 'no preference'; set ai-train=yes to allow training on your content.
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+# Welcome AI crawlers explicitly
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Amazonbot
+Allow: /
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://piush.in/sitemap.xml
