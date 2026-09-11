@@ -7,6 +7,7 @@ export interface Project {
 	repoUrl: string;
 	demoUrl: string;
 	tags: string[];
+	languages?: string[];
 	wip: boolean;
 	featured?: boolean;
 }
@@ -19,6 +20,7 @@ export interface Experience {
 	start_date: string;
 	end_date: string;
 	brief: string;
+	featured?: boolean;
 }
 
 interface UseJsonResult<T> {

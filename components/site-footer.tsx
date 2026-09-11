@@ -1,31 +1,51 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import ThemeIcon from "@/components/svg/theme-icon";
+import { useEffect, useState } from "react";
 
 export default function SiteFooter() {
 	const { resolvedTheme, setTheme } = useTheme();
-	const isDark = resolvedTheme !== "light";
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	const isDark = resolvedTheme === "dark";
 
 	const toggleTheme = () => {
 		setTheme(isDark ? "light" : "dark");
 	};
 
 	return (
-		<footer className="border-border border-t py-12 sm:py-16">
-			<div className="mx-auto flex max-w-4xl flex-col items-start justify-between gap-6 px-6 sm:gap-8 sm:px-8 lg:flex-row lg:items-center lg:px-16">
-				<div className="space-y-2">
-					<div className="text-muted-foreground text-sm">© 2026 Piush Bose. All rights reserved.</div>
-					<div className="text-muted-foreground text-xs">Built by Piush, designed with elegance.</div>
-				</div>
+		<footer>
+			<div className="footer-copyright">
+				<span>Piush Bose © 2026</span>
+			</div>
 
+			<div className="footer-links">
+				<a href="https://www.linkedin.com/in/bosepiush/" target="_blank" rel="noreferrer">
+					LinkedIn
+				</a>
+				<a href="https://github.com/dtg-lucifer" target="_blank" rel="noreferrer">
+					GitHub
+				</a>
+				<a href="https://devpiush.hashnode.dev/" target="_blank" rel="noreferrer">
+					Hashnode
+				</a>
+				<a href="/resume.pdf" target="_blank" rel="noreferrer">
+					Resume
+				</a>
+			</div>
+
+			<div className="footer-theme">
 				<button
-					aria-label="Toggle theme"
-					className="group rounded-lg border border-border p-3 transition-all duration-300 hover:border-muted-foreground/50"
-					onClick={toggleTheme}
 					type="button"
+					onClick={toggleTheme}
+					aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+					className="theme-switch-btn"
 				>
-					<ThemeIcon isDark={isDark} key={isDark ? "dark" : "light"} />
+					<span>{mounted ? (isDark ? "☀ Light mode" : "☾ Dark mode") : "Theme"}</span>
 				</button>
 			</div>
 		</footer>

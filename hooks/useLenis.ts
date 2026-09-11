@@ -7,12 +7,17 @@ export function useLenis() {
 	const lenisRef = useRef<Lenis | null>(null);
 
 	useEffect(() => {
-		if (typeof navigator === "undefined") {
+		if (typeof window === "undefined" || typeof navigator === "undefined") {
+			return;
+		}
+
+		// Disable on touch devices to allow native 120Hz momentum scroll and avoid RAF overhead
+		const isTouch = window.matchMedia("(pointer: coarse)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+		if (isTouch) {
 			return;
 		}
 
 		const isFirefox = /firefox|fxios/i.test(navigator.userAgent);
-
 		if (isFirefox) {
 			return;
 		}

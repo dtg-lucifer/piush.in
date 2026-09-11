@@ -1,10 +1,7 @@
-"use client";
-
+import type { ComponentType } from "react";
 import { BiLogoVisualStudio } from "react-icons/bi";
 import { FaAws, FaGolang, FaJava, FaPython, FaReact, FaRust } from "react-icons/fa6";
 import { RiNextjsFill } from "react-icons/ri";
-import type { ComponentType } from "react";
-import { BarChart2, LineChart } from "lucide-react";
 import {
 	SiActix,
 	SiAnsible,
@@ -20,10 +17,12 @@ import {
 	SiHuggingface,
 	SiIntellijidea,
 	SiKubernetes,
+	SiLangchain,
+	SiLanggraph,
 	SiNestjs,
 	SiNumpy,
 	SiOllama,
-	SiOpenai,
+	SiOpenaigym,
 	SiPandas,
 	SiPostman,
 	SiPrometheus,
@@ -36,192 +35,132 @@ import {
 	SiTerraform,
 	SiTypescript,
 	SiVite,
-    SiLangchain,
-    SiLanggraph,
 } from "react-icons/si";
 
-interface SkillsSectionProps {
-	sectionRef: (el: HTMLElement | null) => void;
-}
+type SkillItem = {
+	name: string;
+	Icon: ComponentType<{ className?: string }>;
+};
 
 type SkillGroup = {
+	number: string;
 	label: string;
 	description: string;
-	icons: { name: string; Icon: ComponentType<{ className?: string }> }[];
-	accent: string;
+	skills: SkillItem[];
 };
 
 const skillGroups: SkillGroup[] = [
 	{
-		label: "Frameworks",
-		description: "The stack I reach for when I want to move fast without losing structure.",
-		accent: "from-cyan-500/25 via-transparent to-transparent",
-		icons: [
+		number: "01",
+		label: "Languages",
+		description: "Languages I use to build production systems, low-level tooling, and APIs.",
+		skills: [
+			{ name: "Rust", Icon: FaRust },
+			{ name: "Go", Icon: FaGolang },
+			{ name: "TypeScript", Icon: SiTypescript },
+			{ name: "C++", Icon: SiCplusplus },
+			{ name: "Python", Icon: FaPython },
+			{ name: "Java", Icon: FaJava },
+		],
+	},
+	{
+		number: "02",
+		label: "Cloud & DevOps",
+		description: "Infrastructure, container orchestration, and observability platforms.",
+		skills: [
+			{ name: "Kubernetes", Icon: SiKubernetes },
+			{ name: "AWS", Icon: FaAws },
+			{ name: "Google Cloud", Icon: SiGooglecloud },
+			{ name: "Docker", Icon: SiDocker },
+			{ name: "Terraform", Icon: SiTerraform },
+			{ name: "Ansible", Icon: SiAnsible },
+			{ name: "Prometheus", Icon: SiPrometheus },
+			{ name: "Grafana", Icon: SiGrafana },
+		],
+	},
+	{
+		number: "03",
+		label: "Frameworks & Web",
+		description: "Modern frameworks and runtimes for web applications and backend microservices.",
+		skills: [
 			{ name: "React", Icon: FaReact },
 			{ name: "Next.js", Icon: RiNextjsFill },
 			{ name: "Tailwind CSS", Icon: SiTailwindcss },
-			{ name: "Express", Icon: SiExpress },
 			{ name: "Hono", Icon: SiHono },
-			{ name: "Vite", Icon: SiVite },
+			{ name: "Express", Icon: SiExpress },
 			{ name: "NestJS", Icon: SiNestjs },
-			{ name: "Gin", Icon: SiGin },
 			{ name: "Actix", Icon: SiActix },
+			{ name: "Gin", Icon: SiGin },
+			{ name: "Vite", Icon: SiVite },
 			{ name: "SvelteKit", Icon: SiSvelte },
 		],
 	},
 	{
-		label: "Languages",
-		description: "Languages I use to build product, systems, and tooling across the stack.",
-		accent: "from-amber-500/25 via-transparent to-transparent",
-		icons: [
-			{ name: "TypeScript", Icon: SiTypescript },
-			{ name: "Go", Icon: FaGolang },
-			{ name: "Rust", Icon: FaRust },
-			{ name: "Java", Icon: FaJava },
-			{ name: "Python", Icon: FaPython },
-			{ name: "C++", Icon: SiCplusplus },
+		number: "04",
+		label: "AI & Machine Learning",
+		description: "Libraries, agent orchestration frameworks, and LLM tooling.",
+		skills: [
+			{ name: "PyTorch", Icon: SiPytorch },
+			{ name: "TensorFlow", Icon: SiTensorflow },
+			{ name: "scikit-learn", Icon: SiScikitlearn },
+			{ name: "LangChain", Icon: SiLangchain },
+			{ name: "LangGraph", Icon: SiLanggraph },
+			{ name: "Hugging Face", Icon: SiHuggingface },
+			{ name: "Ollama", Icon: SiOllama },
+			{ name: "OpenAI", Icon: SiOpenaigym },
+			{ name: "Gemini", Icon: SiGooglegemini },
+			{ name: "NumPy", Icon: SiNumpy },
+			{ name: "Pandas", Icon: SiPandas },
 		],
 	},
 	{
-		label: "Tools",
-		description: "The editor, delivery, and API tooling that keeps my workflow tight.",
-		accent: "from-fuchsia-500/25 via-transparent to-transparent",
-		icons: [
+		number: "05",
+		label: "Developer Tooling",
+		description: "IDEs, API suites, and developer infrastructure that power my day-to-day work.",
+		skills: [
+			{ name: "Supabase", Icon: SiSupabase },
+			{ name: "Postman", Icon: SiPostman },
+			{ name: "GitLab", Icon: SiGitlab },
 			{ name: "VS Code", Icon: BiLogoVisualStudio },
 			{ name: "IntelliJ", Icon: SiIntellijidea },
-			{ name: "Postman", Icon: SiPostman },
-			{ name: "Docker", Icon: SiDocker },
-			{ name: "Supabase", Icon: SiSupabase },
-			{ name: "GitLab", Icon: SiGitlab },
-		],
-	},
-	{
-		label: "Cloud & DevOps",
-		description: "Infrastructure and observability tools I am comfortable shipping with.",
-		accent: "from-emerald-500/25 via-transparent to-transparent",
-		icons: [
-			{ name: "Google Cloud", Icon: SiGooglecloud },
-			{ name: "AWS", Icon: FaAws },
-			{ name: "Kubernetes", Icon: SiKubernetes },
-			{ name: "Ansible", Icon: SiAnsible },
-			{ name: "Terraform", Icon: SiTerraform },
-			{ name: "Grafana", Icon: SiGrafana },
-			{ name: "Prometheus", Icon: SiPrometheus },
 		],
 	},
 ];
 
-const aiMlGroup: SkillGroup = {
-	label: "AI / ML",
-	description: "Libraries and platforms I use for machine learning, data science, and working with LLMs.",
-	accent: "from-violet-500/25 via-transparent to-transparent",
-	icons: [
-		{ name: "TensorFlow", Icon: SiTensorflow },
-		{ name: "PyTorch", Icon: SiPytorch },
-		{ name: "scikit-learn", Icon: SiScikitlearn },
-		{ name: "NumPy", Icon: SiNumpy },
-		{ name: "Pandas", Icon: SiPandas },
-		{ name: "Matplotlib", Icon: LineChart },
-		{ name: "Seaborn", Icon: BarChart2 },
-		{ name: "Ollama", Icon: SiOllama },
-		{ name: "OpenAI", Icon: SiOpenai },
-		{ name: "Gemini", Icon: SiGooglegemini },
-		{ name: "Hugging Face", Icon: SiHuggingface },
-		{ name: "Lang Chain", Icon: SiLangchain },
-		{ name: "Lang Graph", Icon: SiLanggraph },
-	],
-};
+interface SkillsSectionProps {
+	className?: string;
+}
 
-export default function SkillsSection({ sectionRef }: SkillsSectionProps) {
+export default function SkillsSection({ className = "" }: SkillsSectionProps) {
 	return (
-		<section id="skills" ref={sectionRef} className="py-20 sm:py-32 min-h-screen">
-			<div className="space-y-10 sm:space-y-14">
-				<div className="space-y-4 max-w-2xl">
-					<div className="font-mono text-muted-foreground text-sm uppercase tracking-[0.3em]">
-						Relevant Skills
-					</div>
-					<h2 className="font-light text-3xl sm:text-4xl lg:text-5xl tracking-tight">
-						A compact view of the tools and stacks I use most.
-					</h2>
-				</div>
+		<section className={`skills page-section ${className}`} id="skills" aria-label="Technical skills and tools">
+			<div className="section-heading">
+				<p className="eyebrow">Skills &amp; Arsenal</p>
+				<p className="section-note">
+					A breakdown of the languages, systems,
+					<br />
+					and platforms I reach for daily.
+				</p>
+			</div>
 
-				<div className="gap-4 sm:gap-6 grid md:grid-cols-2">
-					{skillGroups.map((group) => (
-						<article
-							key={group.label}
-							className="group relative bg-card/40 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm p-6 sm:p-7 border border-border/70 overflow-hidden transition-transform hover:-translate-y-1 duration-300"
-						>
-							<div className={`absolute inset-0 bg-linear-to-br ${group.accent} opacity-80`} />
-							<div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background/30" />
-
-							<div className="relative space-y-5">
-								<div className="flex justify-between items-end gap-4">
-									<div>
-										<div className="font-mono text-muted-foreground/80 text-xs uppercase tracking-[0.28em]">
-											Group
-										</div>
-										<h3 className="mt-2 font-medium text-2xl sm:text-3xl">{group.label}</h3>
-									</div>
-									<div className="hidden sm:block bg-background/60 px-3 py-1 border border-border/70 rounded-full text-muted-foreground text-xs">
-										{group.icons.length} skills
-									</div>
-								</div>
-
-								<p className="max-w-md text-muted-foreground leading-relaxed">{group.description}</p>
-
-								<div className="gap-3 grid grid-cols-3 sm:grid-cols-4">
-									{group.icons.map(({ name, Icon }) => (
-										<div
-											key={name}
-											className="group/icon flex flex-col justify-center items-center gap-2 bg-background/70 hover:bg-background px-3 py-4 border border-border/70 hover:border-foreground/30 rounded-2xl text-center transition-all duration-300"
-										>
-											<Icon className="w-7 sm:w-8 h-7 sm:h-8 text-foreground/90 group-hover/icon:scale-110 transition-transform duration-300" />
-											<span className="text-[11px] text-muted-foreground sm:text-xs leading-tight">
-												{name}
-											</span>
-										</div>
-									))}
-								</div>
-							</div>
-						</article>
-					))}
-				</div>
-
-				{/* AI / ML — full width, spans both columns */}
-				<article className="group relative bg-card/40 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] backdrop-blur-sm p-6 sm:p-7 border border-border/70 overflow-hidden transition-transform hover:-translate-y-1 duration-300">
-					<div className={`absolute inset-0 bg-linear-to-br ${aiMlGroup.accent} opacity-80`} />
-					<div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background/30" />
-
-					<div className="relative space-y-5">
-						<div className="flex justify-between items-end gap-4">
-							<div>
-								<div className="font-mono text-muted-foreground/80 text-xs uppercase tracking-[0.28em]">
-									Group
-								</div>
-								<h3 className="mt-2 font-medium text-2xl sm:text-3xl">{aiMlGroup.label}</h3>
-							</div>
-							<div className="hidden sm:block bg-background/60 px-3 py-1 border border-border/70 rounded-full text-muted-foreground text-xs">
-								{aiMlGroup.icons.length} skills
-							</div>
+			<div className="skills-grid">
+				{skillGroups.map((group) => (
+					<div className="skill-group-row" key={group.label}>
+						<div className="skill-group-meta">
+							<span className="skill-group-number">{group.number}</span>
+							<h3 className="skill-group-title">{group.label}</h3>
+							<p className="skill-group-description">{group.description}</p>
 						</div>
-
-						<p className="max-w-2xl text-muted-foreground leading-relaxed">{aiMlGroup.description}</p>
-
-						<div className="gap-3 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6">
-							{aiMlGroup.icons.map(({ name, Icon }) => (
-								<div
-									key={name}
-									className="group/icon flex flex-col justify-center items-center gap-2 bg-background/70 hover:bg-background px-3 py-4 border border-border/70 hover:border-foreground/30 rounded-2xl text-center transition-all duration-300"
-								>
-									<Icon className="w-7 sm:w-8 h-7 sm:h-8 text-foreground/90 group-hover/icon:scale-110 transition-transform duration-300" />
-									<span className="text-[11px] text-muted-foreground sm:text-xs leading-tight">
-										{name}
-									</span>
+						<div className="skill-items-container">
+							{group.skills.map(({ name, Icon }) => (
+								<div className="skill-item-chip" key={name}>
+									<Icon className="skill-item-icon" aria-hidden="true" />
+									<span className="skill-item-name">{name}</span>
 								</div>
 							))}
 						</div>
 					</div>
-				</article>
+				))}
 			</div>
 		</section>
 	);

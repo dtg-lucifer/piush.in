@@ -27,9 +27,9 @@ export default function IntroSection({ sectionRef }: IntroSectionProps) {
 						className="font-light text-6xl sm:text-7xl lg:text-8xl"
 						style={{ fontFamily: "var(--font-space-grotesk), var(--font-lilex), sans-serif", letterSpacing: "0.05em" }}
 					>
-						<GlitchRevealText text="Piush" className="bold-text" />
+						<GlitchRevealText text="Piush" className="bold-text" retriggerOnHover={false} />
 						<br />
-						<GlitchRevealText text="Bose" className="hollow-text" />
+						<GlitchRevealText text="Bose" className="hollow-text" retriggerOnHover={false} />
 					</h1>
 					</div>
 
@@ -53,7 +53,7 @@ export default function IntroSection({ sectionRef }: IntroSectionProps) {
 						<div className="font-mono text-muted-foreground text-sm">CURRENTLY</div>
 						<div className="space-y-2">
 							<div className="text-foreground">
-								<GlitchRevealText text="Software Engineer · SDE II" />
+								<GlitchRevealText text="Software Engineer · SDE II" retriggerOnHover={false} />
 							</div>
 							<div className="text-muted-foreground">@ Netpiedev</div>
 							<div className="text-muted-foreground text-xs">Apr, 2026 - Present</div>

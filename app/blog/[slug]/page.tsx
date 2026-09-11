@@ -9,13 +9,15 @@ import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import remarkMath from "remark-math";
-import "highlight.js/styles/atom-one-dark.css";
+import "katex/dist/katex.min.css";
 import LenisScroll from "@/components/lenis-scroll";
+import SiteNav from "@/components/site-nav";
 import { getAllArticleSlugs, getArticleBySlug, extractToc, buildHeadingIdMap } from "@/lib/articles";
 import { extractText, getCodeLanguage } from "@/components/blog/markdown-renderer";
 import MermaidDiagram from "@/components/blog/mermaid-diagram";
 import ZoomableImage from "@/components/blog/zoomable-image";
 import TocNav from "@/components/blog/toc-nav";
+import CopyButton from "@/components/blog/copy-button";
 
 interface ArticlePageProps {
 	params: Promise<{
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 	}
 
 	return {
-		title: article.seoTitle || article.title,
+		title: `${article.seoTitle || article.title} | Piush Bose`,
 		description: article.seoDescription,
 		keywords: article.tags,
 		openGraph: {
@@ -70,9 +72,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 		notFound();
 	}
 
-	// Matches the slugify in lib/articles.ts
 	const headingIdMap = buildHeadingIdMap(article.markdown);
-	// Per-slug usage counter so each occurrence gets the right deduplicated ID
 	const headingIdCounters = new Map<string, number>();
 
 	const headingId = (children: React.ReactNode): string | undefined => {
@@ -111,37 +111,39 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 	return (
 		<div className="relative bg-background min-h-screen text-foreground">
 			<LenisScroll />
+			<SiteNav />
 			<TocNav items={toc} />
 
-			<main className="mx-auto px-6 sm:px-8 lg:px-16 py-20 sm:py-28 max-w-4xl">
+			<main className="mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 max-w-4xl">
 				<article className="space-y-10 sm:space-y-12">
+					{/* Header */}
 					<header className="space-y-6">
 						<Link
-							className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors"
+							className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted hover:text-ink transition-colors"
 							href="/blog"
 						>
 							<span aria-hidden="true">←</span>
 							Back to blog
 						</Link>
 
-						<div className="space-y-4">
-							<div className="font-mono text-muted-foreground text-xs uppercase tracking-wide">
+						<div className="space-y-3">
+							<div className="font-mono text-muted text-xs uppercase tracking-widest">
 								{publishedDate}
 							</div>
 
-							<h1 className="font-light text-3xl sm:text-5xl leading-tight tracking-tight">
+							<h1 className="font-medium text-3xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-ink">
 								{article.title}
 							</h1>
 
-							<p className="max-w-3xl text-muted-foreground text-lg leading-relaxed">
+							<p className="max-w-3xl text-muted text-base sm:text-lg leading-relaxed">
 								{article.seoDescription}
 							</p>
 						</div>
 
-						<div className="flex flex-wrap gap-2">
+						<div className="flex flex-wrap gap-2 pt-2">
 							{article.tags.map((tag) => (
 								<span
-									className="px-2 py-1 border border-border text-muted-foreground text-xs uppercase tracking-wide"
+									className="px-2.5 py-1 border border-line font-mono text-muted text-xs uppercase tracking-wider"
 									key={tag}
 								>
 									{tag}
@@ -150,47 +152,48 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 						</div>
 
 						{article.cover ? (
-							<Image
-								alt={article.title}
-								className="border border-border w-full h-auto object-cover"
-								height={675}
-								src={article.cover}
-								width={1200}
-							/>
+							<div className="pt-4">
+								<Image
+									alt={article.title}
+									className="border border-line w-full h-auto object-cover"
+									height={675}
+									priority
+									src={article.cover}
+									width={1200}
+								/>
+							</div>
 						) : null}
 					</header>
 
-					<div className="space-y-6 [&_code]:bg-muted/40 [&_pre_code]:bg-transparent! [&_pre]:bg-background [&_li]:my-1 [&_li>p]:my-1 [&_p]:my-5 [&_h1]:mt-12 [&_h2]:mt-10 [&_h3]:mt-8 [&_h1]:mb-4 [&_h2]:mb-3 [&_h3]:mb-3 [&_pre_code]:p-0! [&_pre]:p-4 [&_code]:px-1.5 [&_code]:py-0.5 [&_blockquote]:pl-4 [&_ol]:pl-6 [&_ul]:pl-6 [&_pre]:border [&_blockquote]:border-border [&_pre]:border-border [&_blockquote]:border-l [&_pre]:overflow-x-auto [&_h1]:font-light [&_h2]:font-light text-muted-foreground [&_a]:text-foreground [&_blockquote]:text-foreground/90 [&_code]:text-foreground [&_h1]:text-foreground [&_h2]:text-foreground [&_h3]:text-foreground hover:[&_a]:text-muted-foreground [&_code]:text-sm text-base [&_h3]:text-lg sm:text-lg [&_h2]:text-xl sm:[&_h3]:text-xl [&_h1]:text-2xl sm:[&_h2]:text-2xl sm:[&_h1]:text-3xl [&_a]:underline [&_a]:underline-offset-4 leading-relaxed [&_ol]:list-decimal [&_ul]:list-disc [&_pre]:no-scrollbar article-markdown">
+					{/* Article Markdown Content */}
+					<div className="article-markdown">
 						<ReactMarkdown
 							components={{
 								h1: ({ node, ...props }) => (
 									<h1 id={headingId(props.children)} {...props}>
-										<span className="mr-3 font-mono text-muted-foreground/30 select-none">#</span>
+										<span className="mr-3 font-mono text-[var(--accent)] select-none">#</span>
 										{props.children}
 									</h1>
 								),
 								h2: ({ node, ...props }) => (
 									<h2 id={headingId(props.children)} {...props}>
-										<span className="mr-3 font-mono text-muted-foreground/30 select-none">##</span>
+										<span className="mr-3 font-mono text-[var(--accent)] select-none">##</span>
 										{props.children}
 									</h2>
 								),
 								h3: ({ node, ...props }) => (
 									<h3 id={headingId(props.children)} {...props}>
-										<span className="mr-3 font-mono text-muted-foreground/30 select-none">###</span>
+										<span className="mr-2.5 font-mono text-muted select-none">###</span>
 										{props.children}
 									</h3>
 								),
 								h4: ({ node, ...props }) => (
 									<h4 id={headingId(props.children)} {...props}>
-										<span className="mr-3 font-mono text-muted-foreground/30 select-none">
-											####
-										</span>
+										<span className="mr-2 font-mono text-muted select-none">####</span>
 										{props.children}
 									</h4>
 								),
 								p: ({ node, ...props }) => {
-									// Check if this paragraph contains only image(s)
 									const imgChildren =
 										node?.children.filter(
 											(c) => c.type === "element" && (c as { tagName: string }).tagName === "img",
@@ -205,49 +208,35 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										);
 
 									if (onlyImages) {
-										// Stack images in a column — each gets its own centered row
 										return (
-											<div className="flex flex-col items-center gap-4 my-6">
+											<div className="flex flex-col items-center gap-4 my-8">
 												{props.children}
 											</div>
 										);
 									}
-									return <p {...props} className="text-sm" />;
+									return <p {...props} />;
 								},
 								img: ({ src, alt }) => (
 									<ZoomableImage alt={alt ?? ""} src={typeof src === "string" ? src : ""} />
 								),
 								blockquote: ({ node, ...props }) => (
-									<blockquote
-										{...props}
-										className="bg-muted-foreground/10 px-4 py-1 border-secondary border-l-4! text-muted"
-									/>
+									<blockquote {...props} />
 								),
-								code: ({ node, ...props }) => (
-									<code {...props} className="bg-muted/40 px-1.5 py-0.5 rounded font-mono text-sm" />
-								),
+								code: ({ node, ...props }) => {
+									return <code {...props} />;
+								},
 								table: ({ children }) => (
-									<div className="my-6 overflow-x-auto">
-										<table className="border border-border w-full text-sm border-collapse">
+									<div className="my-8 overflow-x-auto">
+										<table className="w-full text-sm border-collapse">
 											{children}
 										</table>
 									</div>
 								),
-								thead: ({ children }) => <thead className="border-border border-b">{children}</thead>,
+								thead: ({ children }) => <thead>{children}</thead>,
 								tbody: ({ children }) => <tbody>{children}</tbody>,
-								tr: ({ children }) => (
-									<tr className="border-border last:border-0 border-b">{children}</tr>
-								),
-								th: ({ children }) => (
-									<th className="px-4 py-2 border-border last:border-0 border-r font-medium text-foreground text-sm text-left">
-										{children}
-									</th>
-								),
-								td: ({ children }) => (
-									<td className="px-4 py-2 border-border last:border-0 border-r font-normal text-muted-foreground text-sm">
-										{children}
-									</td>
-								),
+								tr: ({ children }) => <tr>{children}</tr>,
+								th: ({ children }) => <th>{children}</th>,
+								td: ({ children }) => <td>{children}</td>,
 								pre: ({ node, children, ...props }) => {
 									const codeEl = node?.children.find(
 										(c): c is import("hast").Element =>
@@ -257,12 +246,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 										return <MermaidDiagram chart={extractText(codeEl)} />;
 									}
 
-									const className = `${props.className} font-sans`;
-									const newProps = {
-										...props,
-										className,
-									};
-									return <pre {...newProps}>{children}</pre>;
+									const language = codeEl ? getCodeLanguage(codeEl) : "";
+									const rawText = codeEl ? extractText(codeEl) : "";
+
+									return (
+										<div className="my-8 border border-line bg-[var(--code-bg)] overflow-hidden">
+											<div className="flex items-center justify-between px-4 py-2 border-b border-line bg-[var(--paper)] font-mono text-[11px] uppercase tracking-wider text-muted">
+												<span>{language || "code"}</span>
+												{rawText ? <CopyButton text={rawText} /> : null}
+											</div>
+											<pre {...props} className="p-4 sm:p-5 overflow-x-auto !m-0 !bg-transparent !border-0">
+												{children}
+											</pre>
+										</div>
+									);
 								},
 							}}
 							rehypePlugins={[
@@ -277,8 +274,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 					</div>
 				</article>
 			</main>
-
-			<div className="right-0 bottom-0 left-0 fixed bg-linear-to-t from-background via-background/80 to-transparent h-24 pointer-events-none" />
 		</div>
 	);
 }

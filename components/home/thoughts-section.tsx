@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { ArticleMeta } from "@/hooks/useProjects";
+import GlitchRevealText from "@/components/glitch-text";
 
 interface ThoughtsSectionProps {
 	sectionRef: (el: HTMLElement | null) => void;
@@ -30,7 +31,7 @@ export default function ThoughtsSection({ sectionRef, articles, isLoading, loadi
 				</div>
 
 				<div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
-					{articles.map((article) => {
+					{articles.map((article, index) => {
 						const publishedDate = new Date(article.datePublished).toLocaleDateString("en-US", {
 							day: "2-digit",
 							month: "short",
@@ -47,7 +48,11 @@ export default function ThoughtsSection({ sectionRef, articles, isLoading, loadi
 										</div>
 
 										<h3 className="font-medium text-lg transition-colors duration-300 group-hover:text-muted-foreground sm:text-xl">
-											{article.title}
+											<GlitchRevealText
+												text={article.title}
+												triggerOnScroll
+												delay={index * 120}
+											/>
 										</h3>
 
 										<p className="line-clamp-3 grow text-muted-foreground leading-relaxed">

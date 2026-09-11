@@ -1,0 +1,154 @@
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins calibrated for balanced single-page layout
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section formatting matching reference image (Small Caps + horizontal line)
+\titleformat{\section}{
+  \scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-2pt}]
+\titlespacing*{\section}{0pt}{8pt plus 2pt minus 2pt}{4pt}
+
+\pdfgentounicode=1
+
+% Sub-item lists with dashes and precise alignment
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.22in, labelsep=0.08in, itemsep=1.5pt, topsep=2pt, parsep=0pt, label={--}]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{2pt}}
+
+\begin{document}
+
+% ------------------ HEADER ------------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{\Large Piush Bose} & +91 8910530975 \\
+  B.Sc. Cloud Technology \& Information Security (Honors) & \href{mailto:dev.bosepiush@gmail.com}{dev.bosepiush@gmail.com} \\
+  Techno India University, Kolkata & \href{https://github.com/dtg-lucifer}{GitHub: dtg-lucifer} \\
+  Portfolio: \href{https://piush.in}{piush.in} & \href{https://www.linkedin.com/in/bosepiush}{LinkedIn: bosepiush} \\
+\end{tabular*}
+
+% ------------------ EDUCATION ------------------
+\section{Education}
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Bachelor of Science in Cloud Technology \& Information Security (Honors)} & 2023 -- Present \\
+  \textit{Techno India University, Kolkata} & \\
+\end{tabular*}
+
+% ------------------ PROJECTS ------------------
+\section{Personal Projects}
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Veritas} & \href{https://github.com/dtg-lucifer/veritas}{\textit{\small GitHub}} \\
+\end{tabular*}\vspace{-1pt}
+\textit{\small Autonomous predictive network defense and infiltration forecasting platform powered by AI World Models.}
+\resumeItemListStart
+  \item Formulates network traffic as causal transition dynamics $P(S_{t+1} \mid S_{\le t})$ to forecast infiltration up to 75s ahead ($K=5$).
+  \item Delivers a 60-second early warning window prior to exploit execution with closed-loop firewall isolation.
+  \item Technology Used: Python, PyTorch, Apache Kafka, FastAPI, Next.js, Docker.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{RustyKV} & \href{https://github.com/rusty-org/rusty-kv}{\textit{\small GitHub}} \\
+\end{tabular*}\vspace{-1pt}
+\textit{\small Redis-compatible distributed in-memory key-value store with persistence and replication.}
+\resumeItemListStart
+  \item Implemented AOF/RDB persistence, asynchronous replication, and pub/sub message queuing in Rust.
+  \item Built a JavaScript/TypeScript SDK, CLI client, and interactive React dashboard for real-time state introspection.
+  \item Technology Used: Rust, C++, React, Tokio.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{SpeakTrace} & \href{https://github.com/dtg-lucifer/speaktrace}{\textit{\small GitHub}} \\
+\end{tabular*}\vspace{-1pt}
+\textit{\small Automated AI audio analysis pipeline for multi-speaker diarization and speech synthesis.}
+\resumeItemListStart
+  \item Implemented speaker identification, speech-to-text transcription, and timestamped conversation analysis.
+  \item Technology Used: Python, PyTorch, Pyannote, React, FastAPI.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Everato} & \href{https://github.com/everato-industries/everato}{\textit{\small GitHub}} \\
+\end{tabular*}\vspace{-1pt}
+\textit{\small Self-hostable, scalable event management platform for virtual and in-person events.}
+\resumeItemListStart
+  \item Built ticketing infrastructure supporting QR scanning, email triggers, coupon engines, and custom domains.
+  \item Technology Used: Go, TypeScript, PostgreSQL, Docker.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{16-Bit Virtual Machine \& Assembler} & \href{https://github.com/dtg-lucifer/16bit-vm-rust}{\textit{\small GitHub}} \\
+\end{tabular*}\vspace{-1pt}
+\textit{\small Cycle-accurate 16-bit virtual machine with custom ISA and two-pass assembler.}
+\resumeItemListStart
+  \item Designed register-memory architecture, custom opcode decoding, and an execution debugger.
+  \item Technology Used: Rust, Assembly.
+\resumeItemListEnd
+
+% ------------------ EXPERIENCE ------------------
+\section{Experience}
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Software Engineer (SDE II)} & Apr 2024 -- Present \\
+  \textit{NetpieDev} & \textit{Remote, India} \\
+\end{tabular*}
+\resumeItemListStart
+  \item Engineered backend microservices and RESTful APIs, improving system uptime and request response times.
+  \item Collaborated with cross-functional teams on scalable data schemas, authentication, and authorization layers.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Technical Lead \& Lead Instructor -- Cloud \& DevOps} & Aug 2024 -- Apr 2026 \\
+  \textit{Google Developer Groups (On Campus @ TIU)} & \textit{Kolkata, India} \\
+\end{tabular*}
+\resumeItemListStart
+  \item Mentored 300+ students in cloud architecture, Docker containerization, Kubernetes orchestration, and CI/CD.
+  \item Conducted hands-on technical bootcamps on infrastructure-as-code and cloud security on GCP.
+\resumeItemListEnd
+
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  $\bullet$ \textbf{Full Stack Developer Intern} & April 2024 -- Oct 2024 \\
+  \textit{The Entrepreneurship Network (TEN)} & \textit{Remote, India} \\
+\end{tabular*}
+\resumeItemListStart
+  \item Developed and maintained responsive React interfaces, improving user experience and engagement.
+  \item Optimized database queries and API endpoints, noticeably reducing platform latency.
+\resumeItemListEnd
+
+% ------------------ TECHNICAL SKILLS ------------------
+\section{Technical Skills and Interests}
+\begin{itemize}[leftmargin=0.15in, itemsep=2pt, topsep=2pt, parsep=0pt, label={}]
+  \item \textbf{Languages:} Rust, Go, TypeScript, JavaScript, Python, C++, C, SQL, Bash.
+  \item \textbf{Backend \& Frameworks:} Node.js, Express.js, NestJS, FastAPI, Gin, Actix-web, Next.js, React.
+  \item \textbf{Databases \& Messaging:} PostgreSQL, MongoDB, Redis, MySQL, Apache Kafka, Prisma ORM.
+  \item \textbf{Cloud \& DevOps:} Docker, Docker Swarm, Kubernetes, AWS, GCP, GitHub Actions, Terraform, Ansible, Linux.
+  \item \textbf{Libraries \& Systems:} PyTorch, Pyannote, Tokio, WebSockets, WebRTC, RESTful APIs.
+  \item \textbf{Areas of Interest:} Distributed Systems, AI World Models, Cloud Infrastructure, Systems Programming.
+\end{itemize}
+
+\end{document}

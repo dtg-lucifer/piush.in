@@ -1,37 +1,34 @@
 import type React from "react";
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Geist_Mono, Space_Grotesk } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { DM_Mono, Space_Grotesk } from "next/font/google";
 import SiteFooter from "@/components/site-footer";
+import PageLoader from "@/components/page-loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
-const lilex = localFont({
-	src: [
-		{
-			path: "../public/assets/fonts/variable/Lilex-VariableFont_wght.ttf",
-			style: "normal",
-		},
-		{
-			path: "../public/assets/fonts/variable/Lilex-Italic-VariableFont_wght.ttf",
-			style: "italic",
-		},
-	],
-	display: "swap",
-	variable: "--font-lilex",
-});
-
 const spaceGrotesk = Space_Grotesk({
-    subsets: ["latin"],
-    display: "swap",
-    variable: "--font-space-grotesk",
-})
-
-const geistMono = Geist_Mono({
 	subsets: ["latin"],
 	display: "swap",
-	variable: "--font-geist-mono",
+	weight: ["400", "500", "600", "700"],
+	variable: "--font-space-grotesk",
 });
+
+const dmMono = DM_Mono({
+	subsets: ["latin"],
+	display: "swap",
+	weight: ["400", "500"],
+	style: ["normal", "italic"],
+	variable: "--font-dm-mono",
+});
+
+export const viewport: Viewport = {
+	themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "#f2f0e9" },
+		{ media: "(prefers-color-scheme: dark)", color: "#17221d" },
+	],
+	width: "device-width",
+	initialScale: 1,
+};
 
 const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://piush.in");
 const canonicalUrl = new URL("/", siteUrl);
@@ -40,9 +37,9 @@ const ogTwitterUrl = new URL("/og/og_twitter.png", siteUrl);
 
 export const metadata: Metadata = {
 	metadataBase: siteUrl,
-	title: "Piush Bose | Software Engineer",
+	title: "Piush Bose | Software Engineer & Machine Learning Engineer",
 	description:
-		"Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+		"Piush Bose is a Software Engineer & Machine Learning Engineer building scalable backend systems, machine learning pipelines, and distributed architecture.",
 	manifest: "/favicon/dark/site.webmanifest",
 	icons: {
 		icon: [
@@ -61,9 +58,9 @@ export const metadata: Metadata = {
 		apple: "/favicon/dark/apple-touch-icon.png",
 	},
 	openGraph: {
-		title: "Piush Bose | Software Engineer",
+		title: "Piush Bose | Software & Machine Learning Engineer",
 		description:
-			"Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+			"Piush Bose is a Software Engineer & Machine Learning Engineer building scalable backend systems, machine learning pipelines, and distributed architecture.",
 		url: canonicalUrl,
 		siteName: "Piush Bose",
 		images: [
@@ -71,7 +68,7 @@ export const metadata: Metadata = {
 				url: ogLandscapeUrl,
 				width: 1200,
 				height: 630,
-				alt: "Piush Bose - Software Engineer and SDE II",
+				alt: "Piush Bose - Software & Machine Learning Engineer",
 				type: "image/jpeg",
 			},
 		],
@@ -80,19 +77,19 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Piush Bose | Software Engineer",
+		title: "Piush Bose | Software & Machine Learning Engineer",
 		description:
-			"Piush Bose is a Software Engineer and SDE II building scalable systems, polished products, and performant web experiences.",
+			"Piush Bose is a Software Engineer & Machine Learning Engineer building scalable backend systems, machine learning pipelines, and distributed architecture.",
 		images: [ogTwitterUrl],
 	},
 	keywords: [
 		"Software Engineer",
+		"Machine Learning Engineer",
+		"ML Engineer",
+		"AI Infrastructure",
 		"SDE II",
 		"Scalable systems",
-		"Polished products",
-		"Performant web experiences",
 		"Backend development",
-		"Full-stack development",
 		"Distributed Systems Engineer",
 		"Piush Bose",
 		"Piush",
@@ -109,9 +106,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" suppressHydrationWarning className={`${lilex.variable} ${geistMono.variable} ${spaceGrotesk.variable} dark`}>
-			<body className="font-sans antialiased">
-				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+		<html lang="en" suppressHydrationWarning className={`${spaceGrotesk.variable} ${dmMono.variable} h-full`}>
+			<body className="font-sans antialiased min-h-full flex flex-col">
+				<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+					<PageLoader />
 					{children}
 					<SiteFooter />
 				</ThemeProvider>

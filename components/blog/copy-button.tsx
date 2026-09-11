@@ -17,7 +17,12 @@ export default function CopyButton({ text }: CopyButtonProps) {
 	};
 
 	return (
-		<button aria-label="Copy code" className="copy-btn" onClick={handleCopy} type="button">
+		<button
+			aria-label="Copy code"
+			className="copy-btn cursor-pointer p-1 rounded hover:opacity-80 transition-opacity"
+			onClick={handleCopy}
+			type="button"
+		>
 			{copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
 		</button>
 	);

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import LenisScroll from "@/components/lenis-scroll";
+import SiteNav from "@/components/site-nav";
 import { getAllArticleMeta } from "@/lib/articles";
 import BlogListing from "@/components/blog/blog-listing";
 
@@ -21,12 +22,11 @@ export default function BlogPage() {
 	return (
 		<div className="relative bg-background min-h-screen text-foreground">
 			<LenisScroll />
+			<SiteNav />
 
-			<main className="mx-auto px-6 sm:px-8 lg:px-16 py-20 sm:py-28 max-w-4xl">
+			<main className="mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 max-w-3xl">
 				<BlogListing articles={articles} />
 			</main>
-
-			<div className="right-0 bottom-0 left-0 fixed bg-linear-to-t from-background via-background/80 to-transparent h-24 pointer-events-none" />
 		</div>
 	);
 }

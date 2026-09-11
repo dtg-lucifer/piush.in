@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useMemo } from "react";
 import type { ArticleMeta } from "@/lib/articles";
 import { useDebounce } from "@/hooks/useDebounce";
+import GlitchRevealText from "@/components/glitch-text";
 
 const ARTICLES_PER_PAGE = 4;
 
@@ -43,7 +44,7 @@ export default function BlogListing({ articles }: BlogListingProps) {
 			{/* Header */}
 			<div className="space-y-6">
 				<Link
-					className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors"
+					className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted hover:text-ink transition-colors"
 					href="/"
 				>
 					<span aria-hidden="true">←</span>
@@ -51,15 +52,18 @@ export default function BlogListing({ articles }: BlogListingProps) {
 				</Link>
 
 				<div className="flex sm:flex-row flex-col sm:justify-between sm:items-end gap-4">
-					<h1 className="font-light text-4xl sm:text-5xl tracking-tight">Blog</h1>
-					<div className="font-mono text-muted-foreground text-sm">
+					<div>
+						<p className="eyebrow mb-2">Long-form notes</p>
+						<h1 className="font-medium text-4xl sm:text-6xl tracking-tight text-ink m-0">Blog</h1>
+					</div>
+					<div className="font-mono text-muted text-xs uppercase tracking-wider">
 						{filtered.length === articles.length
 							? `${articles.length} Articles`
 							: `${filtered.length} / ${articles.length} Articles`}
 					</div>
 				</div>
 
-				<p className="max-w-2xl text-muted-foreground leading-relaxed">
+				<p className="max-w-2xl text-muted text-base leading-relaxed">
 					Long-form notes on systems, backend architecture, cloud infrastructure, and engineering
 					trade-offs from real project work.
 				</p>
@@ -69,7 +73,7 @@ export default function BlogListing({ articles }: BlogListingProps) {
 					<div className="left-0 absolute inset-y-0 flex items-center pl-3 pointer-events-none">
 						<svg
 							aria-hidden="true"
-							className="w-4 h-4 text-muted-foreground"
+							className="w-4 h-4 text-muted"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -84,7 +88,7 @@ export default function BlogListing({ articles }: BlogListingProps) {
 					</div>
 					<input
 						aria-label="Search articles"
-						className="bg-background py-2.5 pr-4 pl-9 border border-border focus:border-foreground outline-none w-full font-mono text-foreground placeholder:text-muted-foreground/50 text-sm transition-colors duration-200"
+						className="bg-transparent py-3 pr-4 pl-10 border border-line focus:border-ink outline-none w-full font-mono text-ink placeholder:text-muted/60 text-xs uppercase tracking-wider transition-colors duration-200"
 						onChange={(e) => handleSearch(e.target.value)}
 						placeholder="Search by title, tag, or description…"
 						type="search"
@@ -96,25 +100,11 @@ export default function BlogListing({ articles }: BlogListingProps) {
 			{/* Article list */}
 			<div className="gap-8 grid min-h-[200px]">
 				{paginated.length === 0 ? (
-					<div className="flex flex-col justify-center items-center gap-3 py-20 font-mono text-muted-foreground text-sm">
-						<svg
-							aria-hidden="true"
-							className="opacity-40 w-8 h-8"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={1.5}
-							/>
-						</svg>
+					<div className="flex flex-col justify-center items-center gap-3 py-20 font-mono text-muted text-xs uppercase tracking-wider">
 						<span>No articles match &ldquo;{search}&rdquo;</span>
 					</div>
 				) : (
-					paginated.map((article) => {
+					paginated.map((article, index) => {
 						const publishedDate = new Date(article.datePublished).toLocaleDateString("en-US", {
 							day: "2-digit",
 							month: "short",
@@ -123,12 +113,12 @@ export default function BlogListing({ articles }: BlogListingProps) {
 
 						return (
 							<Link className="group block" href={`/blog/${article.slug}`} key={article.slug}>
-								<article className="bg-background group-hover:bg-muted/30 border border-border group-hover:border-foreground transition-all duration-300">
+								<article className="border border-line bg-[var(--paper)] group-hover:border-ink transition-all duration-300">
 									{article.cover ? (
-										<div className="border-border border-b aspect-16/8 overflow-hidden">
+										<div className="border-line border-b aspect-16/8 overflow-hidden">
 											<Image
 												alt={article.title}
-												className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+												className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
 												height={675}
 												src={article.cover}
 												width={1200}
@@ -136,24 +126,29 @@ export default function BlogListing({ articles }: BlogListingProps) {
 										</div>
 									) : null}
 
-									<div className="space-y-4 p-5 sm:p-6">
-										<div className="flex justify-between items-center font-mono text-muted-foreground text-xs uppercase tracking-wide">
+									<div className="space-y-4 p-6 sm:p-8">
+										<div className="flex justify-between items-center font-mono text-muted text-xs uppercase tracking-wider">
 											<span>{publishedDate}</span>
 											<span>{article.tags[0] ?? "article"}</span>
 										</div>
 
-										<h2 className="font-medium text-foreground text-2xl leading-tight transition-transform duration-300">
-											{article.title}
+										<h2 className="font-medium text-ink text-2xl sm:text-3xl leading-tight group-hover:text-[var(--accent)] transition-colors">
+											<GlitchRevealText
+												text={article.title}
+												triggerOnScroll
+												delay={index * 120}
+												retriggerOnHover={false}
+											/>
 										</h2>
 
-										<p className="text-muted-foreground line-clamp-3 leading-relaxed">
+										<p className="text-muted text-sm sm:text-base line-clamp-3 leading-relaxed">
 											{article.seoDescription}
 										</p>
 
 										<div className="flex flex-wrap gap-2">
 											{article.tags.slice(0, 5).map((tag) => (
 												<span
-													className="px-2 py-1 border border-border text-[11px] text-muted-foreground group-hover:text-foreground uppercase tracking-wide transition-colors"
+													className="px-2 py-0.5 border border-line font-mono text-[11px] text-muted uppercase tracking-wider"
 													key={tag}
 												>
 													{tag}
@@ -161,22 +156,9 @@ export default function BlogListing({ articles }: BlogListingProps) {
 											))}
 										</div>
 
-										<div className="inline-flex items-center gap-2 text-muted-foreground group-hover:text-foreground text-sm transition-colors duration-300">
+										<div className="inline-flex items-center gap-2 text-ink font-mono text-xs uppercase tracking-wider group-hover:text-[var(--accent)] transition-colors duration-200 pt-2">
 											<span>Read article</span>
-											<svg
-												aria-hidden="true"
-												className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300 transform"
-												fill="none"
-												stroke="currentColor"
-												viewBox="0 0 24 24"
-											>
-												<path
-													d="M17 8l4 4m0 0l-4 4m4-4H3"
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													strokeWidth={2}
-												/>
-											</svg>
+											<span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">↗</span>
 										</div>
 									</div>
 								</article>
@@ -188,74 +170,27 @@ export default function BlogListing({ articles }: BlogListingProps) {
 
 			{/* Pagination */}
 			{totalPages > 1 && (
-				<div className="flex justify-between items-center pt-8 border-border border-t">
+				<nav aria-label="Pagination" className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider">
 					<button
-						aria-label="Previous page"
-						className="inline-flex items-center gap-2 disabled:opacity-30 px-4 py-2 border border-border hover:border-foreground disabled:hover:border-border font-mono text-muted-foreground hover:text-foreground disabled:hover:text-muted-foreground text-sm transition-all duration-200 disabled:cursor-not-allowed"
+						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
 						disabled={safePage <= 1}
 						onClick={() => setPage((p) => Math.max(1, p - 1))}
 						type="button"
 					>
-						<svg
-							aria-hidden="true"
-							className="w-4 h-4"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								d="M7 16l-4-4m0 0l4-4m-4 4h18"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={1.5}
-							/>
-						</svg>
-						Prev
+						← Previous
 					</button>
-
-					<div className="flex items-center gap-1">
-						{Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-							<button
-								aria-current={p === safePage ? "page" : undefined}
-								aria-label={`Page ${p}`}
-								className={`w-8 h-8 font-mono text-xs border transition-all duration-200 ${
-									p === safePage
-										? "border-foreground text-foreground bg-foreground/5"
-										: "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-								}`}
-								key={p}
-								onClick={() => setPage(p)}
-								type="button"
-							>
-								{p}
-							</button>
-						))}
-					</div>
-
+					<span className="text-muted">
+						Page {safePage} of {totalPages}
+					</span>
 					<button
-						aria-label="Next page"
-						className="inline-flex items-center gap-2 disabled:opacity-30 px-4 py-2 border border-border hover:border-foreground disabled:hover:border-border font-mono text-muted-foreground hover:text-foreground disabled:hover:text-muted-foreground text-sm transition-all duration-200 disabled:cursor-not-allowed"
+						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
 						disabled={safePage >= totalPages}
 						onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
 						type="button"
 					>
-						Next
-						<svg
-							aria-hidden="true"
-							className="w-4 h-4"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								d="M17 8l4 4m0 0l-4 4m4-4H3"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={1.5}
-							/>
-						</svg>
+						Next →
 					</button>
-				</div>
+				</nav>
 			)}
 		</section>
 	);
