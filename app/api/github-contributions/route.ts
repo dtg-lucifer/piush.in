@@ -103,18 +103,14 @@ export async function GET() {
 		// across every year since account creation, all in one batched GraphQL request.
 		const lifetimeQuery = buildLifetimeQuery(accountCreatedYear, currentYear);
 		const lifetimeData = await graphql<{
-			user: Record<
-				string,
-				{ totalCommitContributions: number; restrictedContributionsCount: number }
-			>;
+			user: Record<string, { totalCommitContributions: number; restrictedContributionsCount: number }>;
 		}>(token, lifetimeQuery, { username: GITHUB_USERNAME });
 
 		let totalCommits = 0;
 		for (let year = accountCreatedYear; year <= currentYear; year++) {
 			const yearData = lifetimeData.user[`year${year}`];
 			if (yearData) {
-				totalCommits +=
-					yearData.totalCommitContributions + yearData.restrictedContributionsCount;
+				totalCommits += yearData.totalCommitContributions + yearData.restrictedContributionsCount;
 			}
 		}
 

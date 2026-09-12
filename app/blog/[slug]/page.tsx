@@ -219,17 +219,13 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 								img: ({ src, alt }) => (
 									<ZoomableImage alt={alt ?? ""} src={typeof src === "string" ? src : ""} />
 								),
-								blockquote: ({ node, ...props }) => (
-									<blockquote {...props} />
-								),
+								blockquote: ({ node, ...props }) => <blockquote {...props} />,
 								code: ({ node, ...props }) => {
 									return <code {...props} />;
 								},
 								table: ({ children }) => (
 									<div className="my-8 overflow-x-auto">
-										<table className="w-full text-sm border-collapse">
-											{children}
-										</table>
+										<table className="w-full text-sm border-collapse">{children}</table>
 									</div>
 								),
 								thead: ({ children }) => <thead>{children}</thead>,
@@ -255,7 +251,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 												<span>{language || "code"}</span>
 												{rawText ? <CopyButton text={rawText} /> : null}
 											</div>
-											<pre {...props} className="p-4 sm:p-5 overflow-x-auto !m-0 !bg-transparent !border-0">
+											<pre
+												{...props}
+												className="p-4 sm:p-5 overflow-x-auto !m-0 !bg-transparent !border-0"
+											>
 												{children}
 											</pre>
 										</div>

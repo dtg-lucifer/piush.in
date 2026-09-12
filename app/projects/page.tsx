@@ -59,7 +59,9 @@ export default function ProjectsPage() {
 						<div className="flex sm:flex-row flex-col sm:justify-between sm:items-end gap-4">
 							<div>
 								<p className="eyebrow mb-2">Systems &amp; Open Source</p>
-								<h1 className="font-medium text-4xl sm:text-6xl tracking-tight text-ink m-0">Projects</h1>
+								<h1 className="font-medium text-4xl sm:text-6xl tracking-tight text-ink m-0">
+									Projects
+								</h1>
 							</div>
 							<div className="font-mono text-muted text-xs uppercase tracking-wider">
 								{isLoading
@@ -136,7 +138,10 @@ export default function ProjectsPage() {
 
 									<div className="space-y-4 p-6 sm:p-8">
 										<div className="flex justify-between items-center font-mono text-muted text-xs uppercase tracking-wider">
-											<span>0{(safePage - 1) * PROJECTS_PER_PAGE + idx + 1} / {project.wip ? "WIP" : "Live"}</span>
+											<span>
+												0{(safePage - 1) * PROJECTS_PER_PAGE + idx + 1} /{" "}
+												{project.wip ? "WIP" : "Live"}
+											</span>
 											<span>{project.tags[0] ?? "Project"}</span>
 										</div>
 
@@ -207,7 +212,10 @@ export default function ProjectsPage() {
 
 					{/* Pagination */}
 					{!isLoading && totalPages > 1 && (
-						<nav aria-label="Pagination" className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider">
+						<nav
+							aria-label="Pagination"
+							className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider"
+						>
 							<button
 								className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
 								disabled={safePage <= 1}

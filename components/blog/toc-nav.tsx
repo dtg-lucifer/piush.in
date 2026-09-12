@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 export interface TocItem {
 	id: string;
-	key: string;   // unique per item, safe to use as React key
+	key: string; // unique per item, safe to use as React key
 	label: string;
 	depth: number; // 1 = h1, 2 = h2, 3 = h3
 }

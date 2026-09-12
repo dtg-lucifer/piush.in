@@ -68,8 +68,7 @@ export default function GitHubCommitGraph() {
 
 	// Full 30 days data on both mobile and desktop as requested
 	const daysWindow = 30;
-	const activeDays: ContributionDay[] =
-		allDays.length >= daysWindow ? allDays.slice(-daysWindow) : allDays;
+	const activeDays: ContributionDay[] = allDays.length >= daysWindow ? allDays.slice(-daysWindow) : allDays;
 
 	// Total commits in the 30-day window
 	const totalCommitsWindow = activeDays.reduce((acc, d) => acc + d.contributionCount, 0);
@@ -156,10 +155,8 @@ export default function GitHubCommitGraph() {
 	};
 
 	const startDateLabel = activeDays.length > 0 ? formatDate(activeDays[0].date) : "";
-	const midDateLabel =
-		activeDays.length > 0 ? formatDate(activeDays[Math.floor(activeDays.length / 2)].date) : "";
-	const endDateLabel =
-		activeDays.length > 0 ? formatDate(activeDays[activeDays.length - 1].date) : "";
+	const midDateLabel = activeDays.length > 0 ? formatDate(activeDays[Math.floor(activeDays.length / 2)].date) : "";
+	const endDateLabel = activeDays.length > 0 ? formatDate(activeDays[activeDays.length - 1].date) : "";
 
 	return (
 		<section className="commit-graph-section page-section" id="activity">
@@ -222,10 +219,7 @@ export default function GitHubCommitGraph() {
 							<div className="commit-graph-pulse" />
 						</div>
 					) : (
-						<svg
-							className="commit-graph-svg"
-							viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-						>
+						<svg className="commit-graph-svg" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
 							<defs>
 								{/* Subtle green gradient fill matching screenshot */}
 								<linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
@@ -236,9 +230,7 @@ export default function GitHubCommitGraph() {
 							</defs>
 
 							{/* Area under the line */}
-							{areaD && (
-								<path d={areaD} fill={`url(#${gradientId})`} className="commit-graph-area" />
-							)}
+							{areaD && <path d={areaD} fill={`url(#${gradientId})`} className="commit-graph-area" />}
 
 							{/* Spline line */}
 							{pathD && (

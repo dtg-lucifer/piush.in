@@ -29,19 +29,18 @@ export default function ZoomableImage({ src, alt, className }: ZoomableImageProp
 				/>
 				<span className="right-2 bottom-2 absolute flex items-center gap-1 bg-background/80 opacity-0 group-hover:opacity-100 px-2 py-1 border border-border font-mono text-[10px] text-muted-foreground transition-opacity duration-200 pointer-events-none select-none">
 					<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={2}
+							d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+						/>
 					</svg>
 					zoom
 				</span>
 			</button>
 
-			{open && (
-				<ImageLightbox
-					alt={alt}
-					onClose={() => setOpen(false)}
-					src={src}
-				/>
-			)}
+			{open && <ImageLightbox alt={alt} onClose={() => setOpen(false)} src={src} />}
 		</>
 	);
 }

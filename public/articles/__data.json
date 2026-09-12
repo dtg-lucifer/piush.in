@@ -102,16 +102,7 @@
 		"slug": "when-should-you-use-kubernetes-for-your-projects",
 		"cover": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040872235/71195afd-019f-437e-ab9d-b4a7e9ba954b.png",
 		"ogImage": "https://cdn.hashnode.com/res/hashnode/image/upload/v1739040517788/0041905b-d1b5-41fb-b432-ffafa4d1d5e7.png",
-		"tags": [
-			"cloud",
-			"docker",
-			"kubernetes",
-			"swarm",
-			"docker-swarm",
-			"cncf",
-			"cloud-native",
-			"docker-stack"
-		],
+		"tags": ["cloud", "docker", "kubernetes", "swarm", "docker-swarm", "cncf", "cloud-native", "docker-stack"],
 		"content": "2025_02_08_swarm_vs_k8s.md",
 		"featured": false
 	},

@@ -12,7 +12,8 @@ export function useLenis() {
 		}
 
 		// Disable on touch devices to allow native 120Hz momentum scroll and avoid RAF overhead
-		const isTouch = window.matchMedia("(pointer: coarse)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+		const isTouch =
+			window.matchMedia("(pointer: coarse)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 		if (isTouch) {
 			return;
 		}

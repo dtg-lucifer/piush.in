@@ -81,10 +81,7 @@ export default function PageLoader() {
 
 				{/* Progress Track */}
 				<div className="fullscreen-loader-bar-track">
-					<div
-						className="fullscreen-loader-bar-fill"
-						style={{ width: `${progress}%` }}
-					/>
+					<div className="fullscreen-loader-bar-fill" style={{ width: `${progress}%` }} />
 				</div>
 
 				{/* Status & Counter */}

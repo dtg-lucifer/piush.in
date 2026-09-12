@@ -29,10 +29,7 @@ export default function FloatingNav({ activeSection, onNavigate }: FloatingNavPr
 	return (
 		<>
 			{/* ── Desktop: left-side vertical pill ── */}
-			<nav
-				aria-label="Page navigation"
-				className="hidden top-1/2 left-6 z-50 fixed xl:flex -translate-y-1/2"
-			>
+			<nav aria-label="Page navigation" className="hidden top-1/2 left-6 z-50 fixed xl:flex -translate-y-1/2">
 				<div className="flex flex-col items-start gap-1 px-3 py-4 min-w-[140px]">
 					{/* Section links */}
 					<div className="flex flex-col items-start gap-1 w-full">

@@ -64,8 +64,8 @@ export default function BlogListing({ articles }: BlogListingProps) {
 				</div>
 
 				<p className="max-w-2xl text-muted text-base leading-relaxed">
-					Long-form notes on systems, backend architecture, cloud infrastructure, and engineering
-					trade-offs from real project work.
+					Long-form notes on systems, backend architecture, cloud infrastructure, and engineering trade-offs
+					from real project work.
 				</p>
 
 				{/* Search bar */}
@@ -158,7 +158,12 @@ export default function BlogListing({ articles }: BlogListingProps) {
 
 										<div className="inline-flex items-center gap-2 text-ink font-mono text-xs uppercase tracking-wider group-hover:text-[var(--accent)] transition-colors duration-200 pt-2">
 											<span>Read article</span>
-											<span aria-hidden="true" className="group-hover:translate-x-1 transition-transform">↗</span>
+											<span
+												aria-hidden="true"
+												className="group-hover:translate-x-1 transition-transform"
+											>
+												↗
+											</span>
 										</div>
 									</div>
 								</article>
@@ -170,7 +175,10 @@ export default function BlogListing({ articles }: BlogListingProps) {
 
 			{/* Pagination */}
 			{totalPages > 1 && (
-				<nav aria-label="Pagination" className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider">
+				<nav
+					aria-label="Pagination"
+					className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider"
+				>
 					<button
 						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
 						disabled={safePage <= 1}

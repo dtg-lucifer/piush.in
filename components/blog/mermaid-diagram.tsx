@@ -65,10 +65,7 @@ export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
 	return (
 		<>
 			<div className="group relative flex justify-center w-full mermaid-diagram">
-				<div
-					className="w-full"
-					dangerouslySetInnerHTML={{ __html: svgMarkup }}
-				/>
+				<div className="w-full" dangerouslySetInnerHTML={{ __html: svgMarkup }} />
 				{/* Expand button */}
 				<button
 					aria-label="View diagram fullscreen"
@@ -77,7 +74,12 @@ export default function MermaidDiagram({ chart }: MermaidDiagramProps) {
 					type="button"
 				>
 					<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							strokeWidth={2}
+							d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+						/>
 					</svg>
 					zoom
 				</button>

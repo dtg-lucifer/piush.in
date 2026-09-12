@@ -117,12 +117,7 @@ export default function Home() {
 						>
 							GitHub profile <span aria-hidden="true">↗</span>
 						</a>
-						<a
-							className="text-link"
-							href="/resume.pdf"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
+						<a className="text-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
 							Resume <span aria-hidden="true">↗</span>
 						</a>
 					</div>
@@ -277,14 +272,15 @@ export default function Home() {
 				</div>
 				<div className="about-content">
 					<p className="about-lede">
-						I like working close to the metal, close to the models, and close to the people who use the software.
+						I like working close to the metal, close to the models, and close to the people who use the
+						software.
 					</p>
 					<div className="about-details">
 						<p>
 							From Kafka-backed workflows and machine learning systems to a tiny virtual machine, I enjoy
-							making complex systems feel legible, reliable, and useful. I work at the intersection of systems
-							engineering and applied machine learning, and I&apos;m currently studying Cloud Technology &amp; Information
-							Security at Techno India University.
+							making complex systems feel legible, reliable, and useful. I work at the intersection of
+							systems engineering and applied machine learning, and I&apos;m currently studying Cloud
+							Technology &amp; Information Security at Techno India University.
 						</p>
 						<div className="skill-list">
 							{skills.map((skill) => (
