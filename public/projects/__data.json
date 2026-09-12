@@ -5,8 +5,19 @@
 		"image": "/projects/veritas_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/veritas",
 		"demoUrl": "https://github.com/dtg-lucifer/veritas",
-		"tags": ["AI World Models", "PyTorch", "Apache Kafka", "FastAPI", "Next.js", "Cybersecurity", "Explainable AI"],
-		"languages": ["Python", "TypeScript"],
+		"tags": [
+			"AI World Models",
+			"PyTorch",
+			"Apache Kafka",
+			"FastAPI",
+			"Next.js",
+			"Cybersecurity",
+			"Explainable AI"
+		],
+		"languages": [
+			"Python",
+			"TypeScript"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -16,8 +27,22 @@
 		"image": "/projects/speaktrace_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/speaktrace",
 		"demoUrl": "https://drive.google.com/file/d/1RpdPKH28THLyBbJKTEyDtCRXxxLGhsaT/view?usp=sharing",
-		"tags": ["Speech AI", "Speaker Diarization", "RAG", "Whisper", "LLM", "Audio Processing"],
-		"languages": ["TypeScript", "Python"],
+		"tags": [
+			"Speech AI",
+			"Speaker Diarization",
+			"RAG",
+			"Whisper",
+			"LLM",
+			"Audio Processing"
+		],
+		"languages": [
+			"RAG",
+			"Python",
+			"RNN",
+			"Whisper",
+			"PyAnnote",
+			"PyTorch"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -27,8 +52,17 @@
 		"repoUrl": "https://github.com/dtg-lucifer/6502_emulator",
 		"demoUrl": "https://github.com/dtg-lucifer/6502_emulator",
 		"image": "/projects/m6502_cpu_demo.webp",
-		"tags": ["C++", "CPU Architecture", "Assembler", "8-Bit CPU", "Emulator"],
-		"languages": ["C++", "Assembly"],
+		"tags": [
+			"C++",
+			"CPU Architecture",
+			"Assembler",
+			"8-Bit CPU",
+			"Emulator"
+		],
+		"languages": [
+			"C++",
+			"Assembly"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -38,8 +72,16 @@
 		"repoUrl": "https://github.com/dtg-lucifer/16bit-vm-rust",
 		"demoUrl": "https://www.linkedin.com/posts/bosepiush_launching-16-bit-virtual-machine-in-rust-activity-7353420819156344832-vmzy?utm_source=share&utm_medium=member_desktop&rcm=ACoAADqjwisB2GTF9u88oc7VdrDISDqaxnREkyE",
 		"image": "/projects/rustyvm_demo.webp",
-		"tags": ["Rust", "CPU Architecture", "Assembler", "16-Bit CPU"],
-		"languages": ["Rust", "Assembly"],
+		"tags": [
+			"Rust",
+			"CPU Architecture",
+			"Assembler",
+			"16-Bit CPU"
+		],
+		"languages": [
+			"Rust",
+			"Assembly"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -49,8 +91,16 @@
 		"repoUrl": "https://github.com/rusty-org/rusty-kv",
 		"demoUrl": "https://github.com/rusty-org/rusty-kv",
 		"image": "/projects/rustykv_demo.webp",
-		"tags": ["Rust", "C++", "Multithreading", "Redis"],
-		"languages": ["Rust", "C++"],
+		"tags": [
+			"Rust",
+			"C++",
+			"Multithreading",
+			"Redis"
+		],
+		"languages": [
+			"Rust",
+			"C++"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -60,8 +110,17 @@
 		"image": "/projects/chatocord_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/Chat-O-Cord",
 		"demoUrl": "https://github.com/dtg-lucifer/Chat-O-Cord",
-		"tags": ["React", "Redis", "Socket.io", "Electron"],
-		"languages": ["TypeScript", "JavaScript", "SQL"],
+		"tags": [
+			"React",
+			"Redis",
+			"Socket.io",
+			"Electron"
+		],
+		"languages": [
+			"TypeScript",
+			"JavaScript",
+			"SQL"
+		],
 		"wip": false,
 		"featured": true
 	},
@@ -71,8 +130,16 @@
 		"image": "/projects/starty_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/starty",
 		"demoUrl": "https://github.com/dtg-lucifer/starty",
-		"tags": ["Next.js@15", "TailwindCSS", "Sanity.io", "Sentry"],
-		"languages": ["TypeScript", "JavaScript"],
+		"tags": [
+			"Next.js@15",
+			"TailwindCSS",
+			"Sanity.io",
+			"Sentry"
+		],
+		"languages": [
+			"TypeScript",
+			"JavaScript"
+		],
 		"wip": false,
 		"featured": false
 	},
@@ -82,8 +149,18 @@
 		"repoUrl": "https://github.com/everato-industries/everato",
 		"demoUrl": "https://github.com/everato-industries/everato",
 		"image": "/projects/everato_demo.webp",
-		"tags": ["Go", "React.js", "Email", "SQL", "Cloudinary"],
-		"languages": ["Go", "TypeScript", "SQL"],
+		"tags": [
+			"Go",
+			"React.js",
+			"Email",
+			"SQL",
+			"Cloudinary"
+		],
+		"languages": [
+			"Go",
+			"TypeScript",
+			"SQL"
+		],
 		"wip": true,
 		"featured": true
 	},
@@ -93,8 +170,18 @@
 		"repoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
 		"demoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
 		"image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
-		"tags": ["Python", "Kubernetes", "RabbitMQ", "MongoDB", "FFmpeg", "Microservices", "Docker"],
-		"languages": ["Python"],
+		"tags": [
+			"Python",
+			"Kubernetes",
+			"RabbitMQ",
+			"MongoDB",
+			"FFmpeg",
+			"Microservices",
+			"Docker"
+		],
+		"languages": [
+			"Python"
+		],
 		"wip": false,
 		"featured": false
 	},
@@ -104,8 +191,17 @@
 		"repoUrl": "https://github.com/dtg-lucifer/redis-docker-swarm-devops-project",
 		"demoUrl": "https://devpiush.hashnode.dev/learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
 		"image": "/projects/docker_swarm_demo.webp",
-		"tags": ["Docker Swarm", "GCP", "Redis", "Python", "Microservices"],
-		"languages": ["Python", "Bash"],
+		"tags": [
+			"Docker Swarm",
+			"GCP",
+			"Redis",
+			"Python",
+			"Microservices"
+		],
+		"languages": [
+			"Python",
+			"Bash"
+		],
 		"wip": false,
 		"featured": false
 	},
@@ -115,8 +211,14 @@
 		"repoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
 		"demoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
 		"image": "/projects/grpc_demo.webp",
-		"tags": ["C++", "gRPC", "Microservices"],
-		"languages": ["C++"],
+		"tags": [
+			"C++",
+			"gRPC",
+			"Microservices"
+		],
+		"languages": [
+			"C++"
+		],
 		"wip": false,
 		"featured": false
 	},
@@ -126,8 +228,14 @@
 		"repoUrl": "https://github.com/dtg-lucifer/inside-out-tea",
 		"demoUrl": "https://inside-out-tea.vercel.app/",
 		"image": "/projects/insideout_demo.webp",
-		"tags": ["Next.js@15", "TailwindCSS"],
-		"languages": ["TypeScript", "JavaScript"],
+		"tags": [
+			"Next.js@15",
+			"TailwindCSS"
+		],
+		"languages": [
+			"TypeScript",
+			"JavaScript"
+		],
 		"wip": false,
 		"featured": false
 	}
