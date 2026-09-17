@@ -62,7 +62,7 @@ export async function syncGuestbookToFirestore(entries: GuestbookEntry[]): Promi
 			{ merge: true },
 		);
 
-		// 2. Sync individual collection documents in batch
+		// 2. Sync individual collection documents in batch (optional/best-effort based on security rules)
 		try {
 			const batch = writeBatch(db);
 			entries.forEach((entry) => {
@@ -71,8 +71,11 @@ export async function syncGuestbookToFirestore(entries: GuestbookEntry[]): Promi
 				}
 			});
 			await batch.commit();
-		} catch (bErr) {
-			console.warn("Batch guestbook update warning:", bErr);
+		} catch (bErr: unknown) {
+			const err = bErr as { code?: string; message?: string };
+			if (err?.code !== "permission-denied") {
+				console.warn("Batch guestbook update warning:", bErr);
+			}
 		}
 
 		console.log(`[Firestore] Successfully synchronized ${entries.length} guestbook entries in Firestore.`);
@@ -110,6 +113,7 @@ export async function fetchGuestbookEntries(
 						status: data.status || "pending",
 						createdAt: data.createdAt || Date.now(),
 						approvedAt: data.approvedAt,
+						likes: Array.isArray(data.likes) ? data.likes : [],
 					});
 				});
 				firestoreEntries = loaded;
@@ -292,6 +296,49 @@ export async function deleteGuestbookEntry(id: string): Promise<boolean> {
 	}
 
 	return success;
+}
+
+// Toggle like for a guestbook entry (add if not present, remove if present)
+export async function toggleGuestbookLike(
+	entryId: string,
+	userId: string,
+): Promise<{ likes: string[]; liked: boolean }> {
+	// Read current state
+	const local = getLocalGuestbook();
+	const idx = local.findIndex((e) => e.id === entryId);
+
+	let currentLikes: string[] = [];
+	if (idx !== -1) {
+		currentLikes = local[idx].likes || [];
+	}
+
+	const alreadyLiked = currentLikes.includes(userId);
+	const updatedLikes = alreadyLiked
+		? currentLikes.filter((id) => id !== userId)
+		: [...currentLikes, userId];
+
+	// Update local file
+	if (idx !== -1) {
+		local[idx] = { ...local[idx], likes: updatedLikes };
+		try {
+			writeLocalGuestbook(local);
+		} catch (err) {
+			console.warn("Could not update local guestbook likes:", err);
+		}
+	}
+
+	// Update Firestore
+	if (isFirebaseConfigured() && db) {
+		try {
+			const docRef = doc(db, "guestbook", entryId);
+			await updateDoc(docRef, { likes: updatedLikes });
+			console.log(`[GuestBook] Updated likes for entry ${entryId}: ${updatedLikes.length} likes`);
+		} catch (err) {
+			console.warn("Firestore toggleGuestbookLike error:", err);
+		}
+	}
+
+	return { likes: updatedLikes, liked: !alreadyLiked };
 }
 
 // Get metrics / counts

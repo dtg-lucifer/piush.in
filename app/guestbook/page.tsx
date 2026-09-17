@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
 	GithubAuthProvider,
 	signInWithPopup,
@@ -16,7 +15,10 @@ import SiteFooter from "@/components/site-footer";
 import LenisScroll from "@/components/lenis-scroll";
 import type { GuestbookEntry } from "@/lib/cms/types";
 import { IconCheck, IconSync } from "@/components/cms-icons";
-import { Reveal, AnimatedLine } from "@/components/motion-reveal";
+import { Reveal } from "@/components/motion-reveal";
+import { Heart, ChevronLeft, ChevronRight, ArrowUpRight, MessageSquare, ShieldCheck } from "lucide-react";
+
+const ITEMS_PER_PAGE = 10;
 
 export default function GuestbookPage() {
 	const [user, setUser] = useState<User | null>(null);
@@ -26,6 +28,13 @@ export default function GuestbookPage() {
 
 	const [entries, setEntries] = useState<GuestbookEntry[]>([]);
 	const [loadingEntries, setLoadingEntries] = useState<boolean>(true);
+
+	// Pagination
+	const [currentPage, setCurrentPage] = useState<number>(1);
+
+	// Optimistic likes: entryId -> likes array
+	const [localLikes, setLocalLikes] = useState<Record<string, string[]>>({});
+	const [likingIds, setLikingIds] = useState<Set<string>>(new Set());
 
 	const [message, setMessage] = useState<string>("");
 	const [submitting, setSubmitting] = useState<boolean>(false);
@@ -58,7 +67,6 @@ export default function GuestbookPage() {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setUser(currentUser);
 			if (currentUser) {
-				// Attempt to extract github username from reloadUserInfo or providerData
 				const providerData = currentUser.providerData.find(
 					(p) => p.providerId === "github.com",
 				);
@@ -75,24 +83,32 @@ export default function GuestbookPage() {
 	}, []);
 
 	// Load approved entries
-	const loadEntries = async () => {
+	const loadEntries = useCallback(async () => {
 		setLoadingEntries(true);
 		try {
 			const res = await fetch("/api/guestbook");
 			if (res.ok) {
 				const data = await res.json();
-				setEntries(data.entries || []);
+				const fetched: GuestbookEntry[] = data.entries || [];
+				setEntries(fetched);
+				// Seed localLikes from fetched data
+				const seed: Record<string, string[]> = {};
+				for (const e of fetched) {
+					seed[e.id] = e.likes || [];
+				}
+				setLocalLikes(seed);
+				setCurrentPage(1);
 			}
 		} catch (err) {
 			console.error("Error loading guestbook:", err);
 		} finally {
 			setLoadingEntries(false);
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		loadEntries();
-	}, []);
+	}, [loadEntries]);
 
 	// GitHub Sign In
 	const handleGitHubSignIn = async () => {
@@ -111,7 +127,6 @@ export default function GuestbookPage() {
 			provider.addScope("read:user");
 			const result = await signInWithPopup(auth, provider);
 
-			// Extract github username if present
 			// @ts-expect-error Firebase credentials may contain username
 			const handle = result?._tokenResponse?.screenName || result.user.displayName || "";
 			setUserHandle(handle);
@@ -119,19 +134,19 @@ export default function GuestbookPage() {
 		} catch (err: unknown) {
 			console.error("Sign in error:", err);
 			const error = err as { message?: string; code?: string };
-			let message = error.message || "Failed to sign in with GitHub. Please try again.";
+			let errMessage = error.message || "Failed to sign in with GitHub. Please try again.";
 
 			if (error.code === "auth/unauthorized-domain") {
 				const currentDomain = typeof window !== "undefined" ? window.location.hostname : "your domain";
-				message = `Domain "${currentDomain}" is not authorized. Please add "${currentDomain}" to Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+				errMessage = `Domain "${currentDomain}" is not authorized. Please add "${currentDomain}" to Firebase Console -> Authentication -> Settings -> Authorized domains.`;
 			} else if (error.code === "auth/popup-closed-by-user") {
-				message = "Sign-in popup was closed before completing authentication.";
+				errMessage = "Sign-in popup was closed before completing authentication.";
 			} else if (error.code === "auth/cancelled-popup-request") {
-				message = "Previous sign-in request was cancelled.";
+				errMessage = "Previous sign-in request was cancelled.";
 			}
 
 			setNotice({
-				text: message,
+				text: errMessage,
 				type: "error",
 			});
 		} finally {
@@ -215,6 +230,61 @@ export default function GuestbookPage() {
 			setSubmitting(false);
 		}
 	};
+
+	// Handle Like
+	const handleLike = async (entryId: string) => {
+		if (!user) {
+			setNotice({ text: "Sign in with GitHub to like entries.", type: "info" });
+			return;
+		}
+
+		// Prevent liking while in progress
+		if (likingIds.has(entryId)) return;
+
+		// Optimistic update
+		const currentLikes = localLikes[entryId] || [];
+		const alreadyLiked = currentLikes.includes(user.uid);
+		const optimisticLikes = alreadyLiked
+			? currentLikes.filter((id) => id !== user.uid)
+			: [...currentLikes, user.uid];
+
+		setLocalLikes((prev) => ({ ...prev, [entryId]: optimisticLikes }));
+		setLikingIds((prev) => new Set(prev).add(entryId));
+
+		try {
+			const res = await fetch("/api/guestbook/like", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ entryId, userId: user.uid }),
+			});
+
+			if (res.ok) {
+				const data = await res.json();
+				if (data.likes) {
+					setLocalLikes((prev) => ({ ...prev, [entryId]: data.likes }));
+				}
+			} else {
+				// Revert optimistic update on failure
+				setLocalLikes((prev) => ({ ...prev, [entryId]: currentLikes }));
+			}
+		} catch {
+			// Revert on network error
+			setLocalLikes((prev) => ({ ...prev, [entryId]: currentLikes }));
+		} finally {
+			setLikingIds((prev) => {
+				const next = new Set(prev);
+				next.delete(entryId);
+				return next;
+			});
+		}
+	};
+
+	// Pagination computed values
+	const totalPages = Math.max(1, Math.ceil(entries.length / ITEMS_PER_PAGE));
+	const paginatedEntries = entries.slice(
+		(currentPage - 1) * ITEMS_PER_PAGE,
+		currentPage * ITEMS_PER_PAGE,
+	);
 
 	return (
 		<div className="relative bg-background min-h-screen text-foreground flex flex-col selection:bg-[var(--accent)] selection:text-white">
@@ -447,59 +517,155 @@ export default function GuestbookPage() {
 								</p>
 							</div>
 						) : (
-							<div className="space-y-4">
-								{entries.map((entry, index) => (
-									<Reveal direction="up" distance={16} delay={index * 0.05} key={entry.id}>
-										<article className="border border-line bg-card p-5 sm:p-6 transition-colors hover:border-ink group">
-											<div className="flex items-start justify-between gap-4 mb-3">
-												<div className="flex items-center gap-3">
-													{entry.userAvatar ? (
-														<div className="relative w-8 h-8 rounded-full overflow-hidden border border-line shrink-0">
-															<Image
-																src={entry.userAvatar}
-																alt={entry.userName}
-																fill
-																className="object-cover"
-															/>
-														</div>
-													) : (
-														<div className="w-8 h-8 rounded-full bg-line flex items-center justify-center font-mono text-xs font-semibold shrink-0">
-															{(entry.userName || "U")[0]}
-														</div>
-													)}
+							<>
+								<div className="space-y-4">
+									{paginatedEntries.map((entry, index) => {
+										const entryLikes = localLikes[entry.id] || entry.likes || [];
+										const isLiked = user ? entryLikes.includes(user.uid) : false;
+										const isLiking = likingIds.has(entry.id);
+										const isOwnEntry = user?.uid === entry.userId;
 
-													<div>
-														<div className="flex items-center gap-2 flex-wrap">
-															<span className="font-space font-medium text-xs sm:text-sm text-ink">
-																{entry.userName}
-															</span>
-															{entry.userHandle && (
-																<a
-																	href={`https://github.com/${entry.userHandle}`}
-																	target="_blank"
-																	rel="noopener noreferrer"
-																	className="font-mono text-[10px] text-muted hover:text-[var(--accent)] transition-colors inline-flex items-center gap-0.5"
-																>
-																	<span>@{entry.userHandle}</span>
-																	<svg className="w-2.5 h-2.5 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M7 7h10v10" strokeLinecap="round" strokeLinejoin="round" /></svg>
-																</a>
+										return (
+											<Reveal direction="up" distance={16} delay={index * 0.04} key={entry.id}>
+												<article className="border border-line bg-card/80 backdrop-blur-sm p-5 sm:p-6 transition-all duration-200 hover:border-ink/50 hover:shadow-sm group relative">
+													{/* Card Header */}
+													<div className="flex items-start justify-between gap-4 mb-3.5">
+														<div className="flex items-center gap-3">
+															{entry.userAvatar ? (
+																<div className="relative w-9 h-9 rounded-full overflow-hidden border border-line ring-1 ring-background shrink-0">
+																	<Image
+																		src={entry.userAvatar}
+																		alt={entry.userName}
+																		fill
+																		className="object-cover"
+																	/>
+																</div>
+															) : (
+																<div className="w-9 h-9 rounded-full bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 flex items-center justify-center font-mono text-xs font-semibold shrink-0">
+																	{(entry.userName || "U")[0]}
+																</div>
 															)}
+
+															<div>
+																<div className="flex items-center gap-2 flex-wrap">
+																	<span className="font-space font-medium text-sm text-ink leading-none">
+																		{entry.userName}
+																	</span>
+																	{entry.userHandle && (
+																		<a
+																			href={`https://github.com/${entry.userHandle}`}
+																			target="_blank"
+																			rel="noopener noreferrer"
+																			className="font-mono text-[11px] text-muted hover:text-[var(--accent)] transition-colors inline-flex items-center gap-0.5 group/handle"
+																		>
+																			<span>@{entry.userHandle}</span>
+																			<ArrowUpRight className="w-2.5 h-2.5 opacity-60 group-hover/handle:opacity-100 group-hover/handle:translate-x-0.5 transition-transform" />
+																		</a>
+																	)}
+																</div>
+																<div className="flex items-center gap-2 mt-1">
+																	<span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-medium">
+																		<ShieldCheck className="w-2.5 h-2.5" />
+																		Verified Note
+																	</span>
+																</div>
+															</div>
+														</div>
+
+														<time className="font-mono text-[10px] text-muted shrink-0 tabular-nums">
+															{formatDate(entry.createdAt)}
+														</time>
+													</div>
+
+													{/* Message Body */}
+													<div className="pl-0 sm:pl-12 my-3">
+														<div className="border-l-2 border-line group-hover:border-[var(--accent)]/40 pl-3.5 transition-colors py-0.5">
+															<p className="font-sans text-xs sm:text-sm text-ink leading-relaxed whitespace-pre-line">
+																{entry.message}
+															</p>
 														</div>
 													</div>
-												</div>
 
-												<time className="font-mono text-[10px] text-muted shrink-0">
-													{formatDate(entry.createdAt)}
-												</time>
-											</div>
+													{/* Footer Actions: Likes */}
+													<div className="pt-2 border-t border-line/60 flex items-center justify-between sm:pl-12">
+														<div className="flex items-center gap-2">
+															<button
+																type="button"
+																onClick={() => handleLike(entry.id)}
+																disabled={isLiking || isOwnEntry || authLoading}
+																title={
+																	!user
+																		? "Sign in to like"
+																		: isOwnEntry
+																			? "You cannot like your own note"
+																			: isLiked
+																				? "Unlike"
+																				: "Like"
+																}
+																className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm border font-mono text-[11px] tracking-wider transition-all cursor-pointer disabled:cursor-not-allowed group/like ${
+																	isLiked
+																		? "bg-rose-500/10 border-rose-500/30 text-rose-500"
+																		: "bg-background border-line text-muted hover:border-rose-300 hover:text-rose-500 disabled:hover:text-muted disabled:hover:border-line"
+																}`}
+															>
+																<Heart
+																	className={`w-3 h-3 transition-transform group-hover/like:scale-115 ${
+																		isLiked ? "fill-rose-500" : "fill-none"
+																	} ${isLiking ? "animate-pulse" : ""}`}
+																/>
+																<span className="font-medium">{entryLikes.length > 0 ? entryLikes.length : 0}</span>
+															</button>
+															{!user && (
+																<span className="font-mono text-[9px] text-muted/60">
+																	Sign in to like
+																</span>
+															)}
+															{isOwnEntry && (
+																<span className="font-mono text-[9px] text-muted/60">
+																	Your note
+																</span>
+															)}
+														</div>
 
-											<p className="font-sans text-xs sm:text-sm text-ink leading-relaxed whitespace-pre-line pl-11">
-												{entry.message}
-											</p>
-										</article>
-									</Reveal>
-								))}
-							</div>
+														<span className="font-mono text-[9px] text-muted/40 uppercase tracking-widest hidden sm:inline">
+															Signature #{paginatedEntries.length - index}
+														</span>
+													</div>
+												</article>
+											</Reveal>
+										);
+									})}
+								</div>
+
+								{/* Pagination controls */}
+								{totalPages > 1 && (
+									<div className="flex items-center justify-between pt-2 border-t border-line font-mono text-xs">
+										<button
+											type="button"
+											onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+											disabled={currentPage === 1}
+											className="inline-flex items-center gap-1.5 text-muted hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer uppercase tracking-wider"
+										>
+											<ChevronLeft className="w-3.5 h-3.5" />
+											<span>Prev</span>
+										</button>
+
+										<span className="text-muted text-[10px] tracking-wider">
+											Page {currentPage} of {totalPages}
+										</span>
+
+										<button
+											type="button"
+											onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+											disabled={currentPage === totalPages}
+											className="inline-flex items-center gap-1.5 text-muted hover:text-ink transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer uppercase tracking-wider"
+										>
+											<span>Next</span>
+											<ChevronRight className="w-3.5 h-3.5" />
+										</button>
+									</div>
+								)}
+							</>
 						)}
 					</div>
 				</div>

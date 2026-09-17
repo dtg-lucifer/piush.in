@@ -175,8 +175,11 @@ export async function syncLocalToFirestore(): Promise<{
 					});
 
 					await batch.commit();
-				} catch (batchErr) {
-					console.warn("Firestore batch collection write skipped/fallback:", batchErr);
+				} catch (batchErr: unknown) {
+					const bError = batchErr as { code?: string };
+					if (bError?.code !== "permission-denied") {
+						console.warn("Firestore batch collection write skipped/fallback:", batchErr);
+					}
 				}
 
 				// 5. Update sync status tracker

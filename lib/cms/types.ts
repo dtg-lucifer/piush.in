@@ -56,5 +56,6 @@ export interface GuestbookEntry {
 	status: "pending" | "approved" | "rejected";
 	createdAt: number;
 	approvedAt?: number;
+	likes?: string[]; // Array of user IDs who liked this entry
 }
 
