@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function CmsLoginPage() {
 	const router = useRouter();
@@ -117,14 +118,18 @@ export default function CmsLoginPage() {
 								<span>Verifying...</span>
 							</>
 						) : (
-							<span>Authenticate →</span>
+							<span className="inline-flex items-center gap-2">
+								<span>Authenticate</span>
+								<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+							</span>
 						)}
 					</button>
 				</form>
 
 				<div className="mt-8 pt-6 border-t border-[var(--line)] flex justify-between items-center font-mono text-xs text-[var(--muted)]">
-					<Link href="/" className="hover:text-[var(--ink)] transition-colors flex items-center gap-1">
-						<span>← Back to Portfolio</span>
+					<Link href="/" className="hover:text-[var(--ink)] transition-colors inline-flex items-center gap-1.5">
+						<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+						<span>Back to Portfolio</span>
 					</Link>
 					<span className="text-[10px]">piush.in</span>
 				</div>

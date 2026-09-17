@@ -19,6 +19,7 @@ import ZoomableImage from "@/components/blog/zoomable-image";
 import TocNav from "@/components/blog/toc-nav";
 import CopyButton from "@/components/blog/copy-button";
 import { ImageReveal } from "@/components/motion-reveal";
+import { ArrowLeft } from "lucide-react";
 
 interface ArticlePageProps {
 	params: Promise<{
@@ -123,8 +124,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 							className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted hover:text-ink transition-colors"
 							href="/blog"
 						>
-							<span aria-hidden="true">←</span>
-							Back to blog
+							<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+							<span>Back to blog</span>
 						</Link>
 
 						<div className="space-y-3">

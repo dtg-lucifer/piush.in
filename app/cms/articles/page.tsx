@@ -11,6 +11,7 @@ import {
 	IconSearch,
 	IconCross,
 } from "@/components/cms-icons";
+import { Plus, ArrowUpRight } from "lucide-react";
 
 interface MediaItem {
 	url: string;
@@ -217,7 +218,8 @@ export default function CmsArticlesPage() {
 							}}
 							className="px-4 py-2.5 bg-[var(--accent)] text-white hover:opacity-90 font-mono text-xs uppercase tracking-wider transition-opacity cursor-pointer flex items-center gap-1.5 shadow-xs"
 						>
-							<span>+ New Article</span>
+							<Plus className="w-3.5 h-3.5" aria-hidden="true" />
+							<span>New Article</span>
 						</button>
 					</div>
 				</div>
@@ -375,7 +377,7 @@ export default function CmsArticlesPage() {
 										className="px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-[var(--ink)] hover:border-[var(--ink)] transition-colors inline-flex items-center gap-1"
 									>
 										<span>View</span>
-										<span className="text-xs">↗</span>
+										<ArrowUpRight className="w-3 h-3" aria-hidden="true" />
 									</Link>
 
 									{/* Edit Details */}
@@ -648,8 +650,15 @@ export default function CmsArticlesPage() {
 						</div>
 
 						<div className="mt-4 pt-3 border-t border-[var(--line)] flex justify-between items-center font-mono text-xs">
-							<label className="px-3 py-1.5 border border-[var(--line)] text-[var(--ink)] uppercase tracking-wider hover:bg-[var(--line)] cursor-pointer">
-								<span>{uploadingImage ? "Uploading..." : "+ Upload New Cover"}</span>
+							<label className="px-3 py-1.5 border border-[var(--line)] text-[var(--ink)] uppercase tracking-wider hover:bg-[var(--line)] cursor-pointer inline-flex items-center gap-1.5">
+								{uploadingImage ? (
+									<span>Uploading...</span>
+								) : (
+									<>
+										<Plus className="w-3.5 h-3.5" aria-hidden="true" />
+										<span>Upload New Cover</span>
+									</>
+								)}
 								<input
 									type="file"
 									accept="image/*"

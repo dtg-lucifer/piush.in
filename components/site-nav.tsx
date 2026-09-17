@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ArrowUpRight, Menu } from "lucide-react";
 
 interface SiteNavProps {
 	className?: string;
@@ -38,8 +39,9 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 					<Link href="/blog">Blog</Link>
 					<Link href="/projects">Projects</Link>
 					<Link href="/guestbook">Guestbook</Link>
-					<a className="nav-contact" href="mailto:mail@piush.in">
-						Get in touch <span aria-hidden="true">↗</span>
+					<a className="nav-contact inline-flex items-center gap-1" href="mailto:mail@piush.in">
+						<span>Get in touch</span>
+						<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 					</a>
 				</div>
 
@@ -52,7 +54,7 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 						className="border border-line text-ink font-mono bg-transparent cursor-pointer flex items-center justify-center w-11 h-11 transition-colors hover:border-ink"
 						onClick={() => setMobileOpen(true)}
 					>
-						<span className="text-2xl font-mono leading-none">≡</span>
+						<Menu className="w-5 h-5" aria-hidden="true" />
 					</button>
 				</div>
 			</nav>
@@ -140,9 +142,10 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 							<a
 								href="mailto:mail@piush.in"
 								onClick={() => setMobileOpen(false)}
-								className="button button-light text-xs font-mono tracking-wider py-4 px-8 mt-0 inline-flex items-center justify-center gap-3"
+								className="button button-light text-xs font-mono tracking-wider py-4 px-8 mt-0 inline-flex items-center justify-center gap-2"
 							>
-								Get in touch <span aria-hidden="true">↗</span>
+								<span>Get in touch</span>
+								<ArrowUpRight className="w-4 h-4" aria-hidden="true" />
 							</a>
 						</div>
 					</div>

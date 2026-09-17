@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { IconFolder, IconSearch, IconCross, IconUpload } from "@/components/cms-icons";
+import { Plus } from "lucide-react";
 
 interface MediaItem {
 	url: string;
@@ -357,7 +358,8 @@ export default function CmsMediaPage() {
 						}}
 						className="px-4 py-2 bg-[var(--accent)] text-white font-mono text-xs uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer inline-flex items-center gap-2"
 					>
-						+ Upload to {selectedMediaFolder !== "all" ? `public/${selectedMediaFolder}` : "Folder"}
+						<Plus className="w-3.5 h-3.5" aria-hidden="true" />
+						<span>Upload to {selectedMediaFolder !== "all" ? `public/${selectedMediaFolder}` : "Folder"}</span>
 					</button>
 				</div>
 			) : (

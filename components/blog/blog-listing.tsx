@@ -7,6 +7,7 @@ import type { ArticleMeta } from "@/lib/articles";
 import { useDebounce } from "@/hooks/useDebounce";
 import GlitchRevealText from "@/components/glitch-text";
 import { ImageReveal, Reveal } from "@/components/motion-reveal";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 const ARTICLES_PER_PAGE = 4;
 
@@ -48,8 +49,8 @@ export default function BlogListing({ articles }: BlogListingProps) {
 					className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted hover:text-ink transition-colors"
 					href="/"
 				>
-					<span aria-hidden="true">←</span>
-					Back to home
+					<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+					<span>Back to home</span>
 				</Link>
 
 				<div className="flex sm:flex-row flex-col sm:justify-between sm:items-end gap-4">
@@ -160,14 +161,9 @@ export default function BlogListing({ articles }: BlogListingProps) {
 											))}
 										</div>
 
-										<div className="inline-flex items-center gap-2 text-ink font-mono text-xs uppercase tracking-wider group-hover:text-[var(--accent)] transition-colors duration-200 pt-2">
+										<div className="inline-flex items-center gap-1.5 text-ink font-mono text-xs uppercase tracking-wider group-hover:text-[var(--accent)] transition-colors duration-200 pt-2">
 											<span>Read article</span>
-											<span
-												aria-hidden="true"
-												className="group-hover:translate-x-1 transition-transform"
-											>
-												↗
-											</span>
+											<ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
 										</div>
 									</div>
 								</article>
@@ -185,23 +181,25 @@ export default function BlogListing({ articles }: BlogListingProps) {
 					className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider"
 				>
 					<button
-						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
+						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors inline-flex items-center gap-1.5"
 						disabled={safePage <= 1}
 						onClick={() => setPage((p) => Math.max(1, p - 1))}
 						type="button"
 					>
-						← Previous
+						<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+						<span>Previous</span>
 					</button>
 					<span className="text-muted">
 						Page {safePage} of {totalPages}
 					</span>
 					<button
-						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
+						className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors inline-flex items-center gap-1.5"
 						disabled={safePage >= totalPages}
 						onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
 						type="button"
 					>
-						Next →
+						<span>Next</span>
+						<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
 					</button>
 				</nav>
 			)}

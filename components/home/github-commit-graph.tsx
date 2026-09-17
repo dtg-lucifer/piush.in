@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useId } from "react";
+import { ArrowUpRight } from "lucide-react";
 
 interface ContributionDay {
 	date: string;
@@ -205,9 +206,7 @@ export default function GitHubCommitGraph() {
 							target="_blank"
 						>
 							<span>@dtg-lucifer</span>
-							<span aria-hidden="true" className="commit-graph-profile-arrow">
-								↗
-							</span>
+							<ArrowUpRight className="w-3 h-3 commit-graph-profile-arrow" aria-hidden="true" />
 						</a>
 					</div>
 				</div>

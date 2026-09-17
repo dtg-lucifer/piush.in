@@ -12,6 +12,7 @@ import {
 	IconSearch,
 	IconCross,
 } from "@/components/cms-icons";
+import { Plus } from "lucide-react";
 
 interface MediaItem {
 	url: string;
@@ -198,7 +199,7 @@ export default function CmsProjectsPage() {
 						</div>
 						<h1 className="font-space font-medium text-2xl text-[var(--ink)]">Projects Management</h1>
 						<p className="font-mono text-xs text-[var(--muted)] mt-1.5 leading-relaxed max-w-xl">
-							Manage works displayed on the homepage and /projects. Drag or reorder with ▲ / ▼ to set presentation sequence. Toggle Featured to spotlight projects on the landing page.
+							Manage works displayed on the homepage and /projects. Reorder items with the arrow controls to set presentation sequence. Toggle Featured to spotlight projects on the landing page.
 						</p>
 					</div>
 
@@ -221,7 +222,8 @@ export default function CmsProjectsPage() {
 							}}
 							className="px-4 py-2.5 bg-[var(--accent)] text-white hover:opacity-90 font-mono text-xs uppercase tracking-wider transition-opacity cursor-pointer flex items-center gap-1.5 shadow-xs"
 						>
-							<span>+ New Project</span>
+							<Plus className="w-3.5 h-3.5" aria-hidden="true" />
+							<span>New Project</span>
 						</button>
 					</div>
 				</div>
@@ -638,8 +640,15 @@ export default function CmsProjectsPage() {
 						</div>
 
 						<div className="mt-4 pt-3 border-t border-[var(--line)] flex justify-between items-center font-mono text-xs">
-							<label className="px-3 py-1.5 border border-[var(--line)] text-[var(--ink)] uppercase tracking-wider hover:bg-[var(--line)] cursor-pointer">
-								<span>{uploadingImage ? "Uploading..." : "+ Upload New Image"}</span>
+							<label className="px-3 py-1.5 border border-[var(--line)] text-[var(--ink)] uppercase tracking-wider hover:bg-[var(--line)] cursor-pointer inline-flex items-center gap-1.5">
+								{uploadingImage ? (
+									<span>Uploading...</span>
+								) : (
+									<>
+										<Plus className="w-3.5 h-3.5" aria-hidden="true" />
+										<span>Upload New Image</span>
+									</>
+								)}
 								<input
 									type="file"
 									accept="image/*"

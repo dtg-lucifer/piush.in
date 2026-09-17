@@ -14,7 +14,7 @@ import {
 	IconMoon,
 	IconCross,
 } from "@/components/cms-icons";
-import { Menu } from "lucide-react";
+import { Menu, ArrowUpRight } from "lucide-react";
 
 export default function CmsLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
@@ -295,7 +295,7 @@ export default function CmsLayout({ children }: { children: React.ReactNode }) {
 							className="flex items-center justify-between px-3 py-1.5 text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--paper)] transition-colors"
 						>
 							<span>Live Website</span>
-							<span className="text-xs">↗</span>
+							<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 						</Link>
 						<Link
 							href="/guestbook"
@@ -303,7 +303,7 @@ export default function CmsLayout({ children }: { children: React.ReactNode }) {
 							className="flex items-center justify-between px-3 py-1.5 text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--paper)] transition-colors"
 						>
 							<span>Public Guestbook</span>
-							<span className="text-xs">↗</span>
+							<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 						</Link>
 					</div>
 				</div>

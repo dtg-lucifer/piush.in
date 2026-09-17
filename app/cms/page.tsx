@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { GuestbookEntry, SyncStatus, Project, ArticleMeta } from "@/lib/cms/types";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 export default function CmsOverviewPage() {
 	const [projects, setProjects] = useState<Project[]>([]);
@@ -118,9 +119,10 @@ export default function CmsOverviewPage() {
 					<div className="flex flex-wrap items-center gap-3 shrink-0 font-mono text-xs">
 						<Link
 							href="/cms/projects"
-							className="px-4 py-2.5 bg-[var(--accent)] !text-white hover:opacity-90 transition-opacity uppercase tracking-wider"
+							className="px-4 py-2.5 bg-[var(--accent)] !text-white hover:opacity-90 transition-opacity uppercase tracking-wider inline-flex items-center gap-1.5"
 						>
-							Manage Projects →
+							<span>Manage Projects</span>
+							<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
 						</Link>
 						<Link
 							href="/guestbook"
@@ -128,7 +130,7 @@ export default function CmsOverviewPage() {
 							className="px-4 py-2.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] hover:border-[var(--ink)] transition-colors uppercase tracking-wider inline-flex items-center gap-1.5"
 						>
 							<span>Public Guestbook</span>
-							<span>↗</span>
+							<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 						</Link>
 					</div>
 				</div>
@@ -157,7 +159,7 @@ export default function CmsOverviewPage() {
 				>
 					<div className="flex items-center justify-between font-mono text-xs text-[var(--muted)] mb-2">
 						<span className="uppercase tracking-wider">Projects</span>
-						<span className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+						<ArrowRight className="w-3.5 h-3.5 text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
 					</div>
 					<div className="font-space font-medium text-3xl text-[var(--ink)]">
 						{loading ? "..." : projects.length}
@@ -174,7 +176,7 @@ export default function CmsOverviewPage() {
 				>
 					<div className="flex items-center justify-between font-mono text-xs text-[var(--muted)] mb-2">
 						<span className="uppercase tracking-wider">Articles</span>
-						<span className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+						<ArrowRight className="w-3.5 h-3.5 text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
 					</div>
 					<div className="font-space font-medium text-3xl text-[var(--ink)]">
 						{loading ? "..." : articles.length}
@@ -215,7 +217,7 @@ export default function CmsOverviewPage() {
 				>
 					<div className="flex items-center justify-between font-mono text-xs text-[var(--muted)] mb-2">
 						<span className="uppercase tracking-wider">Public Assets</span>
-						<span className="text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+						<ArrowRight className="w-3.5 h-3.5 text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
 					</div>
 					<div className="font-space font-medium text-3xl text-[var(--ink)]">
 						{loading ? "..." : mediaCount}
@@ -238,9 +240,10 @@ export default function CmsOverviewPage() {
 						</div>
 						<Link
 							href="/cms/guestbook"
-							className="font-mono text-xs text-[var(--accent)] hover:underline uppercase tracking-wider"
+							className="font-mono text-xs text-[var(--accent)] hover:underline uppercase tracking-wider inline-flex items-center gap-1"
 						>
-							View Moderation Panel →
+							<span>View Moderation Panel</span>
+							<ArrowRight className="w-3 h-3" aria-hidden="true" />
 						</Link>
 					</div>
 
@@ -314,9 +317,10 @@ export default function CmsOverviewPage() {
 
 				<Link
 					href="/cms/sync"
-					className="text-[var(--accent)] hover:underline uppercase tracking-wider text-[11px]"
+					className="text-[var(--accent)] hover:underline uppercase tracking-wider text-[11px] inline-flex items-center gap-1"
 				>
-					Infrastructure Diagnostics →
+					<span>Infrastructure Diagnostics</span>
+					<ArrowRight className="w-3 h-3" aria-hidden="true" />
 				</Link>
 			</div>
 		</div>

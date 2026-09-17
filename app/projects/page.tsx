@@ -9,6 +9,7 @@ import LatexText from "@/components/latex-text";
 import { ImageReveal, Reveal } from "@/components/motion-reveal";
 import { useProjects } from "@/hooks/useProjects";
 import { useDebounce } from "@/hooks/useDebounce";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 const PROJECTS_PER_PAGE = 4;
 
@@ -53,8 +54,8 @@ export default function ProjectsPage() {
 							className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted hover:text-ink transition-colors"
 							href="/"
 						>
-							<span aria-hidden="true">←</span>
-							Back to home
+							<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+							<span>Back to home</span>
 						</Link>
 
 						<div className="flex sm:flex-row flex-col sm:justify-between sm:items-end gap-4">
@@ -187,10 +188,10 @@ export default function ProjectsPage() {
 														href={project.demoUrl}
 														target="_blank"
 														rel="noopener noreferrer"
-														className="text-ink hover:text-[var(--accent)] transition-colors inline-flex items-center gap-1.5"
+														className="text-ink hover:text-[var(--accent)] transition-colors inline-flex items-center gap-1"
 													>
 														<span>Demo</span>
-														<span aria-hidden="true">↗</span>
+														<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 													</a>
 												) : null}
 												{project.repoUrl ? (
@@ -198,10 +199,10 @@ export default function ProjectsPage() {
 														href={project.repoUrl}
 														target="_blank"
 														rel="noopener noreferrer"
-														className="text-muted hover:text-ink transition-colors inline-flex items-center gap-1.5"
+														className="text-muted hover:text-ink transition-colors inline-flex items-center gap-1"
 													>
 														<span>Repository</span>
-														<span aria-hidden="true">↗</span>
+														<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 													</a>
 												) : null}
 											</div>
@@ -219,23 +220,25 @@ export default function ProjectsPage() {
 							className="flex justify-between items-center pt-8 border-t border-line font-mono text-xs uppercase tracking-wider"
 						>
 							<button
-								className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
+								className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors inline-flex items-center gap-1.5"
 								disabled={safePage <= 1}
 								onClick={() => setPage((p) => Math.max(1, p - 1))}
 								type="button"
 							>
-								← Previous
+								<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+								<span>Previous</span>
 							</button>
 							<span className="text-muted">
 								Page {safePage} of {totalPages}
 							</span>
 							<button
-								className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors"
+								className="px-4 py-2 border border-line text-ink disabled:opacity-30 hover:border-ink cursor-pointer transition-colors inline-flex items-center gap-1.5"
 								disabled={safePage >= totalPages}
 								onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
 								type="button"
 							>
-								Next →
+								<span>Next</span>
+								<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
 							</button>
 						</nav>
 					)}

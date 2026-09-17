@@ -10,6 +10,7 @@ import { ImageReveal, Reveal } from "@/components/motion-reveal";
 import { getLocalArticles, getLocalProjects } from "@/lib/cms/sync";
 import experiencesDataRaw from "@/public/experiences.json";
 import type { Experience } from "@/hooks/useProjects";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -116,19 +117,22 @@ export default function Home() {
 					</Reveal>
 					<Reveal direction="up" distance={16} delay={0.3} waitForLoader>
 						<div className="hero-links">
-							<a className="button button-dark" href="#work">
-								See selected work <span aria-hidden="true">↓</span>
+							<a className="button button-dark inline-flex items-center gap-1.5" href="#work">
+								<span>See selected work</span>
+								<ArrowDown className="w-3.5 h-3.5" aria-hidden="true" />
 							</a>
 							<a
-								className="text-link"
+								className="text-link inline-flex items-center gap-1"
 								href="https://github.com/dtg-lucifer"
 								target="_blank"
 								rel="noopener noreferrer"
 							>
-								GitHub profile <span aria-hidden="true">↗</span>
+								<span>GitHub profile</span>
+								<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 							</a>
-							<a className="text-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-								Resume <span aria-hidden="true">↗</span>
+							<a className="text-link inline-flex items-center gap-1" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+								<span>Resume</span>
+								<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 							</a>
 						</div>
 					</Reveal>
@@ -214,8 +218,9 @@ export default function Home() {
 								<br />
 								to understand systems better.
 							</p>
-							<Link href="/projects" className="text-link self-start text-xs mt-2">
-								View all projects <span aria-hidden="true">↗</span>
+							<Link href="/projects" className="text-link self-start text-xs mt-2 inline-flex items-center gap-1">
+								<span>View all projects</span>
+								<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 							</Link>
 						</div>
 					</div>
@@ -247,7 +252,7 @@ export default function Home() {
 									)}
 								</div>
 								<span className="project-arrow" aria-hidden="true">
-									↗
+									<ArrowUpRight className="w-4 h-4" />
 								</span>
 							</a>
 						</Reveal>
@@ -321,8 +326,9 @@ export default function Home() {
 				<Reveal direction="up" distance={20}>
 					<div className="section-heading">
 						<p className="eyebrow">Recent thoughts</p>
-						<Link className="text-link" href="/blog">
-							Read all articles <span aria-hidden="true">↗</span>
+						<Link className="text-link inline-flex items-center gap-1" href="/blog">
+							<span>Read all articles</span>
+							<ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
 						</Link>
 					</div>
 				</Reveal>
@@ -338,7 +344,9 @@ export default function Home() {
 									delay={index * 120}
 									retriggerOnHover={true}
 								/>
-								<b aria-hidden="true">↗</b>
+								<b aria-hidden="true" className="inline-flex items-center">
+									<ArrowUpRight className="w-4 h-4" />
+								</b>
 							</Link>
 						</Reveal>
 					))}
@@ -357,8 +365,9 @@ export default function Home() {
 						<br />
 						<em>something useful.</em>
 					</h2>
-					<a className="button button-light" href="mailto:mail@piush.in">
-						mail@piush.in <span aria-hidden="true">↗</span>
+					<a className="button button-light inline-flex items-center gap-2" href="mailto:mail@piush.in">
+						<span>mail@piush.in</span>
+						<ArrowUpRight className="w-4 h-4" aria-hidden="true" />
 					</a>
 				</Reveal>
 			</section>
