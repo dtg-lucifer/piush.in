@@ -107,7 +107,7 @@ export async function fetchGuestbookEntries(
 						userAvatar: data.userAvatar || "",
 						userEmail: data.userEmail || "",
 						message: data.message || "",
-						status: data.status || "approved",
+						status: data.status || "pending",
 						createdAt: data.createdAt || Date.now(),
 						approvedAt: data.approvedAt,
 					});
@@ -167,9 +167,8 @@ export async function createGuestbookEntry(
 		userAvatar: data.userAvatar || "",
 		userEmail: data.userEmail || "",
 		message: data.message.trim(),
-		status: "approved", // Auto-approve so it appears immediately on the guestbook
+		status: "pending", // Always pending until manual approval by Piush in CMS
 		createdAt: Date.now(),
-		approvedAt: Date.now(),
 	};
 
 	// Save to local file if possible
@@ -189,7 +188,7 @@ export async function createGuestbookEntry(
 		try {
 			const docRef = doc(db, "guestbook", id);
 			await setDoc(docRef, newEntry);
-			console.log(`[GuestBook] Saved new entry ${id} to Firestore (approved)`);
+			console.log(`[GuestBook] Saved new entry ${id} to Firestore (pending)`);
 
 			// Also update aggregated portfolio/guestbook document
 			const snap = await getDoc(doc(db, "portfolio", "guestbook")).catch(() => null);

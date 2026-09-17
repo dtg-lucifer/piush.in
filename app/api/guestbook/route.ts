@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 		return NextResponse.json({
 			success: true,
 			entry,
-			notice: "Your message has been posted to the guestbook! Thank you for signing.",
+			notice: "Your note has been submitted and is pending curator approval by Piush. Thank you for signing!",
 		});
 	} catch (error: unknown) {
 		console.error("Error submitting guestbook entry:", error);

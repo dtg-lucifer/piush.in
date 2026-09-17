@@ -192,14 +192,13 @@ export default function GuestbookPage() {
 				setNotice({
 					text:
 						data.notice ||
-						"Your note has been posted to the guestbook! Thank you for signing.",
+						"Your note has been submitted and is pending curator approval by Piush. Thank you for signing!",
 					type: "success",
 				});
 				if (data.entry) {
-					setEntries((prev) => [data.entry, ...prev.filter((e) => e.id !== data.entry.id)]);
+					setUserPendingEntries((prev) => [data.entry, ...prev.filter((e) => e.id !== data.entry.id)]);
 				}
 				setMessage("");
-				loadEntries();
 			} else {
 				setNotice({
 					text: data.error || "Failed to submit note. Please try again.",
