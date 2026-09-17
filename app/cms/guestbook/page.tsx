@@ -11,6 +11,7 @@ import {
 	IconCross,
 	IconSync,
 } from "@/components/cms-icons";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function CmsGuestbookPage() {
 	const [entries, setEntries] = useState<GuestbookEntry[]>([]);
@@ -22,6 +23,8 @@ export default function CmsGuestbookPage() {
 	});
 	const [filterStatus, setFilterStatus] = useState<"pending" | "approved" | "all">("pending");
 	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [page, setPage] = useState<number>(1);
+	const ITEMS_PER_PAGE = 8;
 	const [loading, setLoading] = useState<boolean>(true);
 	const [actionInProgress, setActionInProgress] = useState<string | null>(null);
 	const [notice, setNotice] = useState<{ text: string; type: "success" | "error" | "info" } | null>(null);
@@ -146,6 +149,14 @@ export default function CmsGuestbookPage() {
 		});
 	}, [entries, filterStatus, searchQuery]);
 
+	// Pagination calculations
+	const totalPages = Math.max(1, Math.ceil(filteredEntries.length / ITEMS_PER_PAGE));
+	const safePage = Math.min(page, totalPages);
+	const paginatedEntries = useMemo(() => {
+		const start = (safePage - 1) * ITEMS_PER_PAGE;
+		return filteredEntries.slice(start, start + ITEMS_PER_PAGE);
+	}, [filteredEntries, safePage]);
+
 	return (
 		<div className="space-y-6">
 			{/* Top Header Card */}
@@ -223,7 +234,10 @@ export default function CmsGuestbookPage() {
 						<input
 							type="text"
 							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
+							onChange={(e) => {
+								setSearchQuery(e.target.value);
+								setPage(1);
+							}}
 							placeholder="Search by name, @github, or note text..."
 							className="w-full bg-[var(--paper)] border border-[var(--line)] focus:border-[var(--ink)] px-3 py-2 text-xs font-mono text-[var(--ink)] outline-none pl-8"
 						/>
@@ -233,7 +247,10 @@ export default function CmsGuestbookPage() {
 						{searchQuery && (
 							<button
 								type="button"
-								onClick={() => setSearchQuery("")}
+								onClick={() => {
+									setSearchQuery("");
+									setPage(1);
+								}}
 								className="absolute right-2.5 top-2 text-[var(--muted)] hover:text-[var(--ink)] font-mono text-xs cursor-pointer p-0.5"
 							>
 								<IconCross className="w-3 h-3" />
@@ -245,7 +262,10 @@ export default function CmsGuestbookPage() {
 					<div className="flex flex-wrap items-center gap-2 font-mono text-xs">
 						<button
 							type="button"
-							onClick={() => setFilterStatus("pending")}
+							onClick={() => {
+								setFilterStatus("pending");
+								setPage(1);
+							}}
 							className={`px-3 py-1.5 border transition-colors cursor-pointer flex items-center gap-1.5 ${filterStatus === "pending"
 								? "bg-[var(--accent)] text-white border-[var(--accent)] font-semibold"
 								: "bg-[var(--paper)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)]"
@@ -264,7 +284,10 @@ export default function CmsGuestbookPage() {
 
 						<button
 							type="button"
-							onClick={() => setFilterStatus("approved")}
+							onClick={() => {
+								setFilterStatus("approved");
+								setPage(1);
+							}}
 							className={`px-3 py-1.5 border transition-colors cursor-pointer flex items-center gap-1.5 ${filterStatus === "approved"
 								? "bg-[var(--accent)] text-white border-[var(--accent)] font-semibold"
 								: "bg-[var(--paper)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)]"
@@ -283,7 +306,10 @@ export default function CmsGuestbookPage() {
 
 						<button
 							type="button"
-							onClick={() => setFilterStatus("all")}
+							onClick={() => {
+								setFilterStatus("all");
+								setPage(1);
+							}}
 							className={`px-3 py-1.5 border transition-colors cursor-pointer flex items-center gap-1.5 ${filterStatus === "all"
 								? "bg-[var(--accent)] text-white border-[var(--accent)] font-semibold"
 								: "bg-[var(--paper)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)]"
@@ -326,142 +352,181 @@ export default function CmsGuestbookPage() {
 				</div>
 			) : (
 				<div className="space-y-4">
-					{filteredEntries.map((entry) => {
-						const isPending = entry.status === "pending";
-						const isApproved = entry.status === "approved";
-						const isRejected = entry.status === "rejected";
-						const isBusy = actionInProgress === entry.id;
+					<div className="space-y-4">
+						{paginatedEntries.map((entry) => {
+							const isPending = entry.status === "pending";
+							const isApproved = entry.status === "approved";
+							const isRejected = entry.status === "rejected";
+							const isBusy = actionInProgress === entry.id;
 
-						return (
-							<div
-								key={entry.id}
-								className={`border p-5 transition-colors bg-[var(--card)] ${isPending
-									? "border-[var(--accent)]/60 bg-[var(--accent)]/5"
-									: "border-[var(--line)] hover:border-[var(--ink)]"
-									}`}
-							>
-								<div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-									{/* User & Info */}
-									<div className="flex items-start gap-3">
-										{entry.userAvatar ? (
-											<div className="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--line)] shrink-0">
-												<Image
-													src={entry.userAvatar}
-													alt={entry.userName}
-													fill
-													className="object-cover"
-												/>
-											</div>
-										) : (
-											<div className="w-10 h-10 rounded-full bg-[var(--paper)] border border-[var(--line)] flex items-center justify-center font-mono text-xs font-semibold shrink-0">
-												{(entry.userName || "U")[0]}
-											</div>
-										)}
+							return (
+								<div
+									key={entry.id}
+									className={`border p-5 transition-colors bg-[var(--card)] ${isPending
+										? "border-[var(--accent)]/60 bg-[var(--accent)]/5"
+										: "border-[var(--line)] hover:border-[var(--ink)]"
+										}`}
+								>
+									<div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+										{/* User & Info */}
+										<div className="flex items-start gap-3">
+											{entry.userAvatar ? (
+												<div className="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--line)] shrink-0">
+													<Image
+														src={entry.userAvatar}
+														alt={entry.userName}
+														fill
+														className="object-cover"
+													/>
+												</div>
+											) : (
+												<div className="w-10 h-10 rounded-full bg-[var(--paper)] border border-[var(--line)] flex items-center justify-center font-mono text-xs font-semibold shrink-0">
+													{(entry.userName || "U")[0]}
+												</div>
+											)}
 
-										<div className="space-y-1 font-mono text-xs">
-											<div className="flex items-center gap-2 flex-wrap">
-												<span className="font-space font-medium text-sm text-[var(--ink)]">
-													{entry.userName}
-												</span>
-												{entry.userHandle && (
-													<a
-														href={`https://github.com/${entry.userHandle}`}
-														target="_blank"
-														rel="noopener noreferrer"
-														className="text-[11px] text-[var(--muted)] hover:text-[var(--accent)] underline"
+											<div className="space-y-1 font-mono text-xs">
+												<div className="flex items-center gap-2 flex-wrap">
+													<span className="font-space font-medium text-sm text-[var(--ink)]">
+														{entry.userName}
+													</span>
+													{entry.userHandle && (
+														<a
+															href={`https://github.com/${entry.userHandle}`}
+															target="_blank"
+															rel="noopener noreferrer"
+															className="text-[11px] text-[var(--muted)] hover:text-[var(--accent)] underline"
+														>
+															@{entry.userHandle}
+														</a>
+													)}
+													{/* Status Pill */}
+													<span
+														className={`px-2 py-0.5 text-[9px] uppercase tracking-wider font-semibold border ${isApproved
+															? "bg-emerald-500/10 border-emerald-500/40 text-emerald-600 dark:text-emerald-400"
+															: isPending
+																? "bg-[var(--accent)] text-white border-[var(--accent)]"
+																: "bg-zinc-500/10 border-zinc-500/40 text-[var(--muted)]"
+															}`}
 													>
-														@{entry.userHandle}
-													</a>
-												)}
-												{/* Status Pill */}
-												<span
-													className={`px-2 py-0.5 text-[9px] uppercase tracking-wider font-semibold border ${isApproved
-														? "bg-emerald-500/10 border-emerald-500/40 text-emerald-600 dark:text-emerald-400"
-														: isPending
-															? "bg-[var(--accent)] text-white border-[var(--accent)]"
-															: "bg-zinc-500/10 border-zinc-500/40 text-[var(--muted)]"
-														}`}
-												>
-													{entry.status}
-												</span>
-											</div>
+														{entry.status}
+													</span>
+												</div>
 
-											<div className="text-[10px] text-[var(--muted)] flex items-center gap-3">
-												<span>Submitted: {formatDate(entry.createdAt)}</span>
-												{entry.userEmail && <span>• {entry.userEmail}</span>}
+												<div className="text-[10px] text-[var(--muted)] flex items-center gap-3">
+													<span>Submitted: {formatDate(entry.createdAt)}</span>
+													{entry.userEmail && <span>• {entry.userEmail}</span>}
+												</div>
 											</div>
 										</div>
-									</div>
 
-									{/* Action Buttons */}
-									<div className="flex items-center gap-2 shrink-0 font-mono text-xs">
-										{isPending && (
-											<>
+										{/* Action Buttons */}
+										<div className="flex items-center gap-2 shrink-0 font-mono text-xs">
+											{isPending && (
+												<>
+													<button
+														type="button"
+														disabled={isBusy}
+														onClick={() => handleStatusChange(entry.id, "approved")}
+														className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white uppercase tracking-wider font-semibold cursor-pointer disabled:opacity-50 flex items-center gap-1.5 text-[11px]"
+													>
+														<IconCheck className="w-3.5 h-3.5" />
+														<span>Approve &amp; Publish</span>
+													</button>
+
+													<button
+														type="button"
+														disabled={isBusy}
+														onClick={() => handleStatusChange(entry.id, "rejected")}
+														className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-red-500 uppercase tracking-wider cursor-pointer text-[11px]"
+													>
+														<span>Reject</span>
+													</button>
+												</>
+											)}
+
+											{isApproved && (
+												<button
+													type="button"
+													disabled={isBusy}
+													onClick={() => handleStatusChange(entry.id, "pending")}
+													className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-[var(--ink)] uppercase tracking-wider cursor-pointer text-[10px]"
+													title="Move back to pending queue"
+												>
+													<span>Move to Pending</span>
+												</button>
+											)}
+
+											{isRejected && (
 												<button
 													type="button"
 													disabled={isBusy}
 													onClick={() => handleStatusChange(entry.id, "approved")}
-													className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white uppercase tracking-wider font-semibold cursor-pointer disabled:opacity-50 flex items-center gap-1.5 text-[11px]"
+													className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-emerald-600 uppercase tracking-wider cursor-pointer text-[10px]"
 												>
-													<IconCheck className="w-3.5 h-3.5" />
-													<span>Approve &amp; Publish</span>
+													<span>Approve</span>
 												</button>
+											)}
 
-												<button
-													type="button"
-													disabled={isBusy}
-													onClick={() => handleStatusChange(entry.id, "rejected")}
-													className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-red-500 uppercase tracking-wider cursor-pointer text-[11px]"
-												>
-													<span>Reject</span>
-												</button>
-											</>
-										)}
-
-										{isApproved && (
 											<button
 												type="button"
 												disabled={isBusy}
-												onClick={() => handleStatusChange(entry.id, "pending")}
-												className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-[var(--ink)] uppercase tracking-wider cursor-pointer text-[10px]"
-												title="Move back to pending queue"
+												onClick={() => setConfirmDeleteId(entry.id)}
+												className="px-2 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-red-500 cursor-pointer text-xs flex items-center justify-center"
+												title="Delete note"
 											>
-												<span>Move to Pending</span>
+												<IconTrash className="w-3.5 h-3.5" />
 											</button>
-										)}
+										</div>
+									</div>
 
-										{isRejected && (
-											<button
-												type="button"
-												disabled={isBusy}
-												onClick={() => handleStatusChange(entry.id, "approved")}
-												className="px-2.5 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-emerald-600 uppercase tracking-wider cursor-pointer text-[10px]"
-											>
-												<span>Approve</span>
-											</button>
-										)}
-
-										<button
-											type="button"
-											disabled={isBusy}
-											onClick={() => setConfirmDeleteId(entry.id)}
-											className="px-2 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--muted)] hover:text-red-500 cursor-pointer text-xs flex items-center justify-center"
-											title="Delete note"
-										>
-											<IconTrash className="w-3.5 h-3.5" />
-										</button>
+									{/* Message Content */}
+									<div className="mt-4 pt-3 border-t border-[var(--line)]">
+										<p className="font-sans text-xs sm:text-sm text-[var(--ink)] leading-relaxed whitespace-pre-line">
+											{entry.message}
+										</p>
 									</div>
 								</div>
+							);
+						})}
+					</div>
 
-								{/* Message Content */}
-								<div className="mt-4 pt-3 border-t border-[var(--line)]">
-									<p className="font-sans text-xs sm:text-sm text-[var(--ink)] leading-relaxed whitespace-pre-line">
-										{entry.message}
-									</p>
-								</div>
+					{/* Pagination Bar */}
+					{totalPages > 1 && (
+						<div className="border border-[var(--line)] bg-[var(--card)] p-4 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-xs">
+							<span className="text-[var(--muted)] text-xs">
+								Showing {(safePage - 1) * ITEMS_PER_PAGE + 1}–
+								{Math.min(safePage * ITEMS_PER_PAGE, filteredEntries.length)} of{" "}
+								{filteredEntries.length} entries
+							</span>
+
+							<div className="flex items-center gap-2">
+								<button
+									type="button"
+									disabled={safePage <= 1}
+									onClick={() => setPage((p) => Math.max(1, p - 1))}
+									className="px-3 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] hover:border-[var(--ink)] disabled:opacity-30 disabled:hover:border-[var(--line)] transition-colors cursor-pointer disabled:cursor-not-allowed inline-flex items-center gap-1.5 uppercase tracking-wider text-[11px]"
+								>
+									<ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+									<span>Previous</span>
+								</button>
+
+								<span className="px-3 py-1 text-[var(--muted)] text-[11px]">
+									Page {safePage} of {totalPages}
+								</span>
+
+								<button
+									type="button"
+									disabled={safePage >= totalPages}
+									onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+									className="px-3 py-1.5 border border-[var(--line)] bg-[var(--paper)] text-[var(--ink)] hover:border-[var(--ink)] disabled:opacity-30 disabled:hover:border-[var(--line)] transition-colors cursor-pointer disabled:cursor-not-allowed inline-flex items-center gap-1.5 uppercase tracking-wider text-[11px]"
+								>
+									<span>Next</span>
+									<ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+								</button>
 							</div>
-						);
-					})}
+						</div>
+					)}
 				</div>
 			)}
 
