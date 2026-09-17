@@ -118,9 +118,20 @@ export default function GuestbookPage() {
 			setNotice({ text: `Signed in as @${handle || result.user.displayName}`, type: "info" });
 		} catch (err: unknown) {
 			console.error("Sign in error:", err);
-			const error = err as { message?: string };
+			const error = err as { message?: string; code?: string };
+			let message = error.message || "Failed to sign in with GitHub. Please try again.";
+
+			if (error.code === "auth/unauthorized-domain") {
+				const currentDomain = typeof window !== "undefined" ? window.location.hostname : "your domain";
+				message = `Domain "${currentDomain}" is not authorized. Please add "${currentDomain}" to Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+			} else if (error.code === "auth/popup-closed-by-user") {
+				message = "Sign-in popup was closed before completing authentication.";
+			} else if (error.code === "auth/cancelled-popup-request") {
+				message = "Previous sign-in request was cancelled.";
+			}
+
 			setNotice({
-				text: error.message || "Failed to sign in with GitHub. Please try again.",
+				text: message,
 				type: "error",
 			});
 		} finally {
