@@ -48,10 +48,14 @@ export async function POST(request: Request) {
 		return NextResponse.json({
 			success: true,
 			entry,
-			notice: "Your message has been submitted and is pending approval by Piush. Thank you for signing!",
+			notice: "Your message has been posted to the guestbook! Thank you for signing.",
 		});
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error("Error submitting guestbook entry:", error);
-		return NextResponse.json({ error: "Failed to submit guestbook entry" }, { status: 500 });
+		const err = error as { message?: string };
+		return NextResponse.json(
+			{ error: err?.message || "Failed to submit guestbook entry" },
+			{ status: 500 },
+		);
 	}
 }

@@ -83,84 +83,67 @@ export async function syncGuestbookToFirestore(entries: GuestbookEntry[]): Promi
 	}
 }
 
-// Fetch guestbook entries from Firestore (with local fallback and automatic two-way mirroring)
+// Fetch guestbook entries from Firestore (with local fallback)
 export async function fetchGuestbookEntries(
 	filterStatus: "approved" | "pending" | "rejected" | "all" = "approved",
 ): Promise<GuestbookEntry[]> {
 	let firestoreEntries: GuestbookEntry[] | null = null;
 
 	if (isFirebaseConfigured() && db) {
-		// 1. Try reading aggregated portfolio/guestbook document
 		try {
-			const snap = await getDoc(doc(db, "portfolio", "guestbook"));
-			if (snap.exists()) {
-				const data = snap.data();
-				if (Array.isArray(data.items) && data.items.length > 0) {
-					firestoreEntries = data.items as GuestbookEntry[];
+			// 1. Primary: Query the guestbook collection directly (no composite index required)
+			const guestbookCol = collection(db, "guestbook");
+			const snapshot = await getDocs(guestbookCol);
+
+			if (!snapshot.empty) {
+				const loaded: GuestbookEntry[] = [];
+				snapshot.forEach((docSnap) => {
+					const data = docSnap.data();
+					loaded.push({
+						id: docSnap.id,
+						userId: data.userId || "",
+						userName: data.userName || "Anonymous",
+						userHandle: data.userHandle || "",
+						userAvatar: data.userAvatar || "",
+						userEmail: data.userEmail || "",
+						message: data.message || "",
+						status: data.status || "approved",
+						createdAt: data.createdAt || Date.now(),
+						approvedAt: data.approvedAt,
+					});
+				});
+				firestoreEntries = loaded;
+			} else {
+				// 2. Fallback: check portfolio/guestbook aggregated document if collection is empty
+				const snap = await getDoc(doc(db, "portfolio", "guestbook"));
+				if (snap.exists()) {
+					const data = snap.data();
+					if (Array.isArray(data.items) && data.items.length > 0) {
+						firestoreEntries = data.items as GuestbookEntry[];
+					}
 				}
 			}
 		} catch (err) {
-			console.warn("Could not read portfolio/guestbook document:", err);
+			console.warn("[Firestore] fetchGuestbookEntries error:", err);
 		}
 
-		// 2. If aggregated document not found or empty, try querying guestbook collection
-		if (!firestoreEntries) {
-			try {
-				const guestbookCol = collection(db, "guestbook");
-				let q;
-				if (filterStatus === "all") {
-					q = query(guestbookCol, orderBy("createdAt", "desc"));
-				} else {
-					q = query(
-						guestbookCol,
-						where("status", "==", filterStatus),
-						orderBy("createdAt", "desc"),
-					);
-				}
-
-				const snapshot = await getDocs(q);
-				if (!snapshot.empty) {
-					const loaded: GuestbookEntry[] = [];
-					snapshot.forEach((docSnap) => {
-						const data = docSnap.data();
-						loaded.push({
-							id: docSnap.id,
-							userId: data.userId || "",
-							userName: data.userName || "Anonymous",
-							userHandle: data.userHandle || "",
-							userAvatar: data.userAvatar || "",
-							userEmail: data.userEmail || "",
-							message: data.message || "",
-							status: data.status || "pending",
-							createdAt: data.createdAt || Date.now(),
-							approvedAt: data.approvedAt,
-						});
-					});
-					firestoreEntries = loaded;
-				}
-			} catch (err) {
-				console.warn("Firestore fetchGuestbookEntries collection query error:", err);
-			}
-		}
-
-		// 3. Mirror Firestore entries into local public/guestbook/__data.json
+		// 3. Mirror Firestore entries into local public/guestbook/__data.json if writable
 		if (firestoreEntries && firestoreEntries.length > 0) {
 			try {
 				writeLocalGuestbook(firestoreEntries);
-				console.log(`[Mirror Sync] Successfully mirrored ${firestoreEntries.length} guestbook entries into public/guestbook/__data.json`);
 			} catch (wErr) {
 				console.warn("Could not mirror guestbook to local disk:", wErr);
 			}
 		}
 	}
 
-	// Fallback to local file if Firestore returned null
+	// Fallback to local file if Firestore returned null or was unreachable
 	const localEntries = getLocalGuestbook();
 	const allEntries = firestoreEntries && firestoreEntries.length > 0 ? firestoreEntries : localEntries;
 
-	// If Firestore is connected and was empty or lacking entries, seed it with local file entries for deployment persistence
+	// If Firestore is connected and collection was completely empty, seed it with local file entries
 	if ((!firestoreEntries || firestoreEntries.length === 0) && localEntries.length > 0 && isFirebaseConfigured() && db) {
-		syncGuestbookToFirestore(localEntries).catch((e) => console.warn("Background guestbook sync error:", e));
+		syncGuestbookToFirestore(localEntries).catch((e) => console.warn("Background guestbook sync warning:", e));
 	}
 
 	const filtered =
@@ -168,10 +151,10 @@ export async function fetchGuestbookEntries(
 			? allEntries
 			: allEntries.filter((e) => e.status === filterStatus);
 
-	return filtered.sort((a, b) => b.createdAt - a.createdAt);
+	return filtered.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 }
 
-// Add a new guestbook entry (always default status: pending)
+// Add a new guestbook entry (auto-approved by default for authenticated visitors)
 export async function createGuestbookEntry(
 	data: Omit<GuestbookEntry, "id" | "status" | "createdAt">,
 ): Promise<GuestbookEntry> {
@@ -184,11 +167,12 @@ export async function createGuestbookEntry(
 		userAvatar: data.userAvatar || "",
 		userEmail: data.userEmail || "",
 		message: data.message.trim(),
-		status: "pending",
+		status: "approved", // Auto-approve so it appears immediately on the guestbook
 		createdAt: Date.now(),
+		approvedAt: Date.now(),
 	};
 
-	// Save to local file first
+	// Save to local file if possible
 	let updatedLocal: GuestbookEntry[] = [];
 	try {
 		const local = getLocalGuestbook();
@@ -205,12 +189,29 @@ export async function createGuestbookEntry(
 		try {
 			const docRef = doc(db, "guestbook", id);
 			await setDoc(docRef, newEntry);
-			console.log(`[GuestBook] Saved new entry ${id} to Firestore (pending)`);
-			// Sync aggregate list to portfolio/guestbook
-			await syncGuestbookToFirestore(updatedLocal);
-		} catch (err) {
-			console.warn("Firestore createGuestbookEntry error:", err);
+			console.log(`[GuestBook] Saved new entry ${id} to Firestore (approved)`);
+
+			// Also update aggregated portfolio/guestbook document
+			const snap = await getDoc(doc(db, "portfolio", "guestbook")).catch(() => null);
+			let currentItems: GuestbookEntry[] = [];
+			if (snap && snap.exists() && Array.isArray(snap.data().items)) {
+				currentItems = snap.data().items;
+			}
+			await setDoc(
+				doc(db, "portfolio", "guestbook"),
+				{
+					items: [newEntry, ...currentItems.filter((item) => item.id !== id)],
+					updatedAt: new Date().toISOString(),
+				},
+				{ merge: true },
+			).catch((e) => console.warn("Could not update portfolio/guestbook doc:", e));
+		} catch (err: unknown) {
+			console.error("Firestore createGuestbookEntry error:", err);
+			const fErr = err as { code?: string; message?: string };
+			throw new Error(`Firestore save failed: ${fErr.code || fErr.message || "Unknown error"}`);
 		}
+	} else {
+		console.warn("[GuestBook] Firebase not configured; entry saved only locally.");
 	}
 
 	return newEntry;
