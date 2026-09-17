@@ -6,6 +6,7 @@ import { useState, useMemo } from "react";
 import type { ArticleMeta } from "@/lib/articles";
 import { useDebounce } from "@/hooks/useDebounce";
 import GlitchRevealText from "@/components/glitch-text";
+import { ImageReveal, Reveal } from "@/components/motion-reveal";
 
 const ARTICLES_PER_PAGE = 4;
 
@@ -112,19 +113,22 @@ export default function BlogListing({ articles }: BlogListingProps) {
 						});
 
 						return (
-							<Link className="group block" href={`/blog/${article.slug}`} key={article.slug}>
-								<article className="border border-line bg-[var(--paper)] group-hover:border-ink transition-all duration-300">
-									{article.cover ? (
-										<div className="border-line border-b aspect-16/8 overflow-hidden">
-											<Image
-												alt={article.title}
-												className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-												height={675}
-												src={article.cover}
-												width={1200}
-											/>
-										</div>
-									) : null}
+							<Reveal direction="up" distance={20} delay={index * 0.07} key={article.slug}>
+								<Link className="group block" href={`/blog/${article.slug}`}>
+									<article className="border border-line bg-[var(--paper)] group-hover:border-ink transition-all duration-300 overflow-hidden">
+										{article.cover ? (
+											<div className="border-line border-b aspect-16/8 overflow-hidden bg-black/5">
+												<ImageReveal direction="horizontal" duration={1.05} delay={0.08}>
+													<Image
+														alt={article.title}
+														className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+														height={675}
+														src={article.cover}
+														width={1200}
+													/>
+												</ImageReveal>
+											</div>
+										) : null}
 
 									<div className="space-y-4 p-6 sm:p-8">
 										<div className="flex justify-between items-center font-mono text-muted text-xs uppercase tracking-wider">
@@ -168,7 +172,8 @@ export default function BlogListing({ articles }: BlogListingProps) {
 									</div>
 								</article>
 							</Link>
-						);
+						</Reveal>
+					);
 					})
 				)}
 			</div>

@@ -1,0 +1,25 @@
+[
+	{
+		"status": "rejected",
+		"userName": "Piush Bose",
+		"userEmail": "dev.bosepiush@gmail.com",
+		"userHandle": "dtg-lucifer",
+		"userId": "L63UXeK5jmRSIqRgQnHWEo1NmmQ2",
+		"createdAt": 1789679355684,
+		"message": "Hi nigga",
+		"id": "gb_1789679355684_vt2wq",
+		"userAvatar": "https://avatars.githubusercontent.com/u/88794186?v=4"
+	},
+	{
+		"createdAt": 1789678458697,
+		"userHandle": "torvalds",
+		"id": "gb_1789678458697_jjwzw",
+		"userName": "Linus Torvalds",
+		"userAvatar": "https://github.com/torvalds.png",
+		"userId": "gh_test_123",
+		"message": "Love the minimalist design and hybrid CMS implementation! Great work.",
+		"userEmail": "",
+		"approvedAt": 1789678469091,
+		"status": "rejected"
+	}
+]

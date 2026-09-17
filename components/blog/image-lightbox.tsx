@@ -116,7 +116,7 @@ export default function ImageLightbox({ src, alt, svgMarkup, onClose }: ImageLig
 		<div
 			aria-label="Image lightbox"
 			aria-modal="true"
-			className="z-9999 fixed inset-0 flex justify-center items-center bg-black/90 backdrop-blur-sm"
+			className="z-9999 fixed inset-0 flex justify-center items-center bg-black/90"
 			onClick={onBackdropClick}
 			onMouseMove={onMouseMove}
 			onMouseUp={onMouseUp}

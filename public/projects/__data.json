@@ -49,9 +49,9 @@
 	{
 		"name": "MOS 6502 CPU Emulator",
 		"description": "A software emulation of the MOS Technology 6502 processor — the 8-bit CPU that powered the Apple II, Commodore 64, Atari 2600, and NES. Implements the full register set (A, X, Y, PC, SP), status flags, a 64KB address space, and a complete instruction set including load/store, stack, subroutine, and jump operations. Ships with a custom assembler written from scratch that compiles 6502 assembly to binary, which the emulator can then execute directly.",
+		"image": "/projects/m6502_cpu_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/6502_emulator",
 		"demoUrl": "https://github.com/dtg-lucifer/6502_emulator",
-		"image": "/projects/m6502_cpu_demo.webp",
 		"tags": [
 			"C++",
 			"CPU Architecture",
@@ -69,9 +69,9 @@
 	{
 		"name": "16 Bit Virtual Machine",
 		"description": "A very agnostic 16 bit virtual machine with custom assembler to assemble it's own assembly language to run on. This is built with Rust without any 3rd party library. This imitates a virtual machine having 13 16-bit registers and memory space constists of 8-bit memory block layed in little endian mode.",
+		"image": "/projects/rustyvm_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/16bit-vm-rust",
 		"demoUrl": "https://www.linkedin.com/posts/bosepiush_launching-16-bit-virtual-machine-in-rust-activity-7353420819156344832-vmzy?utm_source=share&utm_medium=member_desktop&rcm=ACoAADqjwisB2GTF9u88oc7VdrDISDqaxnREkyE",
-		"image": "/projects/rustyvm_demo.webp",
 		"tags": [
 			"Rust",
 			"CPU Architecture",
@@ -88,9 +88,9 @@
 	{
 		"name": "RustyKV",
 		"description": "Rusty KV Store is a lightweight Redis-compatible server that implements Redis commands using Rust's async I/O capabilities with Tokio. This project aims to provide a high-performance, memory-efficient alternative to Redis while maintaining protocol compatibility. It comes with pre-built cli client built with C++",
+		"image": "/projects/rustykv_demo.webp",
 		"repoUrl": "https://github.com/rusty-org/rusty-kv",
 		"demoUrl": "https://github.com/rusty-org/rusty-kv",
-		"image": "/projects/rustykv_demo.webp",
 		"tags": [
 			"Rust",
 			"C++",
@@ -146,9 +146,9 @@
 	{
 		"name": "Everato",
 		"description": "Open source solution for in-person and online event organisation and management, in replacement of Konfhub. Single binary setup, download, run, use. Yaml configuration through a single file and a root admin. Fully automatic ticketing system via email notification and qr scanning via admin dashboard for onboarding.",
+		"image": "/projects/everato_demo.webp",
 		"repoUrl": "https://github.com/everato-industries/everato",
 		"demoUrl": "https://github.com/everato-industries/everato",
-		"image": "/projects/everato_demo.webp",
 		"tags": [
 			"Go",
 			"React.js",
@@ -167,9 +167,9 @@
 	{
 		"name": "Video to MP3 Converter — Microservices on Kubernetes",
 		"description": "A production-ready event-driven microservices system that converts MP4 videos to MP3 audio asynchronously. Built with four independent Python/Flask services — Gateway, Auth, Converter, and Notification — communicating via RabbitMQ. Videos are stored in MongoDB GridFS, conversion is handled by FFmpeg, and users receive a download link via email once processing completes. Fully containerised with Docker and deployed on a Kubernetes cluster with Minikube, complete with K8s manifests, ingress, and horizontal scaling support.",
+		"image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
 		"repoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
 		"demoUrl": "https://github.com/dtg-lucifer/video-to-mp3-converter-microservices",
-		"image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1756823474617/9e98aa38-a034-4c42-ab98-72195e4ac006.png",
 		"tags": [
 			"Python",
 			"Kubernetes",
@@ -188,9 +188,9 @@
 	{
 		"name": "CI CD Pipeline to deploy on GCP (Docker Swarm)",
 		"description": "This project includes a python application to monitor server health which stores last 5 logs into redis cache which is replicated and deployed on 2 node docker swarm cluster on GCP",
+		"image": "/projects/docker_swarm_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/redis-docker-swarm-devops-project",
 		"demoUrl": "https://devpiush.hashnode.dev/learn-to-deploy-your-application-on-a-docker-swarm-cluster-step-by-step-guide-with-code",
-		"image": "/projects/docker_swarm_demo.webp",
 		"tags": [
 			"Docker Swarm",
 			"GCP",
@@ -208,9 +208,9 @@
 	{
 		"name": "gRPC Server for Order Service in C++",
 		"description": "A simple gRPC server made with the power of C++ and google's protocol buffers.",
+		"image": "/projects/grpc_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
 		"demoUrl": "https://github.com/dtg-lucifer/cpp-grpc-server",
-		"image": "/projects/grpc_demo.webp",
 		"tags": [
 			"C++",
 			"gRPC",
@@ -225,9 +225,9 @@
 	{
 		"name": "Inside Out Tea",
 		"description": "Collaboration on a Tea Business Startup that offers a unique tea selection based on individual moods. Whether you're feeling stressed, happy, or adventurous, our platform helps you find the perfect tea flavor to match your mood",
+		"image": "/projects/insideout_demo.webp",
 		"repoUrl": "https://github.com/dtg-lucifer/inside-out-tea",
 		"demoUrl": "https://inside-out-tea.vercel.app/",
-		"image": "/projects/insideout_demo.webp",
 		"tags": [
 			"Next.js@15",
 			"TailwindCSS"

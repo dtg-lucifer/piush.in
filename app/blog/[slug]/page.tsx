@@ -18,6 +18,7 @@ import MermaidDiagram from "@/components/blog/mermaid-diagram";
 import ZoomableImage from "@/components/blog/zoomable-image";
 import TocNav from "@/components/blog/toc-nav";
 import CopyButton from "@/components/blog/copy-button";
+import { ImageReveal } from "@/components/motion-reveal";
 
 interface ArticlePageProps {
 	params: Promise<{
@@ -153,14 +154,18 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
 						{article.cover ? (
 							<div className="pt-4">
-								<Image
-									alt={article.title}
-									className="border border-line w-full h-auto object-cover"
-									height={675}
-									priority
-									src={article.cover}
-									width={1200}
-								/>
+								<div className="border border-line overflow-hidden">
+									<ImageReveal direction="horizontal" duration={1.1} delay={0.1}>
+										<Image
+											alt={article.title}
+											className="w-full h-auto object-cover"
+											height={675}
+											priority
+											src={article.cover}
+											width={1200}
+										/>
+									</ImageReveal>
+								</div>
 							</div>
 						) : null}
 					</header>
@@ -235,9 +240,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 								td: ({ children }) => <td>{children}</td>,
 								pre: ({ node, children, ...props }) => {
 									const codeEl = node?.children.find(
-										(c): c is import("hast").Element =>
-											c.type === "element" && (c as import("hast").Element).tagName === "code",
-									);
+										(c) => c.type === "element" && (c as any).tagName === "code",
+									) as import("hast").Element | undefined;
 									if (codeEl && getCodeLanguage(codeEl) === "mermaid") {
 										return <MermaidDiagram chart={extractText(codeEl)} />;
 									}

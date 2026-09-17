@@ -31,12 +31,13 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 
 				{/* Desktop Links: strictly hidden on mobile via CSS media query, flex on desktop */}
 				<div className="nav-links">
-					<Link href="/#work">Work</Link>
+					{/* <Link href="/#work">Work</Link>
 					<Link href="/#experience">Experience</Link>
 					<Link href="/#skills">Skills</Link>
-					<Link href="/#about">About</Link>
+					<Link href="/#about">About</Link> */}
 					<Link href="/blog">Blog</Link>
 					<Link href="/projects">Projects</Link>
+					<Link href="/guestbook">Guestbook</Link>
 					<a className="nav-contact" href="mailto:mail@piush.in">
 						Get in touch <span aria-hidden="true">↗</span>
 					</a>
@@ -76,10 +77,10 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 						<button
 							type="button"
 							aria-label="Close navigation menu"
-							className="p-2 text-2xl font-mono text-[#f2f0e9] hover:text-[#d7f36b] cursor-pointer bg-transparent border-0 transition-colors leading-none"
+							className="p-2 text-[#f2f0e9] hover:text-[#d7f36b] cursor-pointer bg-transparent border-0 transition-colors flex items-center justify-center"
 							onClick={() => setMobileOpen(false)}
 						>
-							✕
+							<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
 						</button>
 					</div>
 
@@ -126,6 +127,13 @@ export default function SiteNav({ className = "" }: SiteNavProps) {
 							className="mobile-menu-link w-full text-center py-3 text-3xl sm:text-4xl font-medium tracking-tight text-[#f2f0e9] hover:text-[#d7f36b] hover:bg-white/5 transition-all duration-200"
 						>
 							Projects
+						</Link>
+						<Link
+							href="/guestbook"
+							onClick={() => setMobileOpen(false)}
+							className="mobile-menu-link w-full text-center py-3 text-3xl sm:text-4xl font-medium tracking-tight text-[#f2f0e9] hover:text-[#d7f36b] hover:bg-white/5 transition-all duration-200"
+						>
+							Guestbook
 						</Link>
 
 						<div className="pt-6 w-full flex justify-center mobile-menu-cta">

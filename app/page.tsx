@@ -6,10 +6,12 @@ import GlitchRevealText from "@/components/glitch-text";
 import LatexText from "@/components/latex-text";
 import SkillsSection from "@/components/home/skills-section";
 import GitHubCommitGraph from "@/components/home/github-commit-graph";
-import projectsDataRaw from "@/public/projects/__data.json";
-import articlesDataRaw from "@/public/articles/__data.json";
+import { ImageReveal, Reveal } from "@/components/motion-reveal";
+import { getLocalArticles, getLocalProjects } from "@/lib/cms/sync";
 import experiencesDataRaw from "@/public/experiences.json";
-import type { Project, ArticleMeta, Experience } from "@/hooks/useProjects";
+import type { Experience } from "@/hooks/useProjects";
+
+export const dynamic = "force-dynamic";
 
 function formatPeriod(startDate: string, endDate: string): string {
 	const format = (dateStr: string) => {
@@ -20,18 +22,6 @@ function formatPeriod(startDate: string, endDate: string): string {
 	return `${format(startDate)} — ${format(endDate)}`;
 }
 
-// Dynamically derived from public/projects/__data.json (only featured: true shown on homepage)
-const projects = (projectsDataRaw as Project[])
-	.filter((p) => p.featured === true)
-	.map((project, index) => ({
-		number: String(index + 1).padStart(2, "0"),
-		name: project.name,
-		type: project.tags.slice(0, 2).join(" / "),
-		languages: project.languages || [],
-		description: project.description,
-		href: project.demoUrl || project.repoUrl,
-	}));
-
 // Dynamically derived from public/experiences.json (only featured: true shown on homepage)
 const roles = (experiencesDataRaw as Experience[])
 	.filter((exp) => exp.featured !== false)
@@ -40,14 +30,6 @@ const roles = (experiencesDataRaw as Experience[])
 		role: exp.position,
 		company: exp.organization,
 		detail: exp.brief,
-	}));
-
-// Dynamically derived from public/articles/__data.json (only featured: true shown on homepage)
-const thoughts = (articlesDataRaw as ArticleMeta[])
-	.filter((a) => a.featured === true)
-	.map((article) => ({
-		title: article.title,
-		href: `/blog/${article.slug}`,
 	}));
 
 const skills = [
@@ -65,6 +47,27 @@ const skills = [
 ];
 
 export default function Home() {
+	const projectsData = getLocalProjects();
+	const articlesData = getLocalArticles();
+
+	const projects = projectsData
+		.filter((p) => p.featured === true)
+		.map((project, index) => ({
+			number: String(index + 1).padStart(2, "0"),
+			name: project.name,
+			type: project.tags.slice(0, 2).join(" / "),
+			languages: project.languages || [],
+			description: project.description,
+			href: project.demoUrl || project.repoUrl,
+		}));
+
+	const thoughts = articlesData
+		.filter((a) => a.featured === true)
+		.map((article) => ({
+			title: article.title,
+			href: `/blog/${article.slug}`,
+		}));
+
 	return (
 		<main id="top" className="min-h-screen">
 			<LenisScroll />
@@ -73,21 +76,25 @@ export default function Home() {
 			{/* Hero Section */}
 			<section className="hero page-section" id="hero">
 				<div className="hero-copy">
-					<p className="eyebrow">Software &amp; Machine Learning Engineer / Kolkata, India</p>
+					<Reveal direction="right" distance={12} delay={0.1} waitForLoader>
+						<p className="eyebrow">Software &amp; Machine Learning Engineer / Kolkata, India</p>
+					</Reveal>
 
 					{/* Mobile Hero Visual Lockup (placed intentionally at top of mobile hero) */}
 					<div className="mobile-hero-visual-wrapper md:hidden">
 						<div className="hero-visual-frame" aria-label="Hero photo with decorative grid">
 							<div className="hero-grid-element" aria-hidden="true" />
-							<div className="hero-image-frame">
-								<Image
-									src="/assets/images/hero_image.webp"
-									alt="Piush Bose"
-									width={216}
-									height={216}
-									priority
-									className="w-full h-full object-cover rounded-none block"
-								/>
+							<div className="hero-image-frame overflow-hidden">
+								<ImageReveal direction="horizontal" duration={1.15} delay={0.15} waitForLoader>
+									<Image
+										src="/assets/images/hero_image.webp"
+										alt="Piush Bose"
+										width={216}
+										height={216}
+										priority
+										className="w-full h-full object-cover rounded-none block transition-transform duration-700 hover:scale-105"
+									/>
+								</ImageReveal>
 							</div>
 						</div>
 					</div>
@@ -101,26 +108,30 @@ export default function Home() {
 						<br />
 						behind good ideas.
 					</h1>
-					<p className="hero-intro">
-						I&apos;m Piush Bose, an indie software and machine learning engineer building scalable,
-						event-driven systems, resilient backends, and applied AI infrastructure.
-					</p>
-					<div className="hero-links">
-						<a className="button button-dark" href="#work">
-							See selected work <span aria-hidden="true">↓</span>
-						</a>
-						<a
-							className="text-link"
-							href="https://github.com/dtg-lucifer"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							GitHub profile <span aria-hidden="true">↗</span>
-						</a>
-						<a className="text-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-							Resume <span aria-hidden="true">↗</span>
-						</a>
-					</div>
+					<Reveal direction="up" distance={16} delay={0.2} waitForLoader>
+						<p className="hero-intro">
+							I&apos;m Piush Bose, an indie software and machine learning engineer building scalable,
+							event-driven systems, resilient backends, and applied AI infrastructure.
+						</p>
+					</Reveal>
+					<Reveal direction="up" distance={16} delay={0.3} waitForLoader>
+						<div className="hero-links">
+							<a className="button button-dark" href="#work">
+								See selected work <span aria-hidden="true">↓</span>
+							</a>
+							<a
+								className="text-link"
+								href="https://github.com/dtg-lucifer"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								GitHub profile <span aria-hidden="true">↗</span>
+							</a>
+							<a className="text-link" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+								Resume <span aria-hidden="true">↗</span>
+							</a>
+						</div>
+					</Reveal>
 				</div>
 
 				<div className="hero-right">
@@ -129,18 +140,21 @@ export default function Home() {
 						{/* Grid pattern (offset down-right, underneath) */}
 						<div className="hero-grid-element" aria-hidden="true" />
 						{/* Picture (top-left, on top, sharp corners without rounded corners) */}
-						<div className="hero-image-frame">
-							<Image
-								src="/assets/images/hero_image.webp"
-								alt="Piush Bose"
-								width={216}
-								height={216}
-								className="w-full h-full object-cover rounded-none block"
-							/>
+						<div className="hero-image-frame overflow-hidden">
+							<ImageReveal direction="horizontal" duration={1.15} delay={0.15} waitForLoader>
+								<Image
+									src="/assets/images/hero_image.webp"
+									alt="Piush Bose"
+									width={216}
+									height={216}
+									priority
+									className="w-full h-full object-cover rounded-none block transition-transform duration-700 hover:scale-105"
+								/>
+							</ImageReveal>
 						</div>
 					</div>
 
-					<div className="hero-aside" aria-label="Current role">
+					<Reveal direction="left" distance={16} delay={0.35} waitForLoader className="hero-aside" aria-label="Current role">
 						<div className="signal-mark">
 							<span />
 							<span />
@@ -154,7 +168,7 @@ export default function Home() {
 							and distributed infrastructure.
 						</p>
 						<span className="aside-index">/ NetpieDev · SDE II</span>
-					</div>
+					</Reveal>
 				</div>
 			</section>
 
@@ -162,102 +176,109 @@ export default function Home() {
 			<section className="ticker" aria-label="Areas of practice">
 				<div className="ticker-track">
 					<span>Machine learning systems</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span>Distributed systems</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span>Low-level software</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span>Web3 &amp; blockchain</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span>Cloud-native systems</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span>Event-driven architecture</span>
-					<b>✳</b>
+					<b aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					{/* Duplicate for seamless infinite loop on mobile */}
 					<span className="ticker-duplicate">Machine learning systems</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span className="ticker-duplicate">Distributed systems</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span className="ticker-duplicate">Low-level software</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span className="ticker-duplicate">Web3 &amp; blockchain</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span className="ticker-duplicate">Cloud-native systems</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 					<span className="ticker-duplicate">Event-driven architecture</span>
-					<b className="ticker-duplicate">✳</b>
+					<b className="ticker-duplicate" aria-hidden="true"><svg className="w-3 h-3 inline text-[var(--accent)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93"/></svg></b>
 				</div>
 			</section>
 
 			{/* Selected Work Section */}
 			<section className="work page-section" id="work">
-				<div className="section-heading">
-					<p className="eyebrow">Selected work</p>
-					<div className="flex flex-col gap-2">
-						<p className="section-note">
-							A few things I&apos;ve made
-							<br />
-							to understand systems better.
-						</p>
-						<Link href="/projects" className="text-link self-start text-xs mt-2">
-							View all projects <span aria-hidden="true">↗</span>
-						</Link>
+				<Reveal direction="up" distance={20}>
+					<div className="section-heading">
+						<p className="eyebrow">Selected work</p>
+						<div className="flex flex-col gap-2">
+							<p className="section-note">
+								A few things I&apos;ve made
+								<br />
+								to understand systems better.
+							</p>
+							<Link href="/projects" className="text-link self-start text-xs mt-2">
+								View all projects <span aria-hidden="true">↗</span>
+							</Link>
+						</div>
 					</div>
-				</div>
+				</Reveal>
 				<div className="project-list">
-					{projects.map((project) => (
-						<a
-							className="project"
-							href={project.href}
-							target="_blank"
-							rel="noopener noreferrer"
-							key={project.name}
-						>
-							<span className="project-number">{project.number}</span>
-							<div className="project-main">
-								<p className="project-type">{project.type}</p>
-								<h2>{project.name}</h2>
-								<p className="project-description">
-									<LatexText text={project.description} />
-								</p>
-								{project.languages && project.languages.length > 0 && (
-									<div className="project-languages">
-										{project.languages.map((lang) => (
-											<span className="project-lang-tag" key={lang}>
-												{lang}
-											</span>
-										))}
-									</div>
-								)}
-							</div>
-							<span className="project-arrow" aria-hidden="true">
-								↗
-							</span>
-						</a>
+					{projects.map((project, idx) => (
+						<Reveal direction="up" distance={20} delay={idx * 0.07} key={project.name}>
+							<a
+								className="project"
+								href={project.href}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<span className="project-number">{project.number}</span>
+								<div className="project-main">
+									<p className="project-type">{project.type}</p>
+									<h2>{project.name}</h2>
+									<p className="project-description">
+										<LatexText text={project.description} />
+									</p>
+									{project.languages && project.languages.length > 0 && (
+										<div className="project-languages">
+											{project.languages.map((lang) => (
+												<span className="project-lang-tag" key={lang}>
+													{lang}
+												</span>
+											))}
+										</div>
+									)}
+								</div>
+								<span className="project-arrow" aria-hidden="true">
+									↗
+								</span>
+							</a>
+						</Reveal>
 					))}
 				</div>
 			</section>
 
 			{/* Experience Section */}
 			<section className="experience" id="experience">
-				<div className="section-heading">
-					<p className="eyebrow">Experience</p>
-					<p className="section-note">
-						Four roles, one steadily
-						<br />
-						more systems-shaped path.
-					</p>
-				</div>
+				<Reveal direction="up" distance={20}>
+					<div className="section-heading">
+						<p className="eyebrow">Experience</p>
+						<p className="section-note">
+							Four roles, one steadily
+							<br />
+							more systems-shaped path.
+						</p>
+					</div>
+				</Reveal>
 				<div className="role-list">
-					{roles.map((role) => (
-						<div className="role" key={`${role.company}-${role.period}`}>
-							<span className="role-period">{role.period}</span>
-							<div>
-								<h2>{role.role}</h2>
-								<p>{role.company}</p>
+					{roles.map((role, idx) => (
+						<Reveal direction="up" distance={16} delay={idx * 0.08} key={`${role.company}-${role.period}`}>
+							<div className="role">
+								<span className="role-period">{role.period}</span>
+								<div>
+									<h2>{role.role}</h2>
+									<p>{role.company}</p>
+								</div>
+								<span className="role-detail">{role.detail}</span>
 							</div>
-							<span className="role-detail">{role.detail}</span>
-						</div>
+						</Reveal>
 					))}
 				</div>
 			</section>
@@ -267,15 +288,19 @@ export default function Home() {
 
 			{/* About Section */}
 			<section className="about page-section" id="about">
-				<div className="section-heading">
-					<p className="eyebrow">A little context</p>
-				</div>
+				<Reveal direction="up" distance={20}>
+					<div className="section-heading">
+						<p className="eyebrow">A little context</p>
+					</div>
+				</Reveal>
 				<div className="about-content">
-					<p className="about-lede">
-						I like working close to the metal, close to the models, and close to the people who use the
-						software.
-					</p>
-					<div className="about-details">
+					<Reveal direction="up" distance={20} delay={0.1}>
+						<p className="about-lede">
+							I like working close to the metal, close to the models, and close to the people who use the
+							software.
+						</p>
+					</Reveal>
+					<Reveal direction="up" distance={20} delay={0.2} className="about-details">
 						<p>
 							From Kafka-backed workflows and machine learning systems to a tiny virtual machine, I enjoy
 							making complex systems feel legible, reliable, and useful. I work at the intersection of
@@ -287,31 +312,35 @@ export default function Home() {
 								<span key={skill}>{skill}</span>
 							))}
 						</div>
-					</div>
+					</Reveal>
 				</div>
 			</section>
 
 			{/* Recent Thoughts Section */}
 			<section className="thoughts page-section" id="thoughts">
-				<div className="section-heading">
-					<p className="eyebrow">Recent thoughts</p>
-					<Link className="text-link" href="/blog">
-						Read all articles <span aria-hidden="true">↗</span>
-					</Link>
-				</div>
+				<Reveal direction="up" distance={20}>
+					<div className="section-heading">
+						<p className="eyebrow">Recent thoughts</p>
+						<Link className="text-link" href="/blog">
+							Read all articles <span aria-hidden="true">↗</span>
+						</Link>
+					</div>
+				</Reveal>
 				<div className="thought-list">
 					{thoughts.map((thought, index) => (
-						<Link className="thought" href={thought.href} key={thought.title}>
-							<span className="thought-index">0{index + 1}</span>
-							<GlitchRevealText
-								as="strong"
-								text={thought.title}
-								triggerOnScroll
-								delay={index * 120}
-								retriggerOnHover={true}
-							/>
-							<b aria-hidden="true">↗</b>
-						</Link>
+						<Reveal direction="up" distance={16} delay={index * 0.08} key={thought.title}>
+							<Link className="thought" href={thought.href}>
+								<span className="thought-index">0{index + 1}</span>
+								<GlitchRevealText
+									as="strong"
+									text={thought.title}
+									triggerOnScroll
+									delay={index * 120}
+									retriggerOnHover={true}
+								/>
+								<b aria-hidden="true">↗</b>
+							</Link>
+						</Reveal>
 					))}
 				</div>
 			</section>
@@ -321,7 +350,7 @@ export default function Home() {
 
 			{/* Contact Section */}
 			<section className="contact" id="contact">
-				<div className="page-section-inner">
+				<Reveal direction="up" distance={24} className="page-section-inner">
 					<p className="eyebrow">Available for work · mail@piush.in</p>
 					<h2>
 						Let&apos;s make
@@ -331,7 +360,7 @@ export default function Home() {
 					<a className="button button-light" href="mailto:mail@piush.in">
 						mail@piush.in <span aria-hidden="true">↗</span>
 					</a>
-				</div>
+				</Reveal>
 			</section>
 		</main>
 	);

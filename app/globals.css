@@ -105,6 +105,7 @@
 
 html {
 	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 
 body {
@@ -112,9 +113,35 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: "Space Grotesk", sans-serif;
+	overflow-x: hidden;
 	transition:
 		background-color 0.25s ease,
 		color 0.25s ease;
+}
+
+/* CMS Space Grotesk Theme: enforces Space Grotesk across all CMS panel components */
+.cms-root,
+.cms-root *,
+.cms-root input,
+.cms-root textarea,
+.cms-root select,
+.cms-root button,
+.cms-root code,
+.cms-root pre {
+	font-family: var(--font-space-grotesk), "Space Grotesk", sans-serif !important;
+	--font-mono: var(--font-space-grotesk), "Space Grotesk", sans-serif !important;
+	--font-sans: var(--font-space-grotesk), "Space Grotesk", sans-serif !important;
+}
+
+.cms-root h1,
+.cms-root h2,
+.cms-root h3,
+.cms-root h4,
+.cms-root h5,
+.cms-root h6 {
+	margin: 0;
+	line-height: 1.25;
+	letter-spacing: -0.02em;
 }
 
 ::selection {
@@ -279,19 +306,22 @@ footer a:hover {
 .mobile-menu-link:nth-child(6) {
 	animation-delay: 0.63s;
 }
+.mobile-menu-link:nth-child(7) {
+	animation-delay: 0.7s;
+}
 
 .mobile-menu-cta {
 	opacity: 0;
 	transform: translateX(80px);
 	animation: linkFlyFromRight 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-	animation-delay: 0.7s;
+	animation-delay: 0.77s;
 	will-change: transform, opacity;
 }
 
 .mobile-menu-footer {
 	opacity: 0;
 	animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-	animation-delay: 0.75s;
+	animation-delay: 0.82s;
 	will-change: transform, opacity;
 }
 
@@ -359,7 +389,7 @@ footer a:hover {
 	text-transform: uppercase;
 }
 
-h1,
+.hero h1,
 .contact h2 {
 	font-size: clamp(3.2rem, 7.5vw, 7.5rem);
 	font-weight: 500;

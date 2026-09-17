@@ -2,14 +2,22 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { IconSun, IconMoon } from "@/components/cms-icons";
 
 export default function SiteFooter() {
 	const { resolvedTheme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
+
+	// Never render public website footer inside the CMS management portal
+	if (pathname?.startsWith("/cms")) {
+		return null;
+	}
 
 	const isDark = resolvedTheme === "dark";
 
@@ -36,6 +44,9 @@ export default function SiteFooter() {
 				<a href="/resume.pdf" target="_blank" rel="noreferrer">
 					Resume
 				</a>
+				<a href="/cms">
+					CMS
+				</a>
 			</div>
 
 			<div className="footer-theme">
@@ -45,7 +56,23 @@ export default function SiteFooter() {
 					aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
 					className="theme-switch-btn"
 				>
-					<span>{mounted ? (isDark ? "☀ Light mode" : "☾ Dark mode") : "Theme"}</span>
+					{mounted ? (
+						<span className="flex items-center gap-1.5">
+							{isDark ? (
+								<>
+									<IconSun className="w-3.5 h-3.5 inline" />
+									<span>Light mode</span>
+								</>
+							) : (
+								<>
+									<IconMoon className="w-3.5 h-3.5 inline" />
+									<span>Dark mode</span>
+								</>
+							)}
+						</span>
+					) : (
+						<span>Theme</span>
+					)}
 				</button>
 			</div>
 		</footer>
