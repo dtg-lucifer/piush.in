@@ -11,7 +11,6 @@ import {
 } from "firebase/auth";
 import { auth, isFirebaseConfigured } from "@/app/firebase";
 import SiteNav from "@/components/site-nav";
-import SiteFooter from "@/components/site-footer";
 import LenisScroll from "@/components/lenis-scroll";
 import type { GuestbookEntry } from "@/lib/cms/types";
 import { IconCheck, IconSync } from "@/components/cms-icons";
@@ -109,6 +108,17 @@ export default function GuestbookPage() {
 	useEffect(() => {
 		loadEntries();
 	}, [loadEntries]);
+
+	// Recalculate smooth scroll boundaries whenever entries or page changes
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			if (typeof window !== "undefined") {
+				window.dispatchEvent(new CustomEvent("lenis-resize"));
+				(window as unknown as { __lenis?: { resize: () => void } }).__lenis?.resize();
+			}
+		}, 60);
+		return () => clearTimeout(timer);
+	}, [entries, loadingEntries, currentPage]);
 
 	// GitHub Sign In
 	const handleGitHubSignIn = async () => {
@@ -291,7 +301,7 @@ export default function GuestbookPage() {
 			<LenisScroll />
 			<SiteNav />
 
-			<main className="flex-1 mx-auto px-6 sm:px-8 lg:px-12 py-12 sm:py-16 max-w-3xl w-full">
+			<main className="flex-1 mx-auto px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16 pb-24 sm:pb-32 max-w-3xl w-full">
 				<div className="space-y-10">
 					{/* Hero Header */}
 					<Reveal direction="up" distance={20}>

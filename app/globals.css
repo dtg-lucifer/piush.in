@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "lenis/dist/lenis.css";
 
 :root {
 	--ink: #17221d;
@@ -106,6 +107,15 @@
 html {
 	scroll-behavior: smooth;
 	overflow-x: hidden;
+}
+
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
 }
 
 body {

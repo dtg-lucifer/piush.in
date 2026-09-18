@@ -199,7 +199,7 @@ export function Reveal({
 		<motion.div
 			initial={getInitial()}
 			whileInView={getTarget()}
-			viewport={{ once: true, margin: "-40px" }}
+			viewport={{ once: true, margin: "0px 0px -20px 0px", ...motionProps.viewport }}
 			transition={{ duration, delay, ease: LUXURY_EASE }}
 			className={className}
 			{...motionProps}
